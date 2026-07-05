@@ -1699,7 +1699,7 @@
   ];
 
   var map = null, fg = null, locMarker = null, locRing = null;
-  var tileNormal = null, tileCute = null, curFilter = 'all';
+  var curFilter = 'all';
   var mapIdx = -1;
   days.forEach(function(s, i){ if (s.id === 'dmap') mapIdx = i; });
 
@@ -1791,9 +1791,7 @@
   function buildMap(){
     if (!map){
       map = L.map('map');
-      tileNormal = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'});
-      tileCute = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {maxZoom:19, subdomains:'abcd', attribution:'&copy; OpenStreetMap contributors &copy; CARTO'});
-      (document.body.classList.contains('eva') ? tileCute : tileNormal).addTo(map);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {maxZoom:19, subdomains:'abcd', attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}).addTo(map);
       fg = L.featureGroup().addTo(map);
       var wrap = document.getElementById('mapfilters');
       var all = document.createElement('button');
@@ -1823,13 +1821,7 @@
     setTimeout(function(){ map.invalidateSize(); }, 60);
   }
   function swapTiles(){
-    if (!map || !tileNormal) return;
-    var eva = document.body.classList.contains('eva');
-    var want = eva ? tileCute : tileNormal;
-    var drop = eva ? tileNormal : tileCute;
-    if (map.hasLayer(drop)) map.removeLayer(drop);
-    if (!map.hasLayer(want)) want.addTo(map);
-    setFilter(curFilter); // redraw pins in the current style
+    if (map && fg) setFilter(curFilter); // same basemap in both modes; just redraw pins in the current style
   }
   // "View on map" buttons in each mapped day's header
   MAPDAYS.forEach(function(md){
