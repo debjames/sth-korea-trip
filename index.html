@@ -169,6 +169,21 @@
   .fx-cell{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--paper);font-family:var(--mono);font-size:12px;color:var(--muted)}
   .fx-cell b{display:block;font-size:13px;color:var(--ink)}
 
+  /* ideas tab + add-to-day */
+  .idea-stack{display:flex;flex-direction:column;gap:14px}
+  .tagchip{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border-radius:4px;padding:2px 7px;border:1px solid;position:relative;top:-1px}
+  .t-trad{color:#8A6D1D;border-color:#D9C58A;background:#FBF7EA}
+  .t-cool{color:#1F7A70;border-color:#9FDCD4;background:#DFF4F1}
+  .t-seoul{background:var(--seoul);border-color:var(--seoul);color:#fff}
+  .t-jeju{background:var(--jeju);border-color:var(--jeju);color:#fff}
+  .t-busan{background:var(--busan);border-color:var(--busan);color:#fff}
+  .idea-add{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .idea-add select{font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);max-width:200px}
+  .idea-btn{padding:8px 14px;font-size:13px}
+  .idea-state{font-family:var(--mono);font-size:11px;color:#1F7A70}
+  .card.added-item{border-color:#9FDCD4;background:#F3FBFA}
+  .added-remove{font-family:var(--mono);font-size:11px;color:#B3452F;background:none;border:0;cursor:pointer;text-decoration:underline;padding:0;margin-top:8px}
+
   /* ---------- Eva mode, mascot & stamp rally ---------- */
   .evabtn{position:absolute;top:14px;right:14px;z-index:3;font:inherit;font-size:13px;font-weight:700;border:1px solid rgba(237,234,225,.35);background:rgba(237,234,225,.12);color:#EDEAE1;border-radius:999px;padding:7px 13px;cursor:pointer}
   .gyuri-row{display:flex;align-items:center;gap:12px;margin:0 0 22px;flex-wrap:wrap}
@@ -1249,6 +1264,93 @@
   <p class="maplegend"><span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
 </section>
 
+<!-- ================= IDEAS ================= -->
+<section class="day s-util" id="dideas" data-chip="Ideas|for the kids|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Kid-tested Korea · traditional &amp; cool</p>
+      <h2>Ideas — Add Them to a Day</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">재미</div>
+  </div>
+  <p class="dh-note">Researched picks the kids (and teens) will actually rate — a mix of properly traditional and properly Korean-cool. Pick a day and hit <b>Add to day</b>: the idea drops into that day's timeline (remove it there any time). Choices are saved on this phone.</p>
+  <div class="idea-stack">
+
+    <div class="card idea" data-id="namsangol" data-def="d8">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Namsangol Hanok Village — free traditional games</h3></div>
+      <p>A Joseon-era hanok village 10 minutes' walk from the Botanik, free entry. Kids can actually play the old games — tuho (arrow-toss), jegichagi (Korean hacky sack), ddakji (the squid-game tile flip) — plus hanbok and hanji paper craft sessions. Perfect gentle add for the Seoul arrival afternoon.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="kimchi" data-def="d9">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Kimchi-making class — Museum Kimchikan, Insadong</h3></div>
+      <p>Make (and take home a taste of) real kimchi at the kimchi museum right in Insadong — slots neatly into palace-and-souvenir day. Hands-on, messy, and genuinely fun for kids; book a family session online ahead.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="archery" data-def="d10">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Korean archery café — fire real bows indoors</h3></div>
+      <p>Korea's traditional archery (gungdo) turned into a teen-perfect indoor range: archery cafés around Hongdae let kids shoot real recurve bows at targets for around ₩10,000 a session. Competitive siblings, sorted.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="life4cuts" data-def="d10">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Life4Cuts photobooth crawl (인생네컷)</h3></div>
+      <p>THE Korean teen ritual: self-serve photo booths with props, frames and filters on every Hongdae and Myeongdong corner, ~₩4,000–5,000 a strip. Collect a strip in every city — best souvenir of the trip for zero effort.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="noraebang" data-def="d10">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Coin noraebang — Korean karaoke booths</h3></div>
+      <p>Tiny two-to-four-person karaoke booths where you pay per song (₩500–1,000), all over Hongdae. Huge English + K-pop songbooks, tambourines included. A rite of passage; adults welcome to embarrass themselves.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="charstores" data-def="d9">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Kakao Friends &amp; Line Friends flagship stores</h3></div>
+      <p>Multi-storey character megastores (Ryan! Brown! BT21!) in Myeongdong, Hongdae and Gangnam — photo zones, exclusive plushies and stationery. Dangerous for pocket money, guaranteed hit for a 12-year-old.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="runningman" data-def="dspare">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Running Man Thematic Experience Center</h3></div>
+      <p>An indoor mission-and-obstacle game zone in Insadong based on the famous Korean TV show — timed challenges, name-tag ripping, team scores. Around 90 minutes; brilliant burn-off-energy option for a spare Seoul day.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="hanriver" data-def="dspare">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Han River picnic + DIY ramyeon machines</h3></div>
+      <p>The classic Seoul afternoon: grass by the Han at Yeouido or Ttukseom, then cook your own ramyeon in the convenience-store machines by the river (kids are obsessed). Time it for evening and catch the Banpo Bridge Rainbow Fountain show (runs April–October).</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="droneshow" data-def="d6">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-busan">Busan</span><h3>Gwangalli M Drone Light Show — Saturday nights</h3></div>
+      <p>Korea's permanent drone show: hundreds of drones over Gwangan Bridge, free from anywhere on Gwangalli Beach, every Saturday — 19:00 &amp; 21:00 in October, ~12 minutes. Your Busan Saturday (3 Oct) is the night: the non-festival group could do dinner at Gwangalli and catch the 19:00 show. (Weather can cancel it — check the official site that day.)</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="aquaplanet" data-def="d4">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-jeju">Jeju</span><h3>Aqua Planet Jeju — mega aquarium at Seongsan</h3></div>
+      <p>One of Asia's biggest aquariums, right next to Seongsan Ilchulbong — a huge main tank, and haenyeo divers doing demonstrations. A ready-made swap if East Jeju day hits rain or the crater walk wears the kids out.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="pony" data-def="d4">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-jeju">Jeju</span><h3>Ride a Jeju pony</h3></div>
+      <p>Jeju's stocky native ponies are a symbol of the island (your Day 2 stamp!). Ranches across east and central Jeju run short guided rides for kids and adults — easy to slot in on the East Jeju loop. Helmets provided; no experience needed.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="bingsu" data-def="d13">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Bingsu hunt — Korea's mountain of shaved ice</h3></div>
+      <p>Bingsu is the dessert kids write home about: a snowdrift of milk-ice under mango, injeolmi (roasted soybean rice cake) or red bean, built for sharing. Baekmidang near the hotel does a famous one — make the last Seoul day a best-bingsu-of-the-trip final.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ================= PHRASES ================= -->
 <section class="day s-util" id="dphrase" data-chip="Talk &amp; $|phrases · money|c-util">
   <div class="dayhead">
@@ -2086,6 +2188,69 @@
   document.getElementById('fxrefresh').addEventListener('click', fxFetch);
   fxRender();
   fxFetch();
+
+  // ---- ideas: add to a day ----
+  var addedIdeas = {};
+  try{ addedIdeas = JSON.parse(localStorage.getItem('ksth-ideas') || '{}'); }catch(e){}
+  function saveIdeas(){ try{ localStorage.setItem('ksth-ideas', JSON.stringify(addedIdeas)); }catch(e){} }
+  function dayLabel(id){
+    var i = -1;
+    days.forEach(function(s, j){ if (s.id === id) i = j; });
+    return i >= 0 ? chipTitle(i) : id;
+  }
+  function renderAddedIdeas(){
+    document.querySelectorAll('.item.added-idea').forEach(function(n){ n.remove(); });
+    Object.keys(addedIdeas).forEach(function(recId){
+      var card = document.querySelector('.idea[data-id="' + recId + '"]');
+      var sec = document.getElementById(addedIdeas[recId]);
+      var tl = sec && sec.querySelector('.tl');
+      if (!card || !tl) return;
+      var it = document.createElement('div');
+      it.className = 'item added-idea';
+      it.innerHTML = '<div class="time">Added</div><div class="card added-item"><div class="card-head"><span class="kind k2">Idea</span><h3></h3></div><p></p><button class="added-remove" type="button">remove from this day</button></div>';
+      it.querySelector('h3').textContent = card.querySelector('h3').textContent;
+      it.querySelector('p').textContent = card.querySelector('p').textContent;
+      it.querySelector('.added-remove').addEventListener('click', function(){
+        delete addedIdeas[recId];
+        saveIdeas(); renderAddedIdeas(); syncIdeaCards();
+      });
+      tl.appendChild(it);
+    });
+  }
+  function syncIdeaCards(){
+    document.querySelectorAll('.idea').forEach(function(card){
+      var st = card.querySelector('.idea-state');
+      var btn = card.querySelector('.idea-btn');
+      var dayId = addedIdeas[card.dataset.id];
+      if (dayId){
+        st.textContent = '✓ on ' + dayLabel(dayId);
+        btn.textContent = 'Move';
+      } else {
+        st.textContent = '';
+        btn.textContent = 'Add to day';
+      }
+    });
+  }
+  var ideaDayOpts = [];
+  days.forEach(function(sec, i){
+    if (sec.dataset.date && sec.id !== 'dhome') ideaDayOpts.push({id: sec.id, label: chipTitle(i)});
+  });
+  document.querySelectorAll('.idea').forEach(function(card){
+    var sel = card.querySelector('select');
+    ideaDayOpts.forEach(function(d){
+      var o = document.createElement('option');
+      o.value = d.id;
+      o.textContent = d.label;
+      sel.appendChild(o);
+    });
+    if (card.dataset.def) sel.value = card.dataset.def;
+    card.querySelector('.idea-btn').addEventListener('click', function(){
+      addedIdeas[card.dataset.id] = sel.value;
+      saveIdeas(); renderAddedIdeas(); syncIdeaCards();
+    });
+  });
+  renderAddedIdeas();
+  syncIdeaCards();
 
   // open the initial section only now, once every section's data + functions exist
   show(start < 0 ? 0 : start);
