@@ -1425,7 +1425,7 @@
       <div class="card-head"><span class="tagchip t-glow">Pharmacy</span><h3>Pharmacies (약국) — the practical stuff</h3></div>
       <ul>
         <li><b>Spotting one:</b> look for the green cross or 약 (yak) sign — they're everywhere, including several around Myeongdong and Nampo. Typical hours ~09:00–19:00 weekdays, shorter weekends; big-district ones stay open later.</li>
-        <li><b>How it works:</b> most medicine lives behind the counter — describe the symptom (pharmacists in tourist areas usually manage some English, or use the translate box in Talk &amp; $). Painkillers, cold &amp; flu, motion-sickness tablets, plasters and stomach remedies are all easy over the counter.</li>
+        <li><b>How it works:</b> most medicine lives behind the counter — describe the symptom (pharmacists in tourist areas usually manage some English, or use the translate box in the Talk tab). Painkillers, cold &amp; flu, motion-sickness tablets, plasters and stomach remedies are all easy over the counter.</li>
         <li><b>After hours:</b> convenience stores (CU/GS25) legally sell a small set of basics 24/7 — acetaminophen (Tylenol), cold tablets, pain-relief patches.</li>
         <li><b>Prescriptions:</b> bring enough of any regular medication for the whole trip, in original packaging, plus a copy of the script — Korean pharmacies can't fill foreign prescriptions.</li>
         <li><b>Stuck?</b> Call <b>1330</b> (24/7 tourist hotline) — they'll find the nearest open pharmacy and interpret for you. Note: Olive Young is cosmetics only, not a pharmacy.</li>
@@ -1436,7 +1436,7 @@
 </section>
 
 <!-- ================= PHRASES ================= -->
-<section class="day s-util" id="dphrase" data-chip="Talk &amp; $|phrases · money|c-util">
+<section class="day s-util" id="dphrase" data-chip="Talk|phrases · 말하기|c-util">
   <div class="dayhead">
     <div>
       <p class="dh-eyebrow">Handy Korean · tap 🔊 to hear it</p>
@@ -1513,6 +1513,42 @@
       <div class="ph-row"><div class="ph-en">Awesome! <small>the slang the teens will bring home</small></div><div class="ph-ko"><span class="ph-kr">대박!</span><span class="ph-rom">dae-bak!</span></div><button class="spk" type="button" data-say="대박" aria-label="Play">🔊</button></div>
     </div>
 
+    <div class="card">
+      <div class="card-head"><span class="kind k2">Emergency</span><h3>Numbers to know</h3></div>
+      <ul>
+        <li><b>112</b> — police</li>
+        <li><b>119</b> — fire / ambulance</li>
+        <li><b>1330</b> — Korea Travel Hotline: 24/7, English-speaking, can interpret for you on the spot. The most useful number for tourists.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= MONEY ================= -->
+<section class="day s-util" id="dmoney" data-chip="$|won · money|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Won · converting · paying</p>
+      <h2>Money</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">돈</div>
+  </div>
+  <p class="dh-note">Live converter, the number words you’ll hear at the markets, and how paying actually works in Korea.</p>
+  <div class="ph-stack">
+
+    <div class="card">
+      <div class="card-head"><span class="kind">Money</span><h3>Currency converter</h3></div>
+      <div class="tr-row">
+        <input id="fxin" type="number" inputmode="decimal" min="0" placeholder="Amount in A$" aria-label="Amount to convert">
+        <button id="fxdir" class="tr-btn alt" type="button" title="Swap direction">A$ → ₩</button>
+        <button id="fxrefresh" class="tr-btn" type="button" title="Refresh the exchange rate">↻ Rate</button>
+      </div>
+      <div class="fx-res" id="fxres" aria-live="polite">—</div>
+      <div class="fx-meta" id="fxmeta">loading rate…</div>
+      <div class="fx-cheat" id="fxcheat" aria-label="Quick reference amounts"></div>
+    </div>
+
     <div class="card ph-group">
       <h3>Numbers &amp; money — tap to hear</h3>
       <p style="margin:4px 0 0;font-size:14px;color:#3A434E">Prices come in units of 만 (man) = ₩10,000. So 삼만 원 (sam-man won) = ₩30,000.</p>
@@ -1534,23 +1570,13 @@
     </div>
 
     <div class="card">
-      <div class="card-head"><span class="kind">Money</span><h3>Currency converter</h3></div>
-      <div class="tr-row">
-        <input id="fxin" type="number" inputmode="decimal" min="0" placeholder="Amount in A$" aria-label="Amount to convert">
-        <button id="fxdir" class="tr-btn alt" type="button" title="Swap direction">A$ → ₩</button>
-        <button id="fxrefresh" class="tr-btn" type="button" title="Refresh the exchange rate">↻ Rate</button>
-      </div>
-      <div class="fx-res" id="fxres" aria-live="polite">—</div>
-      <div class="fx-meta" id="fxmeta">loading rate…</div>
-      <div class="fx-cheat" id="fxcheat" aria-label="Quick reference amounts"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><span class="kind k2">Emergency</span><h3>Numbers to know</h3></div>
+      <div class="card-head"><span class="kind k2">Tips</span><h3>Paying in Korea — quick rules</h3></div>
       <ul>
-        <li><b>112</b> — police</li>
-        <li><b>119</b> — fire / ambulance</li>
-        <li><b>1330</b> — Korea Travel Hotline: 24/7, English-speaking, can interpret for you on the spot. The most useful number for tourists.</li>
+        <li><b>Cards work almost everywhere</b> — taxis, convenience stores, most restaurants. Traditional-market stalls (Gukje, Namdaemun, Gwangjang) still prefer <b>cash</b>, so keep some ₩10,000 notes handy.</li>
+        <li><b>T-money transit cards</b> top up with <b>cash only</b> — at station machines or any convenience store.</li>
+        <li><b>ATMs:</b> look for machines marked “Global ATM” (inside CU/GS25 stores and banks) — they take foreign cards.</li>
+        <li><b>No tipping</b> — anywhere, ever. It genuinely confuses people.</li>
+        <li><b>Instant tax refund:</b> spend ₩15,000+ at participating shops (Olive Young, department stores) and get the tax back at the register — physical passport required.</li>
       </ul>
     </div>
 
