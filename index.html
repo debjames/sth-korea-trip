@@ -69,6 +69,8 @@
   .chip.on{background:var(--ink);color:#fff;border-color:var(--ink) var(--ink) var(--cc,var(--line))}
   .chip.on .c2{color:rgba(255,255,255,.65)}
   .c-seoul{--cc:var(--seoul)} .c-jeju{--cc:var(--jeju)} .c-busan{--cc:var(--busan)} .c-home{--cc:var(--home)} .c-util{--cc:var(--gold)}
+  .chip{position:relative}
+  .chipdot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:#E5484D;border:2px solid var(--paper)}
 
   /* ---------- day sections ---------- */
   main{max-width:960px;margin:0 auto;padding:26px 16px 60px}
@@ -1831,6 +1833,14 @@
     b.addEventListener('click', function(){ show(i); });
     (sec.dataset.date ? nav : nav2).appendChild(b); chips.push(b);
   });
+  days.forEach(function(sec, i){
+    if (sec.id !== 'dchat') return;
+    var d = document.createElement('span');
+    d.className = 'chipdot';
+    d.id = 'chatdot';
+    d.hidden = true;
+    chips[i].appendChild(d);
+  });
 
   var cur = 0;
   function show(i){
@@ -1843,9 +1853,11 @@
     document.getElementById('nextlbl').textContent = cur<days.length-1 ? chipTitle(cur+1) : '—';
     chips[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
     try{ localStorage.setItem('ksth-day', days[cur].id); }catch(e){}
-    window.scrollTo({top:0, behavior:'auto'});
+    var navTop = document.querySelector('.daynav').offsetTop;
+    if (window.scrollY > navTop) window.scrollTo({top:navTop, behavior:'auto'});
     if (days[cur].id === 'dmap') openMap();
     if (days[cur].id === 'dchat') openChat();
+    if (typeof updateChatDot === 'function') updateChatDot();
   }
   function chipTitle(i){
     var m = (days[i].dataset.chip||'').split('|');
@@ -2582,7 +2594,7 @@
     projectId: 'eva-korea-trip-2026',
     appId: '1:587342585251:web:193e8c3df9152fff654e16'
   };
-  var chatRoom = '', chatName = '', chatDb = null, chatUnsub = null, chatSubbed = '';
+  var chatRoom = '', chatName = '', chatDb = null, chatUnsub = null, chatSubbed = '', chatLatest = 0;
   try{
     chatRoom = localStorage.getItem('ksth-chat-room') || '';
     chatName = localStorage.getItem('ksth-chat-name') || '';
@@ -2612,6 +2624,20 @@
     document.getElementById('chaterr').hidden = !on;
     if (on) document.getElementById('chatwrap').hidden = true;
   }
+  function chatSeenKey(){ return 'ksth-chat-seen-' + chatRoom; }
+  function updateChatDot(){
+    var dot = document.getElementById('chatdot');
+    if (!dot) return;
+    var onChat = days[cur] && days[cur].id === 'dchat';
+    if (onChat && chatLatest){
+      try{ localStorage.setItem(chatSeenKey(), String(chatLatest)); }catch(e){}
+      dot.hidden = true;
+      return;
+    }
+    var seen = 0;
+    try{ seen = parseInt(localStorage.getItem(chatSeenKey()) || '0', 10) || 0; }catch(e){}
+    dot.hidden = !(chatLatest > seen);
+  }
   function renderChat(docs){
     var box = document.getElementById('chatmsgs');
     box.innerHTML = '';
@@ -2620,10 +2646,12 @@
       e.className = 'chatempty';
       e.textContent = 'No messages yet — say hi! 👋';
       box.appendChild(e);
+      updateChatDot();
       return;
     }
     docs.forEach(function(d){
       var v = d.data();
+      if (v.ts && v.ts.toMillis && v.ts.toMillis() > chatLatest) chatLatest = v.ts.toMillis();
       var el = document.createElement('div');
       el.className = 'cm' + (v.n === chatName ? ' mine' : '');
       var b = document.createElement('b'); b.textContent = v.n;
@@ -2634,6 +2662,7 @@
       box.appendChild(el);
     });
     box.scrollTop = box.scrollHeight;
+    updateChatDot();
   }
   function subscribeChat(){
     if (chatSubbed === chatRoom) return;
@@ -2708,6 +2737,18 @@
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(function(){ done(true); }, function(){ done(false); });
     else done(false);
   });
+  if (chatRoom && chatName){
+    setTimeout(function(){
+      loadFirebase(function(ok){
+        if (!ok) return;
+        if (!chatDb){
+          firebase.initializeApp(FBCFG);
+          chatDb = firebase.firestore();
+        }
+        subscribeChat();
+      });
+    }, 1500);
+  }
   document.getElementById('chatsend').addEventListener('click', sendChat);
   document.getElementById('chatmsgin').addEventListener('keydown', function(e){ if (e.key === 'Enter') sendChat(); });
 
