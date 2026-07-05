@@ -1380,20 +1380,6 @@
     <div class="dh-kr" aria-hidden="true">수다</div>
   </div>
 
-  <div class="card" id="chatsetup">
-    <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
-    <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
-    <p class="tr-err" id="chatrejoin" hidden>Your room <b id="chatrejoinroom"></b> is still saved — the chat just moved to our own private backend, so type your name below and tap <b>Join</b> to jump back in.</p>
-    <div class="tr-row">
-      <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
-      <button id="chatrand" class="tr-btn alt" type="button">Random</button>
-    </div>
-    <div class="tr-row">
-      <input id="chatnameinput" type="text" placeholder="Your name — e.g. Eva" aria-label="Your nickname" maxlength="30">
-      <button id="chatset" class="tr-btn" type="button">Join</button>
-    </div>
-  </div>
-
   <div class="chatbar" id="chatlinks" hidden>
     <span>Room: <b id="chatroomname"></b></span>
     <span>You: <b id="chatmyname"></b></span>
@@ -1409,6 +1395,20 @@
     </div>
   </div>
   <p class="tr-err" id="chaterr" hidden>Couldn’t reach the chat service — check the connection, or open the full site at debjames.github.io/sth-korea-trip.</p>
+
+  <div class="card" id="chatsetup">
+    <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
+    <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
+    <p class="tr-err" id="chatrejoin" hidden>Your room <b id="chatrejoinroom"></b> is still saved — the chat just moved to our own private backend, so type your name below and tap <b>Join</b> to jump back in.</p>
+    <div class="tr-row">
+      <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
+      <button id="chatrand" class="tr-btn alt" type="button">Random</button>
+    </div>
+    <div class="tr-row">
+      <input id="chatnameinput" type="text" placeholder="Your name — e.g. Eva" aria-label="Your nickname" maxlength="30">
+      <button id="chatset" class="tr-btn" type="button">Join</button>
+    </div>
+  </div>
   <p class="voicenote" style="margin-top:10px">Messages are visible to anyone who knows the room name and can’t be edited or deleted once sent — grand for “back at the Airbnb at 8”, wrong for passport numbers. People see new messages when they open this tab.</p>
 </section>
 
@@ -1914,6 +1914,10 @@
   var iso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
   var start = -1;
   if (/[#&]room=/.test(window.location.hash || '')){
+    days.forEach(function(s, i){ if (s.id === 'dchat') start = i; });
+  }
+  // opened from the home screen (installed app): land on the chat
+  if ((window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true){
     days.forEach(function(s, i){ if (s.id === 'dchat') start = i; });
   }
   days.forEach(function(s,i){ if (s.dataset.date === iso) start = i; });
