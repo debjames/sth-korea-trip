@@ -214,6 +214,11 @@
   .mkr{width:24px;height:24px;border-radius:50%;color:#fff;font:700 12px/21px var(--mono);text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
   .mkr.done{opacity:.45}
   .mkr.next{box-shadow:0 0 0 3px var(--gold),0 1px 4px rgba(0,0,0,.4)}
+  .mkr.cutepin{background:#fff;position:relative}
+  .mkr.cutepin .ce{display:block;font-size:13px;line-height:20px;text-align:center}
+  .mkr.cutepin i{position:absolute;bottom:-5px;right:-7px;font-style:normal;color:#fff;font:700 9px/14px var(--mono);width:15px;height:15px;border-radius:50%;text-align:center;border:1.5px solid #fff}
+  body.eva .leaflet-popup-content-wrapper{border-radius:16px}
+  body.eva .mapwrap{border-radius:18px}
   .maplegend{font-size:13px;color:var(--muted);margin-top:10px}
   .maplegend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px 0 8px;vertical-align:-1px}
   .leaflet-popup-content{font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;margin:10px 12px;min-width:180px}
@@ -1694,6 +1699,7 @@
   ];
 
   var map = null, fg = null, locMarker = null, locRing = null;
+  var tileNormal = null, tileCute = null, curFilter = 'all';
   var mapIdx = -1;
   days.forEach(function(s, i){ if (s.id === 'dmap') mapIdx = i; });
 
@@ -1707,9 +1713,10 @@
     return h;
   }
   function drawDay(md, small){
+    var eva = document.body.classList.contains('eva');
     var color = LEGC[md.leg];
     var pts = md.stops.map(function(s){ return s.c; });
-    L.polyline(pts, {color:color, weight:small?2:3, opacity:small?0.35:0.7, dashArray:'6 6'}).addTo(fg);
+    L.polyline(pts, {color:color, weight:small?2:(eva?4:3), opacity:small?0.35:0.7, dashArray:eva?'0 10':'6 6', lineCap:eva?'round':'butt'}).addTo(fg);
     // live pin states: only for today's (KST) plan
     var todayIso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
     var live = md.date === todayIso && Date.now() >= TRIP_START && Date.now() <= TRIP_END;
@@ -1721,17 +1728,25 @@
         if (tm && KST(p[0], p[1], p[2], +tm[1], +tm[2]) > now){ nextIdx = i; break; }
       }
     }
+    var em = (typeof STAMPS !== 'undefined') && STAMPS[md.id];
     md.stops.forEach(function(s, i){
       var cls = 'mkr';
       if (live && nextIdx >= 0){
         if (i === nextIdx) cls += ' next';
         else if (i < nextIdx - 1) cls += ' done';
       } else if (live && nextIdx < 0){ cls += ' done'; }
-      var ic = L.divIcon({className:'', html:'<div class="' + cls + '" style="background:' + color + '">' + (i+1) + '</div>', iconSize:[24,24], iconAnchor:[12,12]});
+      var html;
+      if (eva && em){
+        html = '<div class="' + cls + ' cutepin" style="border-color:' + color + '"><span class="ce">' + em + '</span><i style="background:' + color + '">' + (i+1) + '</i></div>';
+      } else {
+        html = '<div class="' + cls + '" style="background:' + color + '">' + (i+1) + '</div>';
+      }
+      var ic = L.divIcon({className:'', html:html, iconSize:[24,24], iconAnchor:[12,12]});
       L.marker(s.c, {icon:ic}).addTo(fg).bindPopup(popupHtml(md, s, i));
     });
   }
   function setFilter(id){
+    curFilter = id;
     fg.clearLayers();
     document.querySelectorAll('#mapfilters .mchip[data-f]').forEach(function(b){
       b.classList.toggle('on', b.dataset.f === id);
@@ -1776,7 +1791,9 @@
   function buildMap(){
     if (!map){
       map = L.map('map');
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+      tileNormal = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'});
+      tileCute = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {maxZoom:19, subdomains:'abcd', attribution:'&copy; OpenStreetMap contributors &copy; CARTO'});
+      (document.body.classList.contains('eva') ? tileCute : tileNormal).addTo(map);
       fg = L.featureGroup().addTo(map);
       var wrap = document.getElementById('mapfilters');
       var all = document.createElement('button');
@@ -1804,6 +1821,15 @@
       setFilter(def);
     }
     setTimeout(function(){ map.invalidateSize(); }, 60);
+  }
+  function swapTiles(){
+    if (!map || !tileNormal) return;
+    var eva = document.body.classList.contains('eva');
+    var want = eva ? tileCute : tileNormal;
+    var drop = eva ? tileNormal : tileCute;
+    if (map.hasLayer(drop)) map.removeLayer(drop);
+    if (!map.hasLayer(want)) want.addTo(map);
+    setFilter(curFilter); // redraw pins in the current style
   }
   // "View on map" buttons in each mapped day's header
   MAPDAYS.forEach(function(md){
@@ -1918,6 +1944,7 @@
     document.body.classList.toggle('eva', on);
     evabtn.textContent = on ? '🐮 Eva mode: on!' : '🐮 Eva mode';
     try{ localStorage.setItem('ksth-eva', on ? '1' : '0'); }catch(e){}
+    swapTiles();
   }
   evabtn.addEventListener('click', function(){ setEva(!document.body.classList.contains('eva')); });
   try{ if (localStorage.getItem('ksth-eva') === '1') setEva(true); }catch(e){}
