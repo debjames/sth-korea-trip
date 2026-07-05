@@ -50,7 +50,10 @@
 
   /* ---------- day nav ---------- */
   .daynav{position:sticky;top:0;z-index:20;background:rgba(245,244,239,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-  .daynav-inner{max-width:960px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:thin}
+  .daynav-inner{max-width:960px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 16px 6px;scrollbar-width:thin}
+  .daynav-row2{flex-wrap:wrap;overflow-x:visible;padding-top:0;padding-bottom:10px}
+  .daynav-row2 .chip{padding:5px 10px 4px}
+  .daynav-row2 .chip .c2{display:none}
   .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px 5px;cursor:pointer;font:inherit;text-align:left;color:var(--ink)}
   .chip .c1{display:block;font-family:var(--disp);font-weight:800;font-size:14px;line-height:1.05;text-transform:uppercase;letter-spacing:.03em}
   .chip .c2{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.3}
@@ -340,8 +343,9 @@
   </div>
 </header>
 
-<nav class="daynav" aria-label="Days">
+<nav class="daynav" aria-label="Days and tools">
   <div class="daynav-inner" id="navchips"></div>
+  <div class="daynav-inner daynav-row2" id="navchips2"></div>
 </nav>
 
 <div class="upnext" id="upnext" aria-live="polite">
@@ -1312,146 +1316,83 @@
   <p class="maplegend"><span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
 </section>
 
-<!-- ================= IDEAS ================= -->
-<section class="day s-util" id="dideas" data-chip="Ideas|for the kids|c-util">
+<!-- ================= CHAT ================= -->
+<section class="day s-util" id="dchat" data-chip="Chat|family board|c-util">
   <div class="dayhead">
     <div>
-      <p class="dh-eyebrow">Kid-tested Korea · traditional &amp; cool</p>
-      <h2>Ideas — Add Them to a Day</h2>
+      <p class="dh-eyebrow">Family noticeboard · own private backend</p>
+      <h2>Group Chat</h2>
     </div>
-    <div class="dh-kr" aria-hidden="true">재미</div>
+    <div class="dh-kr" aria-hidden="true">수다</div>
   </div>
-  <p class="dh-note">Researched picks the kids (and teens) will actually rate — a mix of properly traditional and properly Korean-cool, <b>listed in trip order</b> by the day each fits best: Jeju first, then Busan, then Seoul. Pick a day and hit <b>Add to day</b>: the idea drops into that day's timeline (remove it there any time). Choices are saved on this phone.</p>
-  <div class="idea-stack">
-    <div class="card idea" data-id="aquaplanet" data-def="d4">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-jeju">Jeju</span><h3>Aqua Planet Jeju — mega aquarium at Seongsan</h3></div>
-      <p>One of Asia's biggest aquariums, right next to Seongsan Ilchulbong — a huge main tank, and haenyeo divers doing demonstrations. A ready-made swap if East Jeju day hits rain or the crater walk wears the kids out.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
+  <p class="dh-note">Your own family message board — it runs on the trip’s Firebase project (Seoul region, fittingly), no accounts and no app: pick a room name and a nickname, type. Good for planning (“lunch votes?”, “meet at the fountain at 7”). <b>It doesn’t send notifications</b> — for urgent “where are you?!” moments, use the Crew tab.</p>
 
-    <div class="card idea" data-id="pony" data-def="d4">
-      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-jeju">Jeju</span><h3>Ride a Jeju pony</h3></div>
-      <p>Jeju's stocky native ponies are a symbol of the island (your Day 2 stamp!). Ranches across east and central Jeju run short guided rides for kids and adults — easy to slot in on the East Jeju loop. Helmets provided; no experience needed.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+  <div class="card" id="chatsetup">
+    <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
+    <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
+    <div class="tr-row">
+      <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
+      <button id="chatrand" class="tr-btn alt" type="button">Random</button>
     </div>
-
-    <div class="card idea" data-id="droneshow" data-def="d6">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-busan">Busan</span><h3>Gwangalli M Drone Light Show — Saturday nights</h3></div>
-      <p>Korea's permanent drone show: hundreds of drones over Gwangan Bridge, free from anywhere on Gwangalli Beach, every Saturday — 19:00 &amp; 21:00 in October, ~12 minutes. Your Busan Saturday (3 Oct) is the night: the non-festival group could do dinner at Gwangalli and catch the 19:00 show. (Weather can cancel it — check the official site that day.)</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="namsangol" data-def="d8">
-      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Namsangol Hanok Village — free traditional games</h3></div>
-      <p>A Joseon-era hanok village 10 minutes' walk from the Botanik, free entry. Kids can actually play the old games — tuho (arrow-toss), jegichagi (Korean hacky sack), ddakji (the squid-game tile flip) — plus hanbok and hanji paper craft sessions. Perfect gentle add for the Seoul arrival afternoon.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="kimchi" data-def="d9">
-      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Kimchi-making class — Museum Kimchikan, Insadong</h3></div>
-      <p>Make (and take home a taste of) real kimchi at the kimchi museum right in Insadong — slots neatly into palace-and-souvenir day. Hands-on, messy, and genuinely fun for kids; book a family session online ahead.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="charstores" data-def="d9">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Kakao Friends &amp; Line Friends flagship stores</h3></div>
-      <p>Multi-storey character megastores (Ryan! Brown! BT21!) in Myeongdong, Hongdae and Gangnam — photo zones, exclusive plushies and stationery. Dangerous for pocket money, guaranteed hit for a 12-year-old.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="archery" data-def="d10">
-      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Korean archery café — fire real bows indoors</h3></div>
-      <p>Korea's traditional archery (gungdo) turned into a teen-perfect indoor range: archery cafés around Hongdae let kids shoot real recurve bows at targets for around ₩10,000 a session. Competitive siblings, sorted.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="life4cuts" data-def="d10">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Life4Cuts photobooth crawl (인생네컷)</h3></div>
-      <p>THE Korean teen ritual: self-serve photo booths with props, frames and filters on every Hongdae and Myeongdong corner, ~₩4,000–5,000 a strip. Collect a strip in every city — best souvenir of the trip for zero effort.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="noraebang" data-def="d10">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Coin noraebang — Korean karaoke booths</h3></div>
-      <p>Tiny two-to-four-person karaoke booths where you pay per song (₩500–1,000), all over Hongdae. Huge English + K-pop songbooks, tambourines included. A rite of passage; adults welcome to embarrass themselves.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="animalcafe" data-def="d10">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Cute animal cafés — capybaras included 🦫</h3></div>
-      <p>Hongdae is Seoul's animal-café capital, and yes — <b>Meerkat Friends</b> (branches in Hongdae and Myeongdong) has meerkats AND capybaras. Also nearby: <b>Thanks Nature Café</b> (fluffy sheep!), <b>Bau House</b> (Seoul's most foreigner-friendly dog café), a raccoon café, and cat cafés in both Hongdae and Myeongdong. Entry is usually ₩10,000–15,000 with a drink. Be a good guest: pick calm, well-reviewed cafés, follow the handling rules, and let sleepy animals sleep.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="runningman" data-def="d11">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Running Man Thematic Experience Center</h3></div>
-      <p>An indoor mission-and-obstacle game zone in Insadong based on the famous Korean TV show — timed challenges, name-tag ripping, team scores. Around 90 minutes. Already pencilled into the Day 12 (Fri 9 Oct) plan — add it elsewhere only if that day changes.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="hanriver" data-def="d11">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Han River picnic + DIY ramyeon machines</h3></div>
-      <p>The classic Seoul afternoon: grass by the Han at Yeouido or Ttukseom, then cook your own ramyeon in the convenience-store machines by the river (kids are obsessed). Time it for evening and catch the Banpo Bridge Rainbow Fountain show (runs April–October). Already pencilled into the Day 12 (Fri 9 Oct) plan as the evening finale.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="namizip" data-def="d12">
-      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul day trip</span><h3>Nami Island Zip Wire — fly onto the island</h3></div>
-      <p>Skip the ferry: launch from an 80 m tower at Gapyeong wharf and ride a 940 m zip wire across the river, landing on Nami Island itself — about a minute of pure bragging rights. Ticket (~₩50,000–58,000) includes island admission and the return ferry. Weight/height limits apply and reports vary (some say ~50 kg minimum with shoes on) — check at the tower; smaller kids take the ferry and wave. Queues build on weekends, so zip first thing. Pairs with the Day 13 Nami + Petite France day-trip idea.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="bingsu" data-def="d13">
-      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Bingsu hunt — Korea's mountain of shaved ice</h3></div>
-      <p>Bingsu is the dessert kids write home about: a snowdrift of milk-ice under mango, injeolmi (roasted soybean rice cake) or red bean, built for sharing. Baekmidang near the hotel does a famous one — make the last Seoul day a best-bingsu-of-the-trip final.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    <div class="tr-row">
+      <input id="chatnameinput" type="text" placeholder="Your name — e.g. Eva" aria-label="Your nickname" maxlength="30">
+      <button id="chatset" class="tr-btn" type="button">Join</button>
     </div>
   </div>
+
+  <div class="chatbar" id="chatlinks" hidden>
+    <span>Room: <b id="chatroomname"></b></span>
+    <span>You: <b id="chatmyname"></b></span>
+    <button id="chatinvite" class="lnk" type="button">Copy invite link</button>
+    <button id="chatchange" class="lnk" type="button">Change</button>
+  </div>
+  <div class="chatwrap" id="chatwrap" hidden>
+    <div class="chatmsgs" id="chatmsgs"><div class="chatempty">Loading…</div></div>
+    <div class="chatcomposer">
+      <input id="chatmsgin" type="text" placeholder="Message the family…" aria-label="Message" maxlength="500">
+      <button id="chatsend" class="tr-btn" type="button">Send</button>
+    </div>
+  </div>
+  <p class="tr-err" id="chaterr" hidden>Couldn’t reach the chat service — check the connection, or open the full site at debjames.github.io/sth-korea-trip.</p>
+  <p class="voicenote" style="margin-top:10px">Messages are visible to anyone who knows the room name and can’t be edited or deleted once sent — grand for “back at the Airbnb at 8”, wrong for passport numbers. People see new messages when they open this tab.</p>
 </section>
 
-<!-- ================= BEAUTY ================= -->
-<section class="day s-util" id="dbeauty" data-chip="Beauty|K-beauty · skin|c-util">
+<!-- ================= CREW ================= -->
+<section class="day s-util" id="dcrew" data-chip="Crew|call · message|c-util">
   <div class="dayhead">
     <div>
-      <p class="dh-eyebrow">K-beauty · clinics · pharmacies</p>
-      <h2>Skin &amp; Beauty Guide</h2>
+      <p class="dh-eyebrow">Stay connected · up to 12 travellers</p>
+      <h2>Call &amp; Message the Crew</h2>
     </div>
-    <div class="dh-kr" aria-hidden="true">피부</div>
+    <div class="dh-kr" aria-hidden="true">우리</div>
   </div>
-  <p class="dh-note">Korea is the world capital of skincare, and your hotel sits in the middle of it — Myeongdong is packed with beauty stores and tourist-friendly skin clinics. The two bookable items below have the same <b>Add to day</b> control as the Ideas tab.</p>
-  <div class="idea-stack">
+  <p class="dh-note">Tap to ring or text anyone in the group. The list lives on this phone — one person fills it in, taps <b>Copy list</b>, drops it in the family chat, and everyone else pastes it into <b>Import</b>.</p>
+  <div class="ph-stack">
 
-    <div class="card idea" data-id="skinclinic" data-def="d11">
-      <div class="card-head"><span class="tagchip t-glow">Clinic</span><span class="tagchip t-seoul">Myeongdong</span><h3>K-derm skin clinic session — glass skin, tourist-style</h3></div>
-      <p>Myeongdong is a hub for foreigner-friendly dermatology, minutes from the Botanik: <b>Lijin</b>, <b>Kleam</b>, <b>Re:Berry</b>, <b>Val:u</b> and <b>Umi</b> all run English-speaking consultations with same-day treatments and transparent pricing. The gentle tourist favourites: <b>Aqua Peel / Hydrafacial</b> and <b>glass-skin facials</b>; laser toning and skin boosters (Rejuran) for those wanting more. Walk-ins happen, but pre-book online for a guaranteed English-speaking slot. A perfect adults' treat while the kids do the Running Man centre — pencilled into Day 12 (Fri 9 Oct), but that's a public holiday: confirm Hangeul Day hours when booking, or book the Wednesday or Thursday instead.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
-    </div>
-
-    <div class="card idea" data-id="oliveyoung" data-def="d8">
-      <div class="card-head"><span class="tagchip t-glow">Shop</span><span class="tagchip t-seoul">Everywhere</span><h3>Olive Young haul — Korea's beauty superstore</h3></div>
-      <p>Korea's №1 health &amp; beauty chain; the <b>Myeongdong Town flagship</b> is the big one (teens can lose an hour in it). Know before you go: spend <b>₩15,000+ and get the tax refund instantly at the register — physical passport required</b> (phone photos usually refused). It gets rammed in the evenings, so go in the morning; there are branches all over Seoul, Busan and Jeju too, so nothing is a one-chance buy.</p>
-      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    <div class="card">
+      <div class="card-head"><span class="kind">Crew</span><h3>Group contacts</h3></div>
+      <div id="crewlist"></div>
+      <div class="tr-row">
+        <input id="crewname" type="text" placeholder="Name (e.g. Cheryl)" aria-label="Name">
+        <input id="crewphone" type="tel" placeholder="+61 4xx xxx xxx" aria-label="Phone number with country code">
+        <button id="crewadd" class="tr-btn" type="button">Add</button>
+      </div>
+      <p class="voicenote" style="margin:10px 0 0">Include the country code (+61 Australia, +65 Singapore). If anyone switches to a Korean SIM on Day 1, their number changes — update it here (+82…).</p>
     </div>
 
     <div class="card">
-      <div class="card-head"><span class="tagchip t-glow">Buy</span><h3>The 2026 shopping list — what's actually worth buying</h3></div>
-      <p>The 2026 K-beauty wave is <b>gentle barrier-repair</b>, not harsh actives — which happens to be exactly right for teen skin.</p>
-      <ul>
-        <li><b>Sunscreens (the №1 souvenir):</b> SKIN1004 Hyalu-Cica Water-Fit Sun Serum (sensitive-skin favourite), Dr.G Green Mild Up Sun+ (the dermatologists' gold standard for stressed skin), Torriden watery sun cream, Beauty of Joseon Relief Sun (the classic). All SPF50+ PA++++, none of the white cast of Aussie sunscreen.</li>
-        <li><b>Cult staples:</b> COSRX snail mucin essence, Torriden DIVE-IN serum, Anua heartleaf toner (very gentle — good teen pick), Laneige lip sleeping mask, sheet masks by the armful (great cheap gifts).</li>
-        <li><b>For Eva:</b> Korean routine for young skin = gentle cleanser + light moisturiser + sunscreen, done. Patch-test anything new on the inner arm overnight before it goes near a face.</li>
-        <li><b>Cheap and cheerful:</b> Daiso (₩1,000–5,000 beauty tools, headbands, blotting paper) and Namdaemun's cosmetic stalls for bulk sheet masks.</li>
-      </ul>
+      <div class="card-head"><span class="kind k2">Share</span><h3>Share the list between phones</h3></div>
+      <div class="tr-row"><button id="crewcopy" class="tr-btn alt" type="button">Copy list</button><button id="crewimportbtn" class="tr-btn" type="button">Import</button></div>
+      <textarea id="crewimport" class="crew-ta" placeholder="Paste a shared list here — one person per line, like:&#10;Cheryl, +65 9xxx xxxx&#10;Tata, +61 4xx xxx xxx" aria-label="Paste contact list to import"></textarea>
     </div>
 
     <div class="card">
-      <div class="card-head"><span class="tagchip t-glow">Pharmacy</span><h3>Pharmacies (약국) — the practical stuff</h3></div>
+      <div class="card-head"><span class="kind k2">Tips</span><h3>Keeping 12 people findable</h3></div>
       <ul>
-        <li><b>Spotting one:</b> look for the green cross or 약 (yak) sign — they're everywhere, including several around Myeongdong and Nampo. Typical hours ~09:00–19:00 weekdays, shorter weekends; big-district ones stay open later.</li>
-        <li><b>How it works:</b> most medicine lives behind the counter — describe the symptom (pharmacists in tourist areas usually manage some English, or use the translate box in the Talk tab). Painkillers, cold &amp; flu, motion-sickness tablets, plasters and stomach remedies are all easy over the counter.</li>
-        <li><b>After hours:</b> convenience stores (CU/GS25) legally sell a small set of basics 24/7 — acetaminophen (Tylenol), cold tablets, pain-relief patches.</li>
-        <li><b>Prescriptions:</b> bring enough of any regular medication for the whole trip, in original packaging, plus a copy of the script — Korean pharmacies can't fill foreign prescriptions.</li>
-        <li><b>Stuck?</b> Call <b>1330</b> (24/7 tourist hotline) — they'll find the nearest open pharmacy and interpret for you. Note: Olive Young is cosmetics only, not a pharmacy.</li>
+        <li><b>Set up the family group chat before flying</b> — WhatsApp or KakaoTalk (Korea runs on Kakao). Over wifi it's all free, even with no SIM credit.</li>
+        <li><b>Data-only eSIMs keep your Australian number</b> for calls and SMS — worth considering over a Korean SIM if you want these buttons to keep working unchanged.</li>
+        <li><b>Wifi is everywhere</b> (subway, cafés, hotels), so WhatsApp calls almost always get through.</li>
+        <li><b>If someone's lost:</b> ring them, then the day's meeting point is the accommodation (address cards on Days 1, 2, 5 and 8). Kids can show any adult the hotel address from this site, or call <b>1330</b> for an interpreter.</li>
       </ul>
     </div>
 
@@ -1606,114 +1547,149 @@
   </div>
 </section>
 
-<!-- ================= CREW ================= -->
-<section class="day s-util" id="dcrew" data-chip="Crew|call · message|c-util">
+<!-- ================= IDEAS ================= -->
+<section class="day s-util" id="dideas" data-chip="Ideas|for the kids|c-util">
   <div class="dayhead">
     <div>
-      <p class="dh-eyebrow">Stay connected · up to 12 travellers</p>
-      <h2>Call &amp; Message the Crew</h2>
+      <p class="dh-eyebrow">Kid-tested Korea · traditional &amp; cool</p>
+      <h2>Ideas — Add Them to a Day</h2>
     </div>
-    <div class="dh-kr" aria-hidden="true">우리</div>
+    <div class="dh-kr" aria-hidden="true">재미</div>
   </div>
-  <p class="dh-note">Tap to ring or text anyone in the group. The list lives on this phone — one person fills it in, taps <b>Copy list</b>, drops it in the family chat, and everyone else pastes it into <b>Import</b>.</p>
-  <div class="ph-stack">
+  <p class="dh-note">Researched picks the kids (and teens) will actually rate — a mix of properly traditional and properly Korean-cool, <b>listed in trip order</b> by the day each fits best: Jeju first, then Busan, then Seoul. Pick a day and hit <b>Add to day</b>: the idea drops into that day's timeline (remove it there any time). Choices are saved on this phone.</p>
+  <div class="idea-stack">
+    <div class="card idea" data-id="aquaplanet" data-def="d4">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-jeju">Jeju</span><h3>Aqua Planet Jeju — mega aquarium at Seongsan</h3></div>
+      <p>One of Asia's biggest aquariums, right next to Seongsan Ilchulbong — a huge main tank, and haenyeo divers doing demonstrations. A ready-made swap if East Jeju day hits rain or the crater walk wears the kids out.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
 
-    <div class="card">
-      <div class="card-head"><span class="kind">Crew</span><h3>Group contacts</h3></div>
-      <div id="crewlist"></div>
-      <div class="tr-row">
-        <input id="crewname" type="text" placeholder="Name (e.g. Cheryl)" aria-label="Name">
-        <input id="crewphone" type="tel" placeholder="+61 4xx xxx xxx" aria-label="Phone number with country code">
-        <button id="crewadd" class="tr-btn" type="button">Add</button>
-      </div>
-      <p class="voicenote" style="margin:10px 0 0">Include the country code (+61 Australia, +65 Singapore). If anyone switches to a Korean SIM on Day 1, their number changes — update it here (+82…).</p>
+    <div class="card idea" data-id="pony" data-def="d4">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-jeju">Jeju</span><h3>Ride a Jeju pony</h3></div>
+      <p>Jeju's stocky native ponies are a symbol of the island (your Day 2 stamp!). Ranches across east and central Jeju run short guided rides for kids and adults — easy to slot in on the East Jeju loop. Helmets provided; no experience needed.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="droneshow" data-def="d6">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-busan">Busan</span><h3>Gwangalli M Drone Light Show — Saturday nights</h3></div>
+      <p>Korea's permanent drone show: hundreds of drones over Gwangan Bridge, free from anywhere on Gwangalli Beach, every Saturday — 19:00 &amp; 21:00 in October, ~12 minutes. Your Busan Saturday (3 Oct) is the night: the non-festival group could do dinner at Gwangalli and catch the 19:00 show. (Weather can cancel it — check the official site that day.)</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="namsangol" data-def="d8">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Namsangol Hanok Village — free traditional games</h3></div>
+      <p>A Joseon-era hanok village 10 minutes' walk from the Botanik, free entry. Kids can actually play the old games — tuho (arrow-toss), jegichagi (Korean hacky sack), ddakji (the squid-game tile flip) — plus hanbok and hanji paper craft sessions. Perfect gentle add for the Seoul arrival afternoon.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="kimchi" data-def="d9">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Kimchi-making class — Museum Kimchikan, Insadong</h3></div>
+      <p>Make (and take home a taste of) real kimchi at the kimchi museum right in Insadong — slots neatly into palace-and-souvenir day. Hands-on, messy, and genuinely fun for kids; book a family session online ahead.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="charstores" data-def="d9">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Kakao Friends &amp; Line Friends flagship stores</h3></div>
+      <p>Multi-storey character megastores (Ryan! Brown! BT21!) in Myeongdong, Hongdae and Gangnam — photo zones, exclusive plushies and stationery. Dangerous for pocket money, guaranteed hit for a 12-year-old.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="archery" data-def="d10">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Korean archery café — fire real bows indoors</h3></div>
+      <p>Korea's traditional archery (gungdo) turned into a teen-perfect indoor range: archery cafés around Hongdae let kids shoot real recurve bows at targets for around ₩10,000 a session. Competitive siblings, sorted.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="life4cuts" data-def="d10">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Life4Cuts photobooth crawl (인생네컷)</h3></div>
+      <p>THE Korean teen ritual: self-serve photo booths with props, frames and filters on every Hongdae and Myeongdong corner, ~₩4,000–5,000 a strip. Collect a strip in every city — best souvenir of the trip for zero effort.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="noraebang" data-def="d10">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Coin noraebang — Korean karaoke booths</h3></div>
+      <p>Tiny two-to-four-person karaoke booths where you pay per song (₩500–1,000), all over Hongdae. Huge English + K-pop songbooks, tambourines included. A rite of passage; adults welcome to embarrass themselves.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="animalcafe" data-def="d10">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Cute animal cafés — capybaras included 🦫</h3></div>
+      <p>Hongdae is Seoul's animal-café capital, and yes — <b>Meerkat Friends</b> (branches in Hongdae and Myeongdong) has meerkats AND capybaras. Also nearby: <b>Thanks Nature Café</b> (fluffy sheep!), <b>Bau House</b> (Seoul's most foreigner-friendly dog café), a raccoon café, and cat cafés in both Hongdae and Myeongdong. Entry is usually ₩10,000–15,000 with a drink. Be a good guest: pick calm, well-reviewed cafés, follow the handling rules, and let sleepy animals sleep.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="runningman" data-def="d11">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Running Man Thematic Experience Center</h3></div>
+      <p>An indoor mission-and-obstacle game zone in Insadong based on the famous Korean TV show — timed challenges, name-tag ripping, team scores. Around 90 minutes. Already pencilled into the Day 12 (Fri 9 Oct) plan — add it elsewhere only if that day changes.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="hanriver" data-def="d11">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Han River picnic + DIY ramyeon machines</h3></div>
+      <p>The classic Seoul afternoon: grass by the Han at Yeouido or Ttukseom, then cook your own ramyeon in the convenience-store machines by the river (kids are obsessed). Time it for evening and catch the Banpo Bridge Rainbow Fountain show (runs April–October). Already pencilled into the Day 12 (Fri 9 Oct) plan as the evening finale.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="namizip" data-def="d12">
+      <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul day trip</span><h3>Nami Island Zip Wire — fly onto the island</h3></div>
+      <p>Skip the ferry: launch from an 80 m tower at Gapyeong wharf and ride a 940 m zip wire across the river, landing on Nami Island itself — about a minute of pure bragging rights. Ticket (~₩50,000–58,000) includes island admission and the return ferry. Weight/height limits apply and reports vary (some say ~50 kg minimum with shoes on) — check at the tower; smaller kids take the ferry and wave. Queues build on weekends, so zip first thing. Pairs with the Day 13 Nami + Petite France day-trip idea.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="bingsu" data-def="d13">
+      <div class="card-head"><span class="tagchip t-trad">Traditional</span><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul</span><h3>Bingsu hunt — Korea's mountain of shaved ice</h3></div>
+      <p>Bingsu is the dessert kids write home about: a snowdrift of milk-ice under mango, injeolmi (roasted soybean rice cake) or red bean, built for sharing. Baekmidang near the hotel does a famous one — make the last Seoul day a best-bingsu-of-the-trip final.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BEAUTY ================= -->
+<section class="day s-util" id="dbeauty" data-chip="Beauty|K-beauty · skin|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">K-beauty · clinics · pharmacies</p>
+      <h2>Skin &amp; Beauty Guide</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">피부</div>
+  </div>
+  <p class="dh-note">Korea is the world capital of skincare, and your hotel sits in the middle of it — Myeongdong is packed with beauty stores and tourist-friendly skin clinics. The two bookable items below have the same <b>Add to day</b> control as the Ideas tab.</p>
+  <div class="idea-stack">
+
+    <div class="card idea" data-id="skinclinic" data-def="d11">
+      <div class="card-head"><span class="tagchip t-glow">Clinic</span><span class="tagchip t-seoul">Myeongdong</span><h3>K-derm skin clinic session — glass skin, tourist-style</h3></div>
+      <p>Myeongdong is a hub for foreigner-friendly dermatology, minutes from the Botanik: <b>Lijin</b>, <b>Kleam</b>, <b>Re:Berry</b>, <b>Val:u</b> and <b>Umi</b> all run English-speaking consultations with same-day treatments and transparent pricing. The gentle tourist favourites: <b>Aqua Peel / Hydrafacial</b> and <b>glass-skin facials</b>; laser toning and skin boosters (Rejuran) for those wanting more. Walk-ins happen, but pre-book online for a guaranteed English-speaking slot. A perfect adults' treat while the kids do the Running Man centre — pencilled into Day 12 (Fri 9 Oct), but that's a public holiday: confirm Hangeul Day hours when booking, or book the Wednesday or Thursday instead.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
+    </div>
+
+    <div class="card idea" data-id="oliveyoung" data-def="d8">
+      <div class="card-head"><span class="tagchip t-glow">Shop</span><span class="tagchip t-seoul">Everywhere</span><h3>Olive Young haul — Korea's beauty superstore</h3></div>
+      <p>Korea's №1 health &amp; beauty chain; the <b>Myeongdong Town flagship</b> is the big one (teens can lose an hour in it). Know before you go: spend <b>₩15,000+ and get the tax refund instantly at the register — physical passport required</b> (phone photos usually refused). It gets rammed in the evenings, so go in the morning; there are branches all over Seoul, Busan and Jeju too, so nothing is a one-chance buy.</p>
+      <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
     </div>
 
     <div class="card">
-      <div class="card-head"><span class="kind k2">Share</span><h3>Share the list between phones</h3></div>
-      <div class="tr-row"><button id="crewcopy" class="tr-btn alt" type="button">Copy list</button><button id="crewimportbtn" class="tr-btn" type="button">Import</button></div>
-      <textarea id="crewimport" class="crew-ta" placeholder="Paste a shared list here — one person per line, like:&#10;Cheryl, +65 9xxx xxxx&#10;Tata, +61 4xx xxx xxx" aria-label="Paste contact list to import"></textarea>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><span class="kind k2">Tips</span><h3>Keeping 12 people findable</h3></div>
+      <div class="card-head"><span class="tagchip t-glow">Buy</span><h3>The 2026 shopping list — what's actually worth buying</h3></div>
+      <p>The 2026 K-beauty wave is <b>gentle barrier-repair</b>, not harsh actives — which happens to be exactly right for teen skin.</p>
       <ul>
-        <li><b>Set up the family group chat before flying</b> — WhatsApp or KakaoTalk (Korea runs on Kakao). Over wifi it's all free, even with no SIM credit.</li>
-        <li><b>Data-only eSIMs keep your Australian number</b> for calls and SMS — worth considering over a Korean SIM if you want these buttons to keep working unchanged.</li>
-        <li><b>Wifi is everywhere</b> (subway, cafés, hotels), so WhatsApp calls almost always get through.</li>
-        <li><b>If someone's lost:</b> ring them, then the day's meeting point is the accommodation (address cards on Days 1, 2, 5 and 8). Kids can show any adult the hotel address from this site, or call <b>1330</b> for an interpreter.</li>
+        <li><b>Sunscreens (the №1 souvenir):</b> SKIN1004 Hyalu-Cica Water-Fit Sun Serum (sensitive-skin favourite), Dr.G Green Mild Up Sun+ (the dermatologists' gold standard for stressed skin), Torriden watery sun cream, Beauty of Joseon Relief Sun (the classic). All SPF50+ PA++++, none of the white cast of Aussie sunscreen.</li>
+        <li><b>Cult staples:</b> COSRX snail mucin essence, Torriden DIVE-IN serum, Anua heartleaf toner (very gentle — good teen pick), Laneige lip sleeping mask, sheet masks by the armful (great cheap gifts).</li>
+        <li><b>For Eva:</b> Korean routine for young skin = gentle cleanser + light moisturiser + sunscreen, done. Patch-test anything new on the inner arm overnight before it goes near a face.</li>
+        <li><b>Cheap and cheerful:</b> Daiso (₩1,000–5,000 beauty tools, headbands, blotting paper) and Namdaemun's cosmetic stalls for bulk sheet masks.</li>
       </ul>
     </div>
 
-  </div>
-</section>
+    <div class="card">
+      <div class="card-head"><span class="tagchip t-glow">Pharmacy</span><h3>Pharmacies (약국) — the practical stuff</h3></div>
+      <ul>
+        <li><b>Spotting one:</b> look for the green cross or 약 (yak) sign — they're everywhere, including several around Myeongdong and Nampo. Typical hours ~09:00–19:00 weekdays, shorter weekends; big-district ones stay open later.</li>
+        <li><b>How it works:</b> most medicine lives behind the counter — describe the symptom (pharmacists in tourist areas usually manage some English, or use the translate box in the Talk tab). Painkillers, cold &amp; flu, motion-sickness tablets, plasters and stomach remedies are all easy over the counter.</li>
+        <li><b>After hours:</b> convenience stores (CU/GS25) legally sell a small set of basics 24/7 — acetaminophen (Tylenol), cold tablets, pain-relief patches.</li>
+        <li><b>Prescriptions:</b> bring enough of any regular medication for the whole trip, in original packaging, plus a copy of the script — Korean pharmacies can't fill foreign prescriptions.</li>
+        <li><b>Stuck?</b> Call <b>1330</b> (24/7 tourist hotline) — they'll find the nearest open pharmacy and interpret for you. Note: Olive Young is cosmetics only, not a pharmacy.</li>
+      </ul>
+    </div>
 
-<!-- ================= CHAT ================= -->
-<section class="day s-util" id="dchat" data-chip="Chat|family board|c-util">
-  <div class="dayhead">
-    <div>
-      <p class="dh-eyebrow">Family noticeboard · own private backend</p>
-      <h2>Group Chat</h2>
-    </div>
-    <div class="dh-kr" aria-hidden="true">수다</div>
-  </div>
-  <p class="dh-note">Your own family message board — it runs on the trip’s Firebase project (Seoul region, fittingly), no accounts and no app: pick a room name and a nickname, type. Good for planning (“lunch votes?”, “meet at the fountain at 7”). <b>It doesn’t send notifications</b> — for urgent “where are you?!” moments, use the Crew tab.</p>
-
-  <div class="card" id="chatsetup">
-    <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
-    <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
-    <div class="tr-row">
-      <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
-      <button id="chatrand" class="tr-btn alt" type="button">Random</button>
-    </div>
-    <div class="tr-row">
-      <input id="chatnameinput" type="text" placeholder="Your name — e.g. Eva" aria-label="Your nickname" maxlength="30">
-      <button id="chatset" class="tr-btn" type="button">Join</button>
-    </div>
-  </div>
-
-  <div class="chatbar" id="chatlinks" hidden>
-    <span>Room: <b id="chatroomname"></b></span>
-    <span>You: <b id="chatmyname"></b></span>
-    <button id="chatinvite" class="lnk" type="button">Copy invite link</button>
-    <button id="chatchange" class="lnk" type="button">Change</button>
-  </div>
-  <div class="chatwrap" id="chatwrap" hidden>
-    <div class="chatmsgs" id="chatmsgs"><div class="chatempty">Loading…</div></div>
-    <div class="chatcomposer">
-      <input id="chatmsgin" type="text" placeholder="Message the family…" aria-label="Message" maxlength="500">
-      <button id="chatsend" class="tr-btn" type="button">Send</button>
-    </div>
-  </div>
-  <p class="tr-err" id="chaterr" hidden>Couldn’t reach the chat service — check the connection, or open the full site at debjames.github.io/sth-korea-trip.</p>
-  <p class="voicenote" style="margin-top:10px">Messages are visible to anyone who knows the room name and can’t be edited or deleted once sent — grand for “back at the Airbnb at 8”, wrong for passport numbers. People see new messages when they open this tab.</p>
-</section>
-
-<!-- ================= TO-DO ================= -->
-<section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
-  <div class="dayhead">
-    <div>
-      <p class="dh-eyebrow">Open items</p>
-      <h2>Still to Sort</h2>
-    </div>
-    <div class="dh-kr" aria-hidden="true">할 일</div>
-  </div>
-  <p class="dh-note">Everything the WIP document flags as unbooked or undecided. Ticks are saved in this browser.</p>
-  <div class="todo" id="todolist">
-    <label><input type="checkbox" data-k="icn-gmp"><span><b>Day 1 — ICN → Gimpo transfer</b><span>Decide: private van(s) / taxis (≈35 min) vs AREX All-Stop Train (≈38 min) for 10 people with luggage.</span></span></label>
-    <label><input type="checkbox" data-k="jeju-cars"><span><b>Day 2 — Jeju hire cars</b><span>Book 2 cars or a 12-seater van. Lotte / AJ / Jeju Rent-A-Car, all at the airport Rental Car House.</span></span></label>
-    <label><input type="checkbox" data-k="gimhae"><span><b>Day 5 — Gimhae → Nampo transfer</b><span>Jumbo taxi (recommended, ₩60–80k total) vs Limousine Bus 1 (₩6k pp) vs two taxis.</span></span></label>
-    <label><input type="checkbox" data-k="rockfest"><span><b>Day 6 — Rock Festival 2026 schedule + tickets</b><span>Confirm dates/times once the Busan International Rock Festival 2026 line-up is released; buy tickets.</span></span></label>
-    <label><input type="checkbox" data-k="ktx"><span><b>Day 8 — KTX seats Busan → Seoul</b><span>Book 10 seats in the same car, 10:00–11:00 departure window.</span></span></label>
-    <label><input type="checkbox" data-k="d12"><span><b>Day 13 (Sat 10 Oct) — plan the open day</b><span>Blank in the document. Day trip? Everland? Slow Saturday?</span></span></label>
-    <label><input type="checkbox" data-k="dep-taxi"><span><b>Day 14 — departure-night airport transfer</b><span>Pre-arrange 2 jumbo vans or 3 taxis to ICN for the 23:50 flight.</span></span></label>
-    <label><input type="checkbox" data-k="holidayswap"><span><b>Confirm the skin clinic’s Hangeul Day hours (Fri 9 Oct)</b><span>The swap is done — Lotte World is now Tue 6 Oct and Royal Seoul is Fri 9 Oct. Only loose end: the adults’ clinic session falls on the public holiday — check hours when booking, or move it to Wed/Thu.</span></span></label>
-    <label><input type="checkbox" data-k="secretgarden"><span><b>Book the Changdeokgung Secret Garden tour — Fri 9 Oct</b><span>Now on Day 12 — which is Hangeul Day, so demand will be higher than normal. Reserve online early and flex the morning around the slot.</span></span></label>
-    <label><input type="checkbox" data-k="dmz"><span><b>Book the DMZ tour if that's the Day 13 pick</b><span>Requires passport details and sells out early; Suwon Hwaseong is the no-booking fallback.</span></span></label>
-    <label><input type="checkbox" data-k="yongchim"><span><b>Double-check “Yongchim Restaurant”</b><span>The doc lists it for both Seogwipo (Day 4) and Nampo, Busan (Days 5–6) dinners — verify the right one on Naver before setting off.</span></span></label>
-    <label><input type="checkbox" data-k="tata-flight"><span><b>Confirm Tata's flight into Seoul (Mon 5 Oct)</b><span>Airport (Incheon or Gimpo) and arrival time TBC — update Day 8 once booked.</span></span></label>
-    <label><input type="checkbox" data-k="joiner-beds"><span><b>Sort beds for Cheryl (Busan, from 3 Oct) and Tata (Seoul, from 5 Oct)</b><span>Current bookings are for 10 — check the Nampo Airbnb capacity and add a room/bed at Botanik if needed.</span></span></label>
-    <label><input type="checkbox" data-k="dates"><span><b>Fix the date drift in the source doc</b><span>The doc skips Tue 6 Oct and its weekday labels drift; this site fixes the dates and renumbers the days — Tue 6 Oct is Day 9 here, so the doc’s Day 9–13 are Days 10–14.</span></span></label>
   </div>
 </section>
 
@@ -1780,6 +1756,34 @@
   </div>
 </section>
 
+<!-- ================= TO-DO ================= -->
+<section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Open items</p>
+      <h2>Still to Sort</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">할 일</div>
+  </div>
+  <p class="dh-note">Everything the WIP document flags as unbooked or undecided. Ticks are saved in this browser.</p>
+  <div class="todo" id="todolist">
+    <label><input type="checkbox" data-k="icn-gmp"><span><b>Day 1 — ICN → Gimpo transfer</b><span>Decide: private van(s) / taxis (≈35 min) vs AREX All-Stop Train (≈38 min) for 10 people with luggage.</span></span></label>
+    <label><input type="checkbox" data-k="jeju-cars"><span><b>Day 2 — Jeju hire cars</b><span>Book 2 cars or a 12-seater van. Lotte / AJ / Jeju Rent-A-Car, all at the airport Rental Car House.</span></span></label>
+    <label><input type="checkbox" data-k="gimhae"><span><b>Day 5 — Gimhae → Nampo transfer</b><span>Jumbo taxi (recommended, ₩60–80k total) vs Limousine Bus 1 (₩6k pp) vs two taxis.</span></span></label>
+    <label><input type="checkbox" data-k="rockfest"><span><b>Day 6 — Rock Festival 2026 schedule + tickets</b><span>Confirm dates/times once the Busan International Rock Festival 2026 line-up is released; buy tickets.</span></span></label>
+    <label><input type="checkbox" data-k="ktx"><span><b>Day 8 — KTX seats Busan → Seoul</b><span>Book 10 seats in the same car, 10:00–11:00 departure window.</span></span></label>
+    <label><input type="checkbox" data-k="d12"><span><b>Day 13 (Sat 10 Oct) — plan the open day</b><span>Blank in the document. Day trip? Everland? Slow Saturday?</span></span></label>
+    <label><input type="checkbox" data-k="dep-taxi"><span><b>Day 14 — departure-night airport transfer</b><span>Pre-arrange 2 jumbo vans or 3 taxis to ICN for the 23:50 flight.</span></span></label>
+    <label><input type="checkbox" data-k="holidayswap"><span><b>Confirm the skin clinic’s Hangeul Day hours (Fri 9 Oct)</b><span>The swap is done — Lotte World is now Tue 6 Oct and Royal Seoul is Fri 9 Oct. Only loose end: the adults’ clinic session falls on the public holiday — check hours when booking, or move it to Wed/Thu.</span></span></label>
+    <label><input type="checkbox" data-k="secretgarden"><span><b>Book the Changdeokgung Secret Garden tour — Fri 9 Oct</b><span>Now on Day 12 — which is Hangeul Day, so demand will be higher than normal. Reserve online early and flex the morning around the slot.</span></span></label>
+    <label><input type="checkbox" data-k="dmz"><span><b>Book the DMZ tour if that's the Day 13 pick</b><span>Requires passport details and sells out early; Suwon Hwaseong is the no-booking fallback.</span></span></label>
+    <label><input type="checkbox" data-k="yongchim"><span><b>Double-check “Yongchim Restaurant”</b><span>The doc lists it for both Seogwipo (Day 4) and Nampo, Busan (Days 5–6) dinners — verify the right one on Naver before setting off.</span></span></label>
+    <label><input type="checkbox" data-k="tata-flight"><span><b>Confirm Tata's flight into Seoul (Mon 5 Oct)</b><span>Airport (Incheon or Gimpo) and arrival time TBC — update Day 8 once booked.</span></span></label>
+    <label><input type="checkbox" data-k="joiner-beds"><span><b>Sort beds for Cheryl (Busan, from 3 Oct) and Tata (Seoul, from 5 Oct)</b><span>Current bookings are for 10 — check the Nampo Airbnb capacity and add a room/bed at Botanik if needed.</span></span></label>
+    <label><input type="checkbox" data-k="dates"><span><b>Fix the date drift in the source doc</b><span>The doc skips Tue 6 Oct and its weekday labels drift; this site fixes the dates and renumbers the days — Tue 6 Oct is Day 9 here, so the doc’s Day 9–13 are Days 10–14.</span></span></label>
+  </div>
+</section>
+
 </main>
 
 <div style="max-width:960px;margin:0 auto;padding:0 16px 40px">
@@ -1795,6 +1799,7 @@
 (function(){
   var days = Array.prototype.slice.call(document.querySelectorAll('.day'));
   var nav = document.getElementById('navchips');
+  var nav2 = document.getElementById('navchips2');
   var chips = [];
   days.forEach(function(sec, i){
     var meta = (sec.dataset.chip||'|| ').split('|');
@@ -1805,7 +1810,7 @@
     b.querySelector('.c1').textContent = meta[0];
     b.querySelector('.c2').textContent = meta[1];
     b.addEventListener('click', function(){ show(i); });
-    nav.appendChild(b); chips.push(b);
+    (sec.dataset.date ? nav : nav2).appendChild(b); chips.push(b);
   });
 
   var cur = 0;
