@@ -163,6 +163,11 @@
   .tr-res .ph-rom{text-align:left;font-size:12px}
   .tr-err{color:#8A4B08;font-size:14px;margin-top:10px}
   .voicenote{font-size:13px;color:var(--muted)}
+  .fx-res{font-family:var(--mono);font-size:26px;font-weight:600;margin-top:12px;font-variant-numeric:tabular-nums}
+  .fx-meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
+  .fx-cheat{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:14px}
+  .fx-cell{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--paper);font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .fx-cell b{display:block;font-size:13px;color:var(--ink)}
 
   /* ---------- Eva mode, mascot & stamp rally ---------- */
   .evabtn{position:absolute;top:14px;right:14px;z-index:3;font:inherit;font-size:13px;font-weight:700;border:1px solid rgba(237,234,225,.35);background:rgba(237,234,225,.12);color:#EDEAE1;border-radius:999px;padding:7px 13px;cursor:pointer}
@@ -1335,6 +1340,18 @@
     </div>
 
     <div class="card">
+      <div class="card-head"><span class="kind">Money</span><h3>Currency converter</h3></div>
+      <div class="tr-row">
+        <input id="fxin" type="number" inputmode="decimal" min="0" placeholder="Amount in A$" aria-label="Amount to convert">
+        <button id="fxdir" class="tr-btn alt" type="button" title="Swap direction">A$ → ₩</button>
+        <button id="fxrefresh" class="tr-btn" type="button" title="Refresh the exchange rate">↻ Rate</button>
+      </div>
+      <div class="fx-res" id="fxres" aria-live="polite">—</div>
+      <div class="fx-meta" id="fxmeta">loading rate…</div>
+      <div class="fx-cheat" id="fxcheat" aria-label="Quick reference amounts"></div>
+    </div>
+
+    <div class="card">
       <div class="card-head"><span class="kind k2">Emergency</span><h3>Numbers to know</h3></div>
       <ul>
         <li><b>112</b> — police</li>
@@ -1990,6 +2007,74 @@
       h.parentNode.appendChild(k);
     });
   });
+
+  // ---- currency converter (AUD ⇄ KRW) ----
+  var FX_SEED = 900; // KRW per 1 AUD — approximate fallback until a live rate arrives
+  var fx = { r: FX_SEED, t: 0, src: 'approx' };
+  try{
+    var fxCached = JSON.parse(localStorage.getItem('ksth-fx') || 'null');
+    if (fxCached && fxCached.r > 0) fx = fxCached;
+  }catch(e){}
+  var fxIn = document.getElementById('fxin');
+  var fxDirBtn = document.getElementById('fxdir');
+  var fxRes = document.getElementById('fxres');
+  var fxMeta = document.getElementById('fxmeta');
+  var fxCheat = document.getElementById('fxcheat');
+  var fxAud = true; // true: A$ → ₩
+
+  function fxKrw(n){ return '₩' + Math.round(n).toLocaleString('en-AU'); }
+  function fxAudFmt(n){ return 'A$' + n.toLocaleString('en-AU', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+  function fxRender(){
+    var v = parseFloat(fxIn.value);
+    if (isNaN(v) || v < 0){ fxRes.textContent = '—'; }
+    else fxRes.textContent = fxAud ? fxKrw(v * fx.r) : fxAudFmt(v / fx.r);
+    var when;
+    if (!fx.t) when = 'approximate seed rate — tap ↻ for a live one';
+    else {
+      var d = new Date(fx.t);
+      when = 'updated ' + d.toLocaleDateString('en-AU', {day:'numeric', month:'short'}) + ' ' + d.toLocaleTimeString('en-AU', {hour:'2-digit', minute:'2-digit'});
+    }
+    fxMeta.textContent = '1 A$ ≈ ' + fxKrw(fx.r) + ' · ' + when;
+    fxCheat.innerHTML = '';
+    [1000, 5000, 10000, 50000, 100000].forEach(function(w){
+      var c = document.createElement('div');
+      c.className = 'fx-cell';
+      var b = document.createElement('b');
+      b.textContent = fxKrw(w);
+      c.appendChild(b);
+      c.appendChild(document.createTextNode('≈ ' + fxAudFmt(w / fx.r)));
+      fxCheat.appendChild(c);
+    });
+  }
+  function fxSave(){ try{ localStorage.setItem('ksth-fx', JSON.stringify(fx)); }catch(e){} }
+  function fxFetch(){
+    fxMeta.textContent = 'updating rate…';
+    fetch('https://open.er-api.com/v6/latest/AUD')
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j && j.rates && j.rates.KRW > 0){ fx = {r: j.rates.KRW, t: Date.now(), src: 'er-api'}; fxSave(); fxRender(); }
+        else throw new Error('no KRW');
+      })
+      .catch(function(){
+        fetch('https://api.frankfurter.app/latest?from=AUD&to=KRW')
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            if (j && j.rates && j.rates.KRW > 0){ fx = {r: j.rates.KRW, t: Date.now(), src: 'frankfurter'}; fxSave(); }
+            fxRender();
+          })
+          .catch(fxRender); // offline: keep cached/seed rate
+      });
+  }
+  fxIn.addEventListener('input', fxRender);
+  fxDirBtn.addEventListener('click', function(){
+    fxAud = !fxAud;
+    fxDirBtn.textContent = fxAud ? 'A$ → ₩' : '₩ → A$';
+    fxIn.placeholder = fxAud ? 'Amount in A$' : 'Amount in ₩';
+    fxRender();
+  });
+  document.getElementById('fxrefresh').addEventListener('click', fxFetch);
+  fxRender();
+  fxFetch();
 
   // open the initial section only now, once every section's data + functions exist
   show(start < 0 ? 0 : start);
