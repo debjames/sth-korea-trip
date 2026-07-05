@@ -1661,7 +1661,7 @@
 
   <div class="card" id="chatsetup">
     <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
-    <p>The room name is the key: anyone who knows it can read and post. Hit <b>Random</b>, share the name only in the family group chat, and enter it once on each phone — it’s deliberately never written into this site’s code.</p>
+    <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
     <div class="tr-row">
       <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
       <button id="chatrand" class="tr-btn alt" type="button">Random</button>
@@ -1675,6 +1675,7 @@
   <div class="chatbar" id="chatlinks" hidden>
     <span>Room: <b id="chatroomname"></b></span>
     <span>You: <b id="chatmyname"></b></span>
+    <button id="chatinvite" class="lnk" type="button">Copy invite link</button>
     <button id="chatchange" class="lnk" type="button">Change</button>
   </div>
   <div class="chatwrap" id="chatwrap" hidden>
@@ -1839,6 +1840,9 @@
   // the map can only open once all of their data and functions are defined.
   var iso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
   var start = -1;
+  if (/[#&]room=/.test(window.location.hash || '')){
+    days.forEach(function(s, i){ if (s.id === 'dchat') start = i; });
+  }
   days.forEach(function(s,i){ if (s.dataset.date === iso) start = i; });
   if (start < 0){
     try{
@@ -2559,6 +2563,13 @@
     chatRoom = localStorage.getItem('ksth-chat-room') || '';
     chatName = localStorage.getItem('ksth-chat-name') || '';
   }catch(e){}
+  // invite links carry the room in the #fragment (never sent to servers, not in the repo)
+  var hashRoom = /[#&]room=([a-z0-9-]+)/.exec(window.location.hash || '');
+  if (hashRoom){
+    chatRoom = hashRoom[1];
+    try{ localStorage.setItem('ksth-chat-room', chatRoom); }catch(e){}
+    try{ history.replaceState(null, '', window.location.pathname + window.location.search); }catch(e){}
+  }
   function loadFirebase(cb){
     if (window.firebase && window.firebase.firestore){ cb(true); return; }
     var s1 = document.createElement('script');
@@ -2615,7 +2626,12 @@
     var setup = document.getElementById('chatsetup');
     var wrap = document.getElementById('chatwrap');
     var bar = document.getElementById('chatlinks');
-    if (!chatRoom || !chatName){ setup.hidden = false; wrap.hidden = true; bar.hidden = true; return; }
+    if (!chatRoom || !chatName){
+      setup.hidden = false; wrap.hidden = true; bar.hidden = true;
+      if (chatRoom) document.getElementById('chatroominput').value = chatRoom;
+      if (chatName) document.getElementById('chatnameinput').value = chatName;
+      return;
+    }
     setup.hidden = true; bar.hidden = false; wrap.hidden = false;
     chatErr(false);
     document.getElementById('chatroomname').textContent = chatRoom;
@@ -2660,6 +2676,13 @@
     document.getElementById('chatsetup').hidden = false;
     document.getElementById('chatroominput').value = chatRoom;
     document.getElementById('chatnameinput').value = chatName;
+  });
+  document.getElementById('chatinvite').addEventListener('click', function(){
+    var btn = this;
+    var link = 'https://debjames.github.io/sth-korea-trip/#room=' + encodeURIComponent(chatRoom);
+    function done(ok){ btn.textContent = ok ? 'Link copied!' : 'Copy failed'; setTimeout(function(){ btn.textContent = 'Copy invite link'; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(function(){ done(true); }, function(){ done(false); });
+    else done(false);
   });
   document.getElementById('chatsend').addEventListener('click', sendChat);
   document.getElementById('chatmsgin').addEventListener('keydown', function(e){ if (e.key === 'Enter') sendChat(); });
