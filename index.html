@@ -79,6 +79,10 @@
   .ca-card b{color:#B3452F}
   .ca-card .ca-text{color:#5A4444;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
   .ca-card .ca-open{margin-left:auto;font-weight:700;color:#B3452F;font-size:13px;white-space:nowrap}
+  .installbar{max-width:960px;margin:16px auto 0;padding:0 16px}
+  .ib-card{background:#E9F6F4;border:1px solid #9FDCD4;border-left:5px solid #2FA8A0;border-radius:12px;padding:11px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px}
+  .ib-card .ib-install{padding:7px 14px;font-size:13px;background:#2FA8A0}
+  .ib-detail{margin-top:8px}
 
   /* ---------- day sections ---------- */
   main{max-width:960px;margin:0 auto;padding:26px 16px 60px}
@@ -388,6 +392,22 @@
 
 <div class="chatalert" id="chatalert" role="button" tabindex="0" aria-label="Open family chat">
   <div class="ca-card">💬 <b id="ca-from"></b><span class="ca-text" id="ca-text"></span><span class="ca-open">Open chat →</span></div>
+</div>
+
+<div class="installbar" id="installbar" hidden>
+  <div class="ib-card">
+    <span>📲 <b>Make it an app:</b> <span id="ib-howshort">add this site to your home screen</span></span>
+    <button id="ib-install" class="tr-btn ib-install" type="button" hidden>Install</button>
+    <button id="ib-how" class="lnk" type="button">How?</button>
+    <button id="ib-dismiss" class="lnk" type="button" aria-label="Don't show again">✕</button>
+  </div>
+  <div class="ib-detail card" id="ib-detail" hidden>
+    <ul>
+      <li><b>iPhone / iPad:</b> open this site in <b>Safari</b> → tap the Share button (the square with the ↑) → scroll to <b>Add to Home Screen</b> → Add. Capy lands on your home screen.</li>
+      <li><b>Android:</b> in Chrome, tap the ⋮ menu → <b>Add to Home screen</b> / <b>Install app</b> — or just tap the Install button here if it's showing.</li>
+      <li>Installed, it opens full-screen like a real app, works offline (subway, plane), and keeps your stamps, chat and contacts. Do it before you fly!</li>
+    </ul>
+  </div>
 </div>
 
 <main id="days">
@@ -2834,6 +2854,41 @@
   bellLabel();
   document.getElementById('chatsend').addEventListener('click', sendChat);
   document.getElementById('chatmsgin').addEventListener('keydown', function(e){ if (e.key === 'Enter') sendChat(); });
+
+  // ---- install helper: nudge everyone to put the app on their home screen ----
+  (function(){
+    var bar = document.getElementById('installbar');
+    var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+    var hidden = false;
+    try{ hidden = localStorage.getItem('ksth-install-hide') === '1'; }catch(e){}
+    if (standalone || hidden) return;
+    bar.hidden = false;
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)){
+      document.getElementById('ib-howshort').textContent = 'Safari → Share → Add to Home Screen';
+    }
+    var deferred = null;
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferred = e;
+      document.getElementById('ib-install').hidden = false;
+    });
+    document.getElementById('ib-install').addEventListener('click', function(){
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.then(function(c){
+        if (c && c.outcome === 'accepted') bar.hidden = true;
+        deferred = null;
+      });
+    });
+    document.getElementById('ib-how').addEventListener('click', function(){
+      var d = document.getElementById('ib-detail');
+      d.hidden = !d.hidden;
+    });
+    document.getElementById('ib-dismiss').addEventListener('click', function(){
+      bar.hidden = true;
+      try{ localStorage.setItem('ksth-install-hide', '1'); }catch(e){}
+    });
+  })();
 
   // offline support: service worker (no-op where unsupported or on other hosts)
   if ('serviceWorker' in navigator){
