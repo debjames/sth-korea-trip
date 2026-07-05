@@ -70,7 +70,15 @@
   .chip.on .c2{color:rgba(255,255,255,.65)}
   .c-seoul{--cc:var(--seoul)} .c-jeju{--cc:var(--jeju)} .c-busan{--cc:var(--busan)} .c-home{--cc:var(--home)} .c-util{--cc:var(--gold)}
   .chip{position:relative}
-  .chipdot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:#E5484D;border:2px solid var(--paper)}
+  .chipdot{position:absolute;top:-6px;right:-6px;min-width:16px;height:16px;border-radius:999px;background:#E5484D;border:2px solid var(--paper);color:#fff;font:700 10px/12px var(--mono);text-align:center;padding:0 3px;box-sizing:border-box}
+  .chip-chat{--cc:#E5484D}
+  .chip-chat .c1::before{content:'💬 '}
+  .chatalert{max-width:960px;margin:16px auto 0;padding:0 16px;display:none;cursor:pointer}
+  .chatalert.show{display:block}
+  .ca-card{background:#FDECEC;border:1px solid #F3B8B8;border-left:5px solid #E5484D;border-radius:12px;padding:12px 16px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .ca-card b{color:#B3452F}
+  .ca-card .ca-text{color:#5A4444;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
+  .ca-card .ca-open{margin-left:auto;font-weight:700;color:#B3452F;font-size:13px;white-space:nowrap}
 
   /* ---------- day sections ---------- */
   main{max-width:960px;margin:0 auto;padding:26px 16px 60px}
@@ -376,6 +384,10 @@
     <div class="un-slot" id="un-next" hidden><div class="un-tag">Up next</div><div class="un-title"></div><div class="un-time"></div></div>
     <button class="un-go" id="un-go" type="button">Open that day →</button>
   </div>
+</div>
+
+<div class="chatalert" id="chatalert" role="button" tabindex="0" aria-label="Open family chat">
+  <div class="ca-card">💬 <b id="ca-from"></b><span class="ca-text" id="ca-text"></span><span class="ca-open">Open chat →</span></div>
 </div>
 
 <main id="days">
@@ -1364,6 +1376,7 @@
   <div class="chatbar" id="chatlinks" hidden>
     <span>Room: <b id="chatroomname"></b></span>
     <span>You: <b id="chatmyname"></b></span>
+    <button id="chatbell" class="lnk" type="button">🔔 Get alerts</button>
     <button id="chatinvite" class="lnk" type="button">Copy invite link</button>
     <button id="chatchange" class="lnk" type="button">Change</button>
   </div>
@@ -1833,8 +1846,11 @@
     b.addEventListener('click', function(){ show(i); });
     (sec.dataset.date ? nav : nav2).appendChild(b); chips.push(b);
   });
+  var chatIdx = -1;
   days.forEach(function(sec, i){
     if (sec.id !== 'dchat') return;
+    chatIdx = i;
+    chips[i].classList.add('chip-chat');
     var d = document.createElement('span');
     d.className = 'chipdot';
     d.id = 'chatdot';
@@ -2595,6 +2611,9 @@
     appId: '1:587342585251:web:193e8c3df9152fff654e16'
   };
   var chatRoom = '', chatName = '', chatDb = null, chatUnsub = null, chatSubbed = '', chatLatest = 0;
+  var chatMsgsCache = [], chatNotifiedTo = -1, chatBaseTitle = document.title;
+  var chatAlerts = false;
+  try{ chatAlerts = localStorage.getItem('ksth-chat-alerts') === '1'; }catch(e){}
   try{
     chatRoom = localStorage.getItem('ksth-chat-room') || '';
     chatName = localStorage.getItem('ksth-chat-name') || '';
@@ -2627,16 +2646,51 @@
   function chatSeenKey(){ return 'ksth-chat-seen-' + chatRoom; }
   function updateChatDot(){
     var dot = document.getElementById('chatdot');
+    var banner = document.getElementById('chatalert');
     if (!dot) return;
     var onChat = days[cur] && days[cur].id === 'dchat';
     if (onChat && chatLatest){
       try{ localStorage.setItem(chatSeenKey(), String(chatLatest)); }catch(e){}
       dot.hidden = true;
+      banner.classList.remove('show');
+      document.title = chatBaseTitle;
       return;
     }
     var seen = 0;
     try{ seen = parseInt(localStorage.getItem(chatSeenKey()) || '0', 10) || 0; }catch(e){}
-    dot.hidden = !(chatLatest > seen);
+    var unread = chatMsgsCache.filter(function(m){ return m.ms > seen && m.n !== chatName; });
+    if (!unread.length){
+      dot.hidden = true;
+      banner.classList.remove('show');
+      document.title = chatBaseTitle;
+      return;
+    }
+    dot.hidden = false;
+    dot.textContent = unread.length > 9 ? '9+' : String(unread.length);
+    var last = unread[unread.length - 1];
+    document.getElementById('ca-from').textContent = last.n + ':';
+    document.getElementById('ca-text').textContent = last.t;
+    banner.classList.add('show');
+    document.title = '(' + unread.length + ') ' + chatBaseTitle;
+  }
+  function maybeNotify(){
+    // local device alert for messages that arrived while the app isn't front-and-centre
+    var fresh = chatMsgsCache.filter(function(m){ return m.ms > chatNotifiedTo && m.n !== chatName; });
+    if (chatNotifiedTo < 0){ chatNotifiedTo = chatLatest; return; } // first snapshot: no backlog alerts
+    if (!fresh.length) return;
+    chatNotifiedTo = chatLatest;
+    if (!chatAlerts || !('Notification' in window) || Notification.permission !== 'granted') return;
+    if (!document.hidden && document.hasFocus() && days[cur] && days[cur].id === 'dchat') return;
+    var last = fresh[fresh.length - 1];
+    var opts = { body: last.t, icon: 'icon-192.png', badge: 'icon-192.png', tag: 'ksth-chat' };
+    if (navigator.serviceWorker && navigator.serviceWorker.getRegistration){
+      navigator.serviceWorker.getRegistration().then(function(reg){
+        if (reg && reg.showNotification) reg.showNotification('Family chat — ' + last.n, opts);
+        else try{ new Notification('Family chat — ' + last.n, opts); }catch(e){}
+      }).catch(function(){});
+    } else {
+      try{ new Notification('Family chat — ' + last.n, opts); }catch(e){}
+    }
   }
   function renderChat(docs){
     var box = document.getElementById('chatmsgs');
@@ -2649,9 +2703,14 @@
       updateChatDot();
       return;
     }
+    chatMsgsCache = docs.map(function(d){
+      var v = d.data();
+      return { n: v.n, t: v.t, ms: (v.ts && v.ts.toMillis) ? v.ts.toMillis() : 0 };
+    });
+    chatMsgsCache.forEach(function(m){ if (m.ms > chatLatest) chatLatest = m.ms; });
+    maybeNotify();
     docs.forEach(function(d){
       var v = d.data();
-      if (v.ts && v.ts.toMillis && v.ts.toMillis() > chatLatest) chatLatest = v.ts.toMillis();
       var el = document.createElement('div');
       el.className = 'cm' + (v.n === chatName ? ' mine' : '');
       var b = document.createElement('b'); b.textContent = v.n;
@@ -2749,6 +2808,30 @@
       });
     }, 1500);
   }
+  var chatAlertEl = document.getElementById('chatalert');
+  function openChatTab(){ if (chatIdx >= 0) show(chatIdx); }
+  chatAlertEl.addEventListener('click', openChatTab);
+  chatAlertEl.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') openChatTab(); });
+  var bellBtn = document.getElementById('chatbell');
+  function bellLabel(){
+    if (!('Notification' in window)){ bellBtn.textContent = '🔔 Not supported here'; return; }
+    bellBtn.textContent = chatAlerts && Notification.permission === 'granted' ? '🔔 Alerts on' : '🔔 Get alerts';
+  }
+  bellBtn.addEventListener('click', function(){
+    if (!('Notification' in window)){ bellLabel(); return; }
+    if (chatAlerts && Notification.permission === 'granted'){
+      chatAlerts = false;
+      try{ localStorage.setItem('ksth-chat-alerts', '0'); }catch(e){}
+      bellLabel();
+      return;
+    }
+    Notification.requestPermission().then(function(p){
+      chatAlerts = (p === 'granted');
+      try{ localStorage.setItem('ksth-chat-alerts', chatAlerts ? '1' : '0'); }catch(e){}
+      bellLabel();
+    }).catch(bellLabel);
+  });
+  bellLabel();
   document.getElementById('chatsend').addEventListener('click', sendChat);
   document.getElementById('chatmsgin').addEventListener('keydown', function(e){ if (e.key === 'Enter') sendChat(); });
 

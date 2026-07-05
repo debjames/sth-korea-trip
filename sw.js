@@ -52,3 +52,15 @@ self.addEventListener('fetch', function (e) {
   }
   // everything else (tiles, Firestore, rate APIs): straight to network
 });
+
+self.addEventListener('notificationclick', function (e) {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (list) {
+      for (var i = 0; i < list.length; i++) {
+        if ('focus' in list[i]) return list[i].focus();
+      }
+      return clients.openWindow('./');
+    })
+  );
+});
