@@ -1179,7 +1179,7 @@
     document.getElementById('prevlbl').textContent = cur>0 ? chipTitle(cur-1) : '—';
     document.getElementById('nextlbl').textContent = cur<days.length-1 ? chipTitle(cur+1) : '—';
     chips[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
-    try{ localStorage.setItem('ksth-day', String(cur)); }catch(e){}
+    try{ localStorage.setItem('ksth-day', days[cur].id); }catch(e){}
     window.scrollTo({top:0, behavior:'auto'});
     if (days[cur].id === 'dmap') openMap();
   }
@@ -1195,17 +1195,18 @@
     if (e.key === 'ArrowRight') show(cur+1);
   });
 
-  // initial day: today's date (Korea time) if mid-trip, else saved, else day 1
+  // initial day: today's date (Korea time) if mid-trip, else saved, else day 1.
+  // The show() call itself happens at the very end of this script — sections like
+  // the map can only open once all of their data and functions are defined.
   var iso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
   var start = -1;
   days.forEach(function(s,i){ if (s.dataset.date === iso) start = i; });
   if (start < 0){
     try{
-      var saved = parseInt(localStorage.getItem('ksth-day'), 10);
-      if (!isNaN(saved) && saved >= 0 && saved < days.length) start = saved;
+      var saved = localStorage.getItem('ksth-day');
+      days.forEach(function(s,i){ if (s.id === saved) start = i; });
     }catch(e){}
   }
-  show(start < 0 ? 0 : start);
 
   // ---- Korea-time countdown + happening now / up next ----
   // KST is fixed UTC+9 (no DST), so timestamps are easy to build exactly.
@@ -1478,6 +1479,11 @@
       document.getElementById('map').style.display = 'none';
       return;
     }
+    try{ buildMap(); }catch(e){
+      document.getElementById('mapfallback').hidden = false;
+    }
+  }
+  function buildMap(){
     if (!map){
       map = L.map('map');
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
@@ -1519,10 +1525,13 @@
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'lnk';
     b.textContent = 'View this day on the map ↗';
-    b.addEventListener('click', function(){ show(mapIdx); openMap(); setFilter(md.id); });
+    b.addEventListener('click', function(){ show(mapIdx); openMap(); if (fg) setFilter(md.id); });
     wrap.appendChild(b);
     host.appendChild(wrap);
   });
+
+  // open the initial section only now, once every section's data + functions exist
+  show(start < 0 ? 0 : start);
 })();
 </script>
 
