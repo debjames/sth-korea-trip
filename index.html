@@ -6,6 +6,8 @@
 <meta name="description" content="Eva's Korean Adventure — family itinerary for Seoul, Jeju and Busan, 28 Sep to 12 Oct 2026.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇰🇷</text></svg>">
 <title>Eva's Korean Adventure — 28 Sep–12 Oct 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
 <style>
@@ -129,6 +131,22 @@
   .un-go:hover{filter:brightness(1.06)}
   .card.live{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
   .kind.klive{background:var(--gold);color:var(--deep)}
+
+  /* trip map */
+  .mapfilters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+  .mchip{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-bottom:3px solid var(--fc,var(--line));background:var(--card);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--ink)}
+  .mchip.on{background:var(--ink);color:#fff;border-color:var(--ink) var(--ink) var(--fc,var(--line))}
+  .mapwrap{height:64vh;min-height:420px;border:1px solid var(--line);border-radius:12px;z-index:1}
+  .mkr{width:24px;height:24px;border-radius:50%;color:#fff;font:700 12px/21px var(--mono);text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+  .mkr.done{opacity:.45}
+  .mkr.next{box-shadow:0 0 0 3px var(--gold),0 1px 4px rgba(0,0,0,.4)}
+  .maplegend{font-size:13px;color:var(--muted);margin-top:10px}
+  .maplegend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px 0 8px;vertical-align:-1px}
+  .leaflet-popup-content{font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;margin:10px 12px;min-width:180px}
+  .pp-meta{font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin:2px 0 4px}
+  .pp-via{font-size:12.5px;color:#3A434E;display:block;margin:2px 0}
+  .pp-links{margin-top:7px;font-size:12.5px}
+  button.lnk{cursor:pointer}
 
   footer{border-top:1px solid var(--line);color:var(--muted);font-family:var(--mono);font-size:12px;text-align:center;padding:18px;background:var(--paper)}
 
@@ -1021,6 +1039,22 @@
   </div>
 </section>
 
+<!-- ================= MAP ================= -->
+<section class="day s-util" id="dmap" data-chip="Map|all stops|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Every stop · colour-coded by leg</p>
+      <h2>Trip Map</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">지도</div>
+  </div>
+  <p class="dh-note">Pick a day to see that day's route in order, with transport and timings between stops. Tap any pin for details and one-tap directions — <b>Kakao Map</b> gives proper walking/transit/driving directions inside Korea; Google Maps is the backup. During the trip, visited pins fade and the next stop gets a gold ring.</p>
+  <div class="mapfilters" id="mapfilters"></div>
+  <div id="map" class="mapwrap"></div>
+  <div id="mapfallback" hidden class="card" style="margin-top:10px">The embedded map can't load in this viewer — open the full site at <a href="https://debjames.github.io/sth-korea-trip/">debjames.github.io/sth-korea-trip</a> for the interactive map.</div>
+  <p class="maplegend"><span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
+</section>
+
 <!-- ================= TO-DO ================= -->
 <section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
   <div class="dayhead">
@@ -1147,6 +1181,7 @@
     chips[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
     try{ localStorage.setItem('ksth-day', String(cur)); }catch(e){}
     window.scrollTo({top:0, behavior:'auto'});
+    if (days[cur].id === 'dmap') openMap();
   }
   function chipTitle(i){
     var m = (days[i].dataset.chip||'').split('|');
@@ -1275,6 +1310,218 @@
       state[cb.dataset.k] = cb.checked;
       try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
     });
+  });
+
+  // ---- trip map ----
+  var LEGC = { seoul:'#BE3A34', jeju:'#DD7B2A', busan:'#2F6F8F', home:'#55606C' };
+  // Stops per day, in visit order. c = [lat,lng] (hotel/villa pins approximate),
+  // via = transport from the previous stop, straight from the itinerary.
+  var MAPDAYS = [
+    {id:'d1', leg:'seoul', label:'D1', date:'2026-09-28', stops:[
+      {t:'15:30', n:'Incheon Airport (ICN)', c:[37.4602,126.4407], d:'Land · buy SIMs + T-money · change money'},
+      {t:'16:45', n:'Lotte City Hotel Gimpo', c:[37.5629,126.8010], via:'Private van(s)/taxis ≈35 min · or AREX All-Stop ≈38 min', d:'Check-in — connected to Lotte Mall'},
+      {t:'17:30', n:'Magok cafés · Seoul Botanic Park', c:[37.5694,126.8351], via:'Taxi ~10 min', d:'WAMILL · VINYARD15 · Mureir'},
+      {t:'20:00', n:'Lotte Mall Gimpo', c:[37.5612,126.8028], via:'Taxi ~10 min back', d:'Dinner + shopping · Lotte Mart groceries'}
+    ]},
+    {id:'d2', leg:'jeju', label:'D2', date:'2026-09-29', stops:[
+      {t:'08:55', n:'Gimpo Airport (GMP)', c:[37.5586,126.7944], via:'Hotel is next door', d:'Flight GMP→CJU 08:55–10:10'},
+      {t:'10:45', n:'Jeju Airport (CJU) — hire cars', c:[33.5104,126.4914], via:'Flight ~1 h 15', d:'Rental Car House shuttle 5 min · Lotte/AJ/Jeju Rent-A-Car'},
+      {t:'12:00', n:'Aewol Café Street + coastal walk', c:[33.4644,126.3311], via:'Drive 30–45 min', d:'Monsant · Bomnal · lunch: The Sunset / Don Sa Don'},
+      {t:'14:00', n:'Gwakji Beach', c:[33.4506,126.3053], via:'Drive 5–10 min', d:'Beach time — or Handam Coastal Trail'},
+      {t:'16:00', n:'Gobajinin Pool Villa (approx.)', c:[33.4520,126.3330], via:'Drive 5–10 min', d:'Check-in · pool · BBQ'}
+    ]},
+    {id:'d3', leg:'jeju', label:'D3', date:'2026-09-30', stops:[
+      {t:'08:30', n:'Villa — breakfast', c:[33.4520,126.3330], d:'Kids swim, adults prep'},
+      {t:'09:30', n:'Hyeopjae & Geumneung Beaches', c:[33.3939,126.2402], via:'Drive 15–20 min', d:'Shallow water, white sand'},
+      {t:'11:00', n:'Hallim Park', c:[33.3894,126.2395], via:'Drive 3 min', d:'Lava caves · gardens · folk village'},
+      {t:'12:30', n:'Lunch — Hallim', c:[33.3912,126.2422], via:'3–5 min', d:'Don Sa Don · Haenyeo House · Badang Janchi'},
+      {t:'13:30', n:'Osulloc Tea Museum', c:[33.3058,126.2895], via:'Drive 20 min', d:'Tea fields + tea house'},
+      {t:'15:00', n:'Yongmeori Coast', c:[33.2312,126.3143], via:'Drive 15 min', d:'Dramatic cliff walk'},
+      {t:'17:30', n:'Moseulpo Harbour — dinner', c:[33.2143,126.2510], via:'Drive 10–15 min', d:'Haenyeo House · fish market restaurants'}
+    ]},
+    {id:'d4', leg:'jeju', label:'D4', date:'2026-10-01', stops:[
+      {t:'09:00', n:'Bijarim Forest', c:[33.4906,126.8073], via:'Drive ~40 min from villa', d:'500–800-year-old nutmeg trees'},
+      {t:'10:30', n:'Seongsan Ilchulbong', c:[33.4587,126.9425], via:'Drive 20 min', d:'UNESCO sunrise crater'},
+      {t:'12:00', n:'Lunch — Seongsan', c:[33.4560,126.9330], via:'Nearby', d:'Matna Sikdang · Haemul Jjim · Burger 39'},
+      {t:'13:30', n:'Seopjikoji', c:[33.4240,126.9310], via:'Drive 10 min', d:'Cliffs · lighthouse · Glass House'},
+      {t:'15:30', n:'Jeongbang Waterfall', c:[33.2447,126.5717], via:'Drive ~60 min', d:'Falls straight into the ocean'},
+      {t:'16:00', n:'Cheonjiyeon Waterfall', c:[33.2470,126.5543], via:'Drive 5–10 min', d:'Easy paved path, shaded'},
+      {t:'17:00', n:'Seogwipo — dinner', c:[33.2496,126.5630], via:'Drive 5 min', d:'Maeil Olle Market · Yongchim BBQ'}
+    ]},
+    {id:'d5', leg:'busan', label:'D5', date:'2026-10-02', stops:[
+      {t:'09:00', n:'Jeju Airport — return cars', c:[33.5104,126.4914], via:'Drive ~40 min', d:'Flight CJU→PUS 10:45–11:45'},
+      {t:'11:45', n:'Gimhae Airport (PUS)', c:[35.1795,128.9382], via:'Flight ~1 h', d:'Jumbo taxi 25–30 min ₩60–80k total · Limo Bus 1 ₩6k pp'},
+      {t:'12:30', n:'Nampo Airbnb', c:[35.1035,129.0355], via:'Jumbo taxi 25–30 min', d:'Check-in · lunch: Halmae Kalguksu, Sinchang Toast'},
+      {t:'14:00', n:'BIFF Square', c:[35.0988,129.0263], via:'Walk 5–10 min', d:'K-culture street · handprints · snacks'},
+      {t:'14:40', n:'Gukje Market', c:[35.1010,129.0270], via:'Walk 3 min', d:'Korea’s big traditional market'},
+      {t:'15:20', n:'Jagalchi Market', c:[35.0967,129.0306], via:'Walk 5 min', d:'Korea’s most famous seafood market'},
+      {t:'17:00', n:'Yongdusan Park + Busan Tower', c:[35.1008,129.0324], via:'Walk 10–12 min', d:'Sunset over the port'}
+    ]},
+    {id:'d6', leg:'busan', label:'D6', date:'2026-10-03', stops:[
+      {t:'09:30', n:'Songdo Cloud Walk (morning pick)', c:[35.0764,129.0172], via:'Taxi 10 min', d:'Boardwalk over the ocean · optional cable car'},
+      {t:'14:00', n:'Rock Festival — Samnak Park', c:[35.1690,128.9748], via:'Taxi 25–30 min ₩15–20k · or Line 1→2 to Deokpo, 35–45 min', d:'Gates ~14:00 · music 15:00–22:00 (2026 TBC)'},
+      {n:'Gamcheon Culture Village (option)', c:[35.0975,129.0106], via:'Taxi 15 min · or Line 1 to Toseong + shuttle ₩1,000', d:'Non-festival top pick · murals, shops, cafés'},
+      {n:'Taejongdae Park (option)', c:[35.0530,129.0870], via:'Taxi 20–25 min · or City Tour Bus Blue Line', d:'Cliffs · lighthouse · Danubi Train ₩4,000'}
+    ]},
+    {id:'d7', leg:'busan', label:'D7', date:'2026-10-04', stops:[
+      {t:'09:00', n:'Songdo Cloud Walk + cable car', c:[35.0764,129.0172], via:'Taxi 10 min · or Jagalchi Stn Exit 2 → bus 7/26/71', d:'Glass boardwalk + bay cable car'},
+      {t:'11:30', n:'Huinnyeoul Culture Village', c:[35.0786,129.0453], via:'Taxi 15 min', d:'Cliffside murals · lunch: Cafe Yoon, Jeonbok'},
+      {t:'15:00', n:'Gwangalli Beach', c:[35.1532,129.1187], via:'Metro ~30 min: Line 1 → Seomyeon → Line 2 → Geumnyeonsan + 10 min walk', d:'Gwangan Bridge night lights'},
+      {t:'18:00', n:'Millak Raw Fish Center', c:[35.1571,129.1231], via:'Walk 10 min along the beach', d:'Pick your fish · or 6 other dinner options (see D7)'}
+    ]},
+    {id:'d8', leg:'seoul', label:'D8', date:'2026-10-05', stops:[
+      {t:'09:30', n:'Busan Station', c:[35.1151,129.0413], via:'Taxi 10 min ₩6–8k', d:'KTX 10:00–11:00 window · 2 h 40'},
+      {t:'12:45', n:'Seoul Station', c:[37.5547,126.9707], via:'KTX 2 h 40 · same-car seats', d:'3 taxis to the hotel, ₩6–8k each'},
+      {t:'14:00', n:'Botanik Hotel Myeongdong (approx.)', c:[37.5606,126.9866], via:'Taxi 10–12 min', d:'Check-in · lunch: Kyoja, Yoogane'},
+      {t:'15:30', n:'Myeongdong walkabout', c:[37.5636,126.9838], via:'Walk', d:'Beauty shops · K-pop · street food'},
+      {t:'17:30', n:'Namsan Cable Car (optional)', c:[37.5567,126.9817], via:'Taxi 5–10 min', d:'Sunset views'}
+    ]},
+    {id:'d9', leg:'seoul', label:'D9', date:'2026-10-07', stops:[
+      {t:'09:00', n:'Gyeongbokgung Palace', c:[37.5796,126.9770], via:'Taxi 10–12 min · or Line 4→3, Gyeongbokgung Exit 5', d:'Morning palace visit'},
+      {t:'11:00', n:'Bukchon Hanok Village', c:[37.5826,126.9831], via:'Walk 10 min', d:'Traditional hanok lanes'},
+      {t:'12:30', n:'Insadong — lunch + souvenirs', c:[37.5745,126.9849], via:'Walk 10 min', d:'Ssamziegil · ARTBOX · hanji shops'},
+      {t:'16:00', n:'Myeongdong shopping', c:[37.5636,126.9838], via:'Taxi or subway back', d:'Then dinner near Botanik'}
+    ]},
+    {id:'d10', leg:'seoul', label:'D10', date:'2026-10-08', stops:[
+      {t:'09:30', n:'Hongdae', c:[37.5563,126.9236], via:'Subway Line 4 → Line 2', d:'K-pop shops · buskers · lunch (10 options in D10) · Baskin Robbins flagship near Exit 9'},
+      {t:'13:30', n:'Yeonnam-dong Forest Park', c:[37.5602,126.9256], via:'Walk from Hongdae Exit 3', d:'“Yeontral Park” · cafés · croffles'},
+      {t:'16:00', n:'Namdaemun Market', c:[37.5594,126.9776], via:'Subway back + walk 15–18 min', d:'Kalguksu Alley · Sock Street · hotteok'}
+    ]},
+    {id:'d11', leg:'seoul', label:'D11', date:'2026-10-09', stops:[
+      {t:'10:00', n:'Lotte World Adventure', c:[37.5111,127.0980], via:'Line 4 → Line 2 to Jamsil · 35–40 min', d:'Theme park day'},
+      {t:'16:00', n:'COEX Starfield Library', c:[37.5100,127.0588], via:'Line 2 Jamsil → Samseong · 10 min', d:'13 m bookshelves · free · Baskin Robbins COEX after'}
+    ]},
+    {id:'d13', leg:'seoul', label:'D13', date:'2026-10-11', stops:[
+      {t:'13:00', n:'Cheonggyecheon Stream (gentle option)', c:[37.5696,126.9784], via:'Walk from Myeongdong', d:'Or Namsan · Cathedral · cafés'},
+      {t:'20:00', n:'Incheon Airport — departure', c:[37.4602,126.4407], via:'2 jumbo vans / 3 taxis · 60–75 min', d:'Arrive ~21:30 for the 23:50 flight'}
+    ]}
+  ];
+  var TRANSFERS = [
+    {a:[37.5586,126.7944], b:[33.5104,126.4914], n:'Flight GMP → CJU · D2 · 08:55–10:10'},
+    {a:[33.5104,126.4914], b:[35.1795,128.9382], n:'Flight CJU → PUS · D5 · 10:45–11:45'},
+    {a:[35.1151,129.0413], b:[37.5547,126.9707], n:'KTX Busan → Seoul · D8 · ~2 h 40'}
+  ];
+
+  var map = null, fg = null, locMarker = null, locRing = null;
+  var mapIdx = -1;
+  days.forEach(function(s, i){ if (s.id === 'dmap') mapIdx = i; });
+
+  function kakaoDir(s){ return 'https://map.kakao.com/link/to/' + encodeURIComponent(s.n) + ',' + s.c[0] + ',' + s.c[1]; }
+  function googleDir(s){ return 'https://www.google.com/maps/dir/?api=1&destination=' + s.c[0] + ',' + s.c[1]; }
+  function popupHtml(md, s, idx){
+    var h = '<b>' + s.n + '</b><span class="pp-meta">' + md.label + ' · stop ' + (idx+1) + (s.t ? ' · ' + s.t + ' KST' : ' · optional') + '</span>';
+    if (s.via) h += '<span class="pp-via">→ ' + s.via + '</span>';
+    if (s.d) h += '<span class="pp-via">' + s.d + '</span>';
+    h += '<div class="pp-links"><a href="' + kakaoDir(s) + '" target="_blank" rel="noopener">Directions (Kakao)</a> · <a href="' + googleDir(s) + '" target="_blank" rel="noopener">Google</a></div>';
+    return h;
+  }
+  function drawDay(md, small){
+    var color = LEGC[md.leg];
+    var pts = md.stops.map(function(s){ return s.c; });
+    L.polyline(pts, {color:color, weight:small?2:3, opacity:small?0.35:0.7, dashArray:'6 6'}).addTo(fg);
+    // live pin states: only for today's (KST) plan
+    var todayIso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
+    var live = md.date === todayIso && Date.now() >= TRIP_START && Date.now() <= TRIP_END;
+    var nextIdx = -1;
+    if (live){
+      var p = md.date.split('-').map(Number), now = Date.now();
+      for (var i = 0; i < md.stops.length; i++){
+        var tm = md.stops[i].t && /(\d{1,2}):(\d{2})/.exec(md.stops[i].t);
+        if (tm && KST(p[0], p[1], p[2], +tm[1], +tm[2]) > now){ nextIdx = i; break; }
+      }
+    }
+    md.stops.forEach(function(s, i){
+      var cls = 'mkr';
+      if (live && nextIdx >= 0){
+        if (i === nextIdx) cls += ' next';
+        else if (i < nextIdx - 1) cls += ' done';
+      } else if (live && nextIdx < 0){ cls += ' done'; }
+      var ic = L.divIcon({className:'', html:'<div class="' + cls + '" style="background:' + color + '">' + (i+1) + '</div>', iconSize:[24,24], iconAnchor:[12,12]});
+      L.marker(s.c, {icon:ic}).addTo(fg).bindPopup(popupHtml(md, s, i));
+    });
+  }
+  function setFilter(id){
+    fg.clearLayers();
+    document.querySelectorAll('#mapfilters .mchip[data-f]').forEach(function(b){
+      b.classList.toggle('on', b.dataset.f === id);
+    });
+    if (id === 'all'){
+      MAPDAYS.forEach(function(md){ drawDay(md, true); });
+      TRANSFERS.forEach(function(tr){
+        L.polyline([tr.a, tr.b], {color:'#D9A73E', weight:2, opacity:0.8, dashArray:'2 8'}).addTo(fg).bindPopup('<b>' + tr.n + '</b>');
+      });
+    } else {
+      MAPDAYS.forEach(function(md){ if (md.id === id) drawDay(md, false); });
+    }
+    var b = fg.getBounds();
+    if (b.isValid()) map.fitBounds(b.pad(0.18));
+  }
+  function locate(){
+    var btn = document.getElementById('locbtn');
+    if (!navigator.geolocation){ btn.textContent = 'No location on this device'; return; }
+    btn.textContent = '📍 Locating…';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var ll = [pos.coords.latitude, pos.coords.longitude];
+      if (locMarker){ map.removeLayer(locMarker); map.removeLayer(locRing); }
+      locRing = L.circle(ll, {radius:pos.coords.accuracy, color:'#2F6F8F', weight:1, fillOpacity:0.08}).addTo(map);
+      locMarker = L.circleMarker(ll, {radius:8, color:'#fff', weight:2, fillColor:'#2F6F8F', fillOpacity:1}).addTo(map).bindPopup('<b>You are here</b>');
+      map.setView(ll, Math.max(map.getZoom(), 14));
+      btn.textContent = '📍 Where am I';
+    }, function(){
+      btn.textContent = 'Location unavailable';
+      setTimeout(function(){ btn.textContent = '📍 Where am I'; }, 3000);
+    }, {enableHighAccuracy:true, timeout:10000});
+  }
+  function openMap(){
+    if (!window.L){
+      document.getElementById('mapfallback').hidden = false;
+      document.getElementById('map').style.display = 'none';
+      return;
+    }
+    if (!map){
+      map = L.map('map');
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+      fg = L.featureGroup().addTo(map);
+      var wrap = document.getElementById('mapfilters');
+      var all = document.createElement('button');
+      all.type = 'button'; all.className = 'mchip'; all.dataset.f = 'all'; all.textContent = 'All';
+      all.addEventListener('click', function(){ setFilter('all'); });
+      wrap.appendChild(all);
+      MAPDAYS.forEach(function(md){
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'mchip'; b.dataset.f = md.id;
+        b.style.setProperty('--fc', LEGC[md.leg]);
+        b.textContent = md.label;
+        b.addEventListener('click', function(){ setFilter(md.id); });
+        wrap.appendChild(b);
+      });
+      var loc = document.createElement('button');
+      loc.type = 'button'; loc.className = 'mchip'; loc.id = 'locbtn'; loc.textContent = '📍 Where am I';
+      loc.addEventListener('click', locate);
+      wrap.appendChild(loc);
+      // default view: today's day mid-trip, else the whole trip
+      var def = 'all';
+      if (Date.now() >= TRIP_START && Date.now() <= TRIP_END){
+        var todayIso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
+        MAPDAYS.forEach(function(md){ if (md.date === todayIso) def = md.id; });
+      }
+      setFilter(def);
+    }
+    setTimeout(function(){ map.invalidateSize(); }, 60);
+  }
+  // "View on map" buttons in each mapped day's header
+  MAPDAYS.forEach(function(md){
+    var sec = document.getElementById(md.id);
+    if (!sec || mapIdx < 0) return;
+    var host = sec.querySelector('.dayhead > div');
+    var wrap = document.createElement('div');
+    wrap.className = 'links';
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'lnk';
+    b.textContent = 'View this day on the map ↗';
+    b.addEventListener('click', function(){ show(mapIdx); openMap(); setFilter(md.id); });
+    wrap.appendChild(b);
+    host.appendChild(wrap);
   });
 })();
 </script>
