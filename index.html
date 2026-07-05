@@ -1401,7 +1401,7 @@
     <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
     <p class="tr-err" id="chatrejoin" hidden>Your room <b id="chatrejoinroom"></b> is still saved — the chat just moved to our own private backend, so type your name below and tap <b>Join</b> to jump back in.</p>
     <div class="tr-row">
-      <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
+      <input id="chatroominput" type="text" placeholder="Room name — or paste an invite link" aria-label="Chat room name or invite link" autocapitalize="none" autocorrect="off">
       <button id="chatrand" class="tr-btn alt" type="button">Random</button>
     </div>
     <div class="tr-row">
@@ -2799,7 +2799,10 @@
     });
   }
   function joinChatRoom(){
-    var r = document.getElementById('chatroominput').value.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+    var raw = document.getElementById('chatroominput').value.trim();
+    var link = /room=([A-Za-z0-9-]+)/.exec(raw);
+    if (link) raw = link[1]; // a pasted invite link works too
+    var r = raw.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
     var n = document.getElementById('chatnameinput').value.trim().slice(0, 30);
     if (!r || !n) return;
     chatRoom = r; chatName = n;
