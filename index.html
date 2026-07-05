@@ -1383,6 +1383,7 @@
   <div class="card" id="chatsetup">
     <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
     <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
+    <p class="tr-err" id="chatrejoin" hidden>Your room <b id="chatrejoinroom"></b> is still saved — the chat just moved to our own private backend, so type your name below and tap <b>Join</b> to jump back in.</p>
     <div class="tr-row">
       <input id="chatroominput" type="text" placeholder="Room — e.g. eva-korea-x7k3q" aria-label="Chat room name" autocapitalize="none" autocorrect="off">
       <button id="chatrand" class="tr-btn alt" type="button">Random</button>
@@ -2652,7 +2653,7 @@
     s1.onload = function(){
       var s2 = document.createElement('script');
       s2.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js';
-      s2.onload = function(){ cb(true); };
+      s2.onload = function(){ cb(!!(window.firebase && window.firebase.firestore)); };
       s2.onerror = function(){ cb(false); };
       document.head.appendChild(s2);
     };
@@ -2773,6 +2774,9 @@
       setup.hidden = false; wrap.hidden = true; bar.hidden = true;
       if (chatRoom) document.getElementById('chatroominput').value = chatRoom;
       if (chatName) document.getElementById('chatnameinput').value = chatName;
+      var rejoin = document.getElementById('chatrejoin');
+      rejoin.hidden = !(chatRoom && !chatName);
+      if (chatRoom) document.getElementById('chatrejoinroom').textContent = chatRoom;
       return;
     }
     setup.hidden = true; bar.hidden = false; wrap.hidden = false;
@@ -2781,11 +2785,13 @@
     document.getElementById('chatmyname').textContent = chatName;
     loadFirebase(function(ok){
       if (!ok){ chatErr(true); return; }
-      if (!chatDb){
-        firebase.initializeApp(FBCFG);
-        chatDb = firebase.firestore();
-      }
-      subscribeChat();
+      try{
+        if (!chatDb){
+          firebase.initializeApp(FBCFG);
+          chatDb = firebase.firestore();
+        }
+        subscribeChat();
+      }catch(e){ chatErr(true); }
     });
   }
   function joinChatRoom(){
@@ -2831,11 +2837,13 @@
     setTimeout(function(){
       loadFirebase(function(ok){
         if (!ok) return;
-        if (!chatDb){
-          firebase.initializeApp(FBCFG);
-          chatDb = firebase.firestore();
-        }
-        subscribeChat();
+        try{
+          if (!chatDb){
+            firebase.initializeApp(FBCFG);
+            chatDb = firebase.firestore();
+          }
+          subscribeChat();
+        }catch(e){}
       });
     }, 1500);
   }

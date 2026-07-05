@@ -3,7 +3,7 @@
 // - Static libraries (Leaflet, Firebase SDK): cache-first — they're versioned URLs.
 // - Live data (map tiles, Firestore, exchange rates, chat): network only; the page
 //   already has its own offline fallbacks for those.
-var CACHE = 'ksth-v1';
+var CACHE = 'ksth-v2';
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
@@ -28,8 +28,10 @@ self.addEventListener('fetch', function (e) {
   if (req.mode === 'navigate' || url.origin === self.location.origin) {
     e.respondWith(
       fetch(req).then(function (res) {
-        var copy = res.clone();
-        caches.open(CACHE).then(function (c) { c.put(req, copy); });
+        if (res && res.ok) {
+          var copy = res.clone();
+          caches.open(CACHE).then(function (c) { c.put(req, copy); });
+        }
         return res;
       }).catch(function () {
         return caches.match(req).then(function (hit) { return hit || caches.match('./'); });
@@ -43,8 +45,10 @@ self.addEventListener('fetch', function (e) {
     e.respondWith(
       caches.match(req).then(function (hit) {
         return hit || fetch(req).then(function (res) {
-          var copy = res.clone();
-          caches.open(CACHE).then(function (c) { c.put(req, copy); });
+          if (res && res.ok) {
+            var copy = res.clone();
+            caches.open(CACHE).then(function (c) { c.put(req, copy); });
+          }
           return res;
         });
       })
