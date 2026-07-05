@@ -164,6 +164,48 @@
   .tr-err{color:#8A4B08;font-size:14px;margin-top:10px}
   .voicenote{font-size:13px;color:var(--muted)}
 
+  /* ---------- Eva mode, mascot & stamp rally ---------- */
+  .evabtn{position:absolute;top:14px;right:14px;z-index:3;font:inherit;font-size:13px;font-weight:700;border:1px solid rgba(237,234,225,.35);background:rgba(237,234,225,.12);color:#EDEAE1;border-radius:999px;padding:7px 13px;cursor:pointer}
+  .gyuri-row{display:flex;align-items:center;gap:12px;margin:0 0 22px;flex-wrap:wrap}
+  .gyuri{width:54px;height:54px;flex:0 0 auto}
+  .stamps-mini{display:flex;gap:4px;flex-wrap:wrap;font-size:19px;line-height:1}
+  .stamps-mini .dim{opacity:.25;filter:grayscale(1)}
+  .stamps-label{font-family:var(--mono);font-size:11px;color:rgba(237,234,225,.7);flex-basis:100%}
+  .gyuri-row .stamps-label{flex-basis:auto;margin-left:2px}
+  .stampbtn{border:2px dashed var(--line);background:var(--card);border-radius:14px;padding:6px 12px 5px;cursor:pointer;text-align:center;flex:0 0 auto;font:inherit}
+  .stampbtn .se{display:block;font-size:22px;line-height:1.2;filter:grayscale(1);opacity:.4}
+  .stampbtn .sl{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .stampbtn.got{border-style:solid;border-color:var(--gold);background:#FFF7DF}
+  .stampbtn.got .se{filter:none;opacity:1;animation:stamppop .4s ease}
+  @keyframes stamppop{0%{transform:scale(.4) rotate(-20deg)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+  .kidpick{font-family:var(--mono);font-size:10px;background:#FFE8D2;border:1px solid #FFC98F;color:#B25E00;border-radius:999px;padding:2px 8px;white-space:nowrap}
+  .spark{display:none}
+  .sticker{display:none}
+
+  body.eva{--paper:#FFF1F5;--card:#FFFFFF;--ink:#4A3543;--muted:#9A7E8E;--line:#F5D3DF;--seoul:#F06292;--jeju:#FFA94D;--busan:#64B5E6;--gold:#F7B84B;--deep:#8A4FA8;font-family:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+  body.eva .hero{background:linear-gradient(135deg,#D95584 0%,#7C4FBF 100%)}
+  body.eva .hangul-bg{color:rgba(255,255,255,.08)}
+  body.eva .eyebrow{color:#FFE3EE}
+  body.eva .hero h1 .kr{color:#FFF3B0}
+  body.eva .stat{border-color:rgba(255,255,255,.35)}
+  body.eva .stat.count b{color:#FFF3B0}
+  body.eva .evabtn{background:#fff;color:#D95584;border-color:#fff}
+  body.eva .daynav{background:rgba(255,241,245,.94)}
+  body.eva .card{border-radius:18px}
+  body.eva .chip{border-radius:14px}
+  body.eva .kind{border-radius:999px}
+  body.eva .opt,body.eva details{border-radius:14px}
+  body.eva .hero .spark{display:block;position:absolute;font-size:17px;opacity:.75;z-index:0;pointer-events:none;animation:floaty 5.5s ease-in-out infinite;animation-delay:var(--d,0s)}
+  body.eva .sticker{display:inline-block;background:#fff;color:#D95584;font-weight:800;border-radius:999px;padding:6px 15px;transform:rotate(-5deg);box-shadow:0 2px 8px rgba(0,0,0,.18);margin:0 0 20px;font-size:14px}
+  body.eva .gyuri{animation:bob 3s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-14px) rotate(8deg)}}
+  @keyframes bob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg) translateY(-3px)}}
+  @media (prefers-reduced-motion:reduce){
+    body.eva .hero .spark{animation:none}
+    body.eva .gyuri{animation:none}
+    .stampbtn.got .se{animation:none}
+  }
+
   /* trip map */
   .mapfilters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
   .mchip{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-bottom:3px solid var(--fc,var(--line));background:var(--card);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--ink)}
@@ -197,15 +239,40 @@
 
 <header class="hero">
   <div class="hangul-bg" aria-hidden="true">한국</div>
+  <button class="evabtn" id="evabtn" type="button">🎀 Eva mode</button>
+  <span class="spark" style="left:6%;top:18%;--d:0s" aria-hidden="true">🌸</span>
+  <span class="spark" style="left:32%;top:8%;--d:1.2s" aria-hidden="true">✨</span>
+  <span class="spark" style="left:58%;top:24%;--d:.6s" aria-hidden="true">🌸</span>
+  <span class="spark" style="right:14%;top:55%;--d:1.8s" aria-hidden="true">💗</span>
   <div class="hero-inner">
     <p class="eyebrow">Family itinerary · Work in progress</p>
     <h1>Eva's Korean<br>Adventure<span class="kr">한국 여행</span></h1>
     <p class="hero-sub">Ten travellers, three cities, fifteen days. Adelaide → Seoul → Jeju → Busan → Seoul → home. Mon 28 September – Mon 12 October 2026.</p>
+    <div class="sticker" aria-hidden="true">화이팅 에바! ♡</div>
     <div class="hero-stats">
       <div class="stat count"><b id="countdown">—</b><span id="cdlabel">days to go</span></div>
       <div class="stat"><b>10</b>travellers</div>
       <div class="stat"><b>15</b>days</div>
       <div class="stat"><b>4</b>flights + 1 KTX</div>
+    </div>
+    <div class="gyuri-row">
+      <svg class="gyuri" viewBox="0 0 64 64" role="img" aria-label="Gyuri the tangerine mascot">
+        <rect x="30" y="7" width="4" height="9" rx="2" fill="#8B6B4A"/>
+        <path d="M33 11 C38 4 48 4 52 8 C46 14 38 14 33 11 Z" fill="#7BC47F"/>
+        <circle cx="32" cy="38" r="23" fill="#FFA94D"/>
+        <circle cx="32" cy="38" r="23" fill="none" stroke="#F08C1E" stroke-width="1.5" opacity=".5"/>
+        <circle cx="24" cy="36" r="2.6" fill="#4A3A2E"/>
+        <circle cx="40" cy="36" r="2.6" fill="#4A3A2E"/>
+        <circle cx="24.9" cy="35.2" r="0.9" fill="#fff"/>
+        <circle cx="40.9" cy="35.2" r="0.9" fill="#fff"/>
+        <path d="M27 43 Q32 48 37 43" fill="none" stroke="#4A3A2E" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="17.5" cy="41" rx="3.5" ry="2.2" fill="#FF8FA3" opacity=".65"/>
+        <ellipse cx="46.5" cy="41" rx="3.5" ry="2.2" fill="#FF8FA3" opacity=".65"/>
+      </svg>
+      <div>
+        <div class="stamps-mini" id="stampmini"></div>
+        <div class="stamps-label" id="stampcount"></div>
+      </div>
     </div>
     <div class="route" role="list" aria-label="Trip legs">
       <div class="leg leg-seoul" role="listitem"><div class="lc-city">Gimpo<span class="kr">서울</span></div><div class="lc-dates">28 Sep · night 1</div></div>
@@ -1837,6 +1904,66 @@
   trBtn.addEventListener('click', doTranslate);
   trIn.addEventListener('keydown', function(e){ if (e.key === 'Enter') doTranslate(); });
   trSpk.addEventListener('click', function(){ if (lastKorean) speak(lastKorean, trSpk); });
+
+  // ---- Eva mode ----
+  var evabtn = document.getElementById('evabtn');
+  function setEva(on){
+    document.body.classList.toggle('eva', on);
+    evabtn.textContent = on ? '🎀 Eva mode: on!' : '🎀 Eva mode';
+    try{ localStorage.setItem('ksth-eva', on ? '1' : '0'); }catch(e){}
+  }
+  evabtn.addEventListener('click', function(){ setEva(!document.body.classList.contains('eva')); });
+  try{ if (localStorage.getItem('ksth-eva') === '1') setEva(true); }catch(e){}
+
+  // ---- Eva's stamp rally ----
+  var STAMPS = {d1:'🐯', d2:'🍊', d3:'🐬', d4:'🦌', d5:'🐟', d6:'🦀', d7:'🐙', d8:'🐕', dspare:'🐰', d9:'🐿️', d10:'🐥', d11:'🦁', d12:'🐼', d13:'🦉', dhome:'🐨'};
+  var gotStamps = {};
+  try{ gotStamps = JSON.parse(localStorage.getItem('ksth-stamps') || '{}'); }catch(e){}
+  var stampMini = document.getElementById('stampmini');
+  function renderTrail(){
+    stampMini.innerHTML = '';
+    var n = 0, total = 0;
+    days.forEach(function(sec){
+      var em = STAMPS[sec.id]; if (!em) return;
+      total++;
+      var s = document.createElement('span');
+      s.textContent = em;
+      if (gotStamps[sec.id]) n++; else s.className = 'dim';
+      stampMini.appendChild(s);
+    });
+    document.getElementById('stampcount').textContent = 'Eva’s stamp rally · ' + n + ' of ' + total + ' collected';
+  }
+  days.forEach(function(sec){
+    var em = STAMPS[sec.id]; if (!em) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'stampbtn' + (gotStamps[sec.id] ? ' got' : '');
+    b.innerHTML = '<span class="se"></span><span class="sl"></span>';
+    b.querySelector('.se').textContent = em;
+    b.querySelector('.sl').textContent = gotStamps[sec.id] ? 'stamped!' : 'tap to stamp';
+    b.addEventListener('click', function(){
+      gotStamps[sec.id] = !gotStamps[sec.id];
+      b.classList.toggle('got', gotStamps[sec.id]);
+      b.querySelector('.sl').textContent = gotStamps[sec.id] ? 'stamped!' : 'tap to stamp';
+      try{ localStorage.setItem('ksth-stamps', JSON.stringify(gotStamps)); }catch(e){}
+      renderTrail();
+    });
+    sec.querySelector('.dayhead').appendChild(b);
+  });
+  renderTrail();
+
+  // ---- Eva pick badges on kid-favourite cards ----
+  [['d2','Gwakji Beach'], ['d3','Hallim Park'], ['d5','Explore Nampo'], ['d7','Songdo Cloud Walk + cable car'], ['d8','Namsan Cable Car'], ['d10','Baskin Robbins'], ['d11','Lotte World Adventure']].forEach(function(p){
+    var sec = document.getElementById(p[0]); if (!sec) return;
+    sec.querySelectorAll('.card h3').forEach(function(h){
+      if (h.textContent.indexOf(p[1]) < 0) return;
+      if (h.parentNode.querySelector('.kidpick')) return;
+      var k = document.createElement('span');
+      k.className = 'kidpick';
+      k.textContent = '🍊 Eva pick';
+      h.parentNode.appendChild(k);
+    });
+  });
 
   // open the initial section only now, once every section's data + functions exist
   show(start < 0 ? 0 : start);
