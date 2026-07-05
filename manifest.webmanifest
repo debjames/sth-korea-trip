@@ -1,0 +1,14 @@
+{
+  "name": "Eva's Korean Adventure",
+  "short_name": "Korea Trip",
+  "description": "Family itinerary for Seoul, Jeju and Busan — 28 Sep to 12 Oct 2026",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#141C27",
+  "theme_color": "#141C27",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

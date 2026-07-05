@@ -6,6 +6,13 @@
 <meta name="description" content="Eva's Korean Adventure — family itinerary for Seoul, Jeju and Busan, 28 Sep to 12 Oct 2026.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇰🇷</text></svg>">
 <title>Eva's Korean Adventure — 28 Sep–12 Oct 2026</title>
+<meta name="theme-color" content="#141C27">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Korea Trip">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
@@ -23,6 +30,7 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--paper);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
   a{color:inherit;text-decoration-color:rgba(29,36,46,.35);text-underline-offset:2px}
   a:hover{text-decoration-color:currentColor}
@@ -276,7 +284,19 @@
 
   footer{border-top:1px solid var(--line);color:var(--muted);font-family:var(--mono);font-size:12px;text-align:center;padding:18px;background:var(--paper)}
 
+  .tr-row input,.chatcomposer input,.idea-add select,.crew-ta{font-size:16px} /* <16px makes iOS zoom on focus */
+  @supports (height:100dvh){
+    .chatwrap{height:62dvh}
+    .mapwrap{height:64dvh}
+  }
   @media (max-width:560px){
+    .hero{padding:30px 18px 24px}
+    .gyuri-row{margin-bottom:16px}
+    .daynav-inner{padding:8px 12px 4px;gap:5px}
+    .daynav-row2{padding-bottom:8px}
+    .chip{padding:5px 8px 4px}
+    .chip .c1{font-size:13px}
+    .daynav-row2 .chip{padding:4px 8px 3px}
     .item{grid-template-columns:48px 1fr;gap:10px}
     .time{font-size:11.5px}
     .dayhead{flex-direction:column;align-items:flex-start;gap:4px}
@@ -2691,6 +2711,11 @@
   });
   document.getElementById('chatsend').addEventListener('click', sendChat);
   document.getElementById('chatmsgin').addEventListener('keydown', function(e){ if (e.key === 'Enter') sendChat(); });
+
+  // offline support: service worker (no-op where unsupported or on other hosts)
+  if ('serviceWorker' in navigator){
+    try{ navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e){}
+  }
 
   // open the initial section only now, once every section's data + functions exist
   show(start < 0 ? 0 : start);
