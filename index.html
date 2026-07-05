@@ -137,6 +137,33 @@
   .kind.krec{background:#B08420}
   .card.rec .lp{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:#8A6D1D;border:1px solid #D9C58A;border-radius:4px;padding:1px 5px;margin-right:4px;white-space:nowrap}
 
+  /* phrases + translate */
+  .ph-stack{display:flex;flex-direction:column;gap:14px}
+  .ph-group h3{margin:0 0 6px;font-size:17px}
+  .ph-row{display:grid;grid-template-columns:1fr auto 38px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+  .ph-en{font-size:14.5px;color:#3A434E}
+  .ph-en small{display:block;color:var(--muted);font-size:12px}
+  .ph-ko{text-align:right;min-width:0}
+  .ph-kr{display:block;font-family:var(--kr);font-weight:700;font-size:16px;line-height:1.35}
+  .ph-rom{display:block;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .spk{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:15px;line-height:1}
+  .spk:hover{border-color:var(--accent)}
+  .spk.playing{background:var(--gold);border-color:var(--gold)}
+  .num-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:8px}
+  .numcell{border:1px solid var(--line);border-radius:8px;padding:7px 8px;background:var(--paper);cursor:pointer;text-align:center;font:inherit;color:var(--ink)}
+  .numcell b{display:block;font-family:var(--kr);font-size:16px}
+  .numcell span{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .numcell:hover{border-color:var(--accent)}
+  .tr-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .tr-row input{flex:1;min-width:200px;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
+  .tr-btn{font:inherit;font-weight:600;font-size:14px;border:0;border-radius:8px;padding:10px 16px;cursor:pointer;background:var(--ink);color:#fff}
+  .tr-btn.alt{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+  .tr-out{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .tr-res .ph-kr{font-size:22px;text-align:left}
+  .tr-res .ph-rom{text-align:left;font-size:12px}
+  .tr-err{color:#8A4B08;font-size:14px;margin-top:10px}
+  .voicenote{font-size:13px;color:var(--muted)}
+
   /* trip map */
   .mapfilters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
   .mchip{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-bottom:3px solid var(--fc,var(--line));background:var(--card);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--ink)}
@@ -1130,6 +1157,116 @@
   <p class="maplegend"><span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
 </section>
 
+<!-- ================= PHRASES ================= -->
+<section class="day s-util" id="dphrase" data-chip="Talk|phrases · 말하기|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Handy Korean · tap 🔊 to hear it</p>
+      <h2>Phrases &amp; Translate</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">말하기</div>
+  </div>
+  <p class="dh-note">Audio uses your phone's built-in Korean voice, so it works offline. <span class="voicenote" id="voicenote">No sound? Check the phone's silent switch — and iPhones sometimes need the Korean voice added once (Settings → Accessibility → Spoken Content → Voices → Korean).</span></p>
+  <div class="ph-stack">
+
+    <div class="card">
+      <div class="card-head"><span class="kind">Find a word</span><h3>Quick translate</h3></div>
+      <div class="tr-row">
+        <input id="trin" type="text" placeholder="Type it in English…" aria-label="Text to translate">
+        <button id="trdir" class="tr-btn alt" type="button" title="Swap direction">EN → 한국어</button>
+        <button id="trgo" class="tr-btn" type="button">Translate</button>
+      </div>
+      <div class="tr-out" id="trout" hidden>
+        <div class="tr-res"><span class="ph-kr" id="trres"></span><span class="ph-rom" id="trrom"></span></div>
+        <button class="spk" id="trspk" type="button" aria-label="Play pronunciation">🔊</button>
+      </div>
+      <p class="tr-err" id="trerr" hidden>Online translate didn't respond — use the links below (they open with your text already filled in).</p>
+      <p class="voicenote" style="margin:10px 0 0">Full translator apps: <a id="lnk-papago" href="https://papago.naver.com/?sk=en&amp;tk=ko" target="_blank" rel="noopener">Papago</a> (best for Korean) · <a id="lnk-gtrans" href="https://translate.google.com/?sl=en&amp;tl=ko&amp;op=translate" target="_blank" rel="noopener">Google Translate</a> — worth downloading Korean offline packs before you fly.</p>
+    </div>
+
+    <div class="card ph-group">
+      <h3>The basics</h3>
+      <div class="ph-row"><div class="ph-en">Hello</div><div class="ph-ko"><span class="ph-kr">안녕하세요</span><span class="ph-rom">an-nyeong-ha-se-yo</span></div><button class="spk" type="button" data-say="안녕하세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Thank you</div><div class="ph-ko"><span class="ph-kr">감사합니다</span><span class="ph-rom">gam-sa-ham-ni-da</span></div><button class="spk" type="button" data-say="감사합니다" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Yes / No</div><div class="ph-ko"><span class="ph-kr">네 / 아니요</span><span class="ph-rom">ne / a-ni-yo</span></div><button class="spk" type="button" data-say="네. 아니요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Excuse me <small>to get attention — waiters, shopkeepers</small></div><div class="ph-ko"><span class="ph-kr">저기요</span><span class="ph-rom">jeo-gi-yo</span></div><button class="spk" type="button" data-say="저기요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Sorry</div><div class="ph-ko"><span class="ph-kr">죄송합니다</span><span class="ph-rom">joe-song-ham-ni-da</span></div><button class="spk" type="button" data-say="죄송합니다" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">___, please <small>point at anything + juseyo = magic</small></div><div class="ph-ko"><span class="ph-kr">주세요</span><span class="ph-rom">ju-se-yo</span></div><button class="spk" type="button" data-say="주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Do you speak English?</div><div class="ph-ko"><span class="ph-kr">영어 하세요?</span><span class="ph-rom">yeong-eo ha-se-yo?</span></div><button class="spk" type="button" data-say="영어 하세요?" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">I can't speak Korean</div><div class="ph-ko"><span class="ph-kr">한국어 못해요</span><span class="ph-rom">han-gug-eo mot-hae-yo</span></div><button class="spk" type="button" data-say="한국어 못해요" aria-label="Play">🔊</button></div>
+    </div>
+
+    <div class="card ph-group">
+      <h3>Eating out — the group-of-ten survival kit</h3>
+      <div class="ph-row"><div class="ph-en">We're ten people</div><div class="ph-ko"><span class="ph-kr">열 명이에요</span><span class="ph-rom">yeol myeong-i-e-yo</span></div><button class="spk" type="button" data-say="열 명이에요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Menu, please</div><div class="ph-ko"><span class="ph-kr">메뉴판 주세요</span><span class="ph-rom">me-nyu-pan ju-se-yo</span></div><button class="spk" type="button" data-say="메뉴판 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Water, please</div><div class="ph-ko"><span class="ph-kr">물 주세요</span><span class="ph-rom">mul ju-se-yo</span></div><button class="spk" type="button" data-say="물 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">This one, please <small>while pointing</small></div><div class="ph-ko"><span class="ph-kr">이거 주세요</span><span class="ph-rom">i-geo ju-se-yo</span></div><button class="spk" type="button" data-say="이거 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Is this spicy?</div><div class="ph-ko"><span class="ph-kr">이거 매워요?</span><span class="ph-rom">i-geo mae-wo-yo?</span></div><button class="spk" type="button" data-say="이거 매워요?" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Not spicy, please <small>for the kids</small></div><div class="ph-ko"><span class="ph-kr">안 맵게 해 주세요</span><span class="ph-rom">an maep-ge hae ju-se-yo</span></div><button class="spk" type="button" data-say="안 맵게 해 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">It's delicious!</div><div class="ph-ko"><span class="ph-kr">맛있어요!</span><span class="ph-rom">ma-si-sseo-yo!</span></div><button class="spk" type="button" data-say="맛있어요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Bill, please</div><div class="ph-ko"><span class="ph-kr">계산해 주세요</span><span class="ph-rom">gye-san-hae ju-se-yo</span></div><button class="spk" type="button" data-say="계산해 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">I have an allergy <small>then point: nuts 견과류 · egg 계란 · milk 우유 · wheat 밀 · shellfish 해산물</small></div><div class="ph-ko"><span class="ph-kr">알레르기가 있어요</span><span class="ph-rom">al-le-reu-gi-ga i-sseo-yo</span></div><button class="spk" type="button" data-say="알레르기가 있어요" aria-label="Play">🔊</button></div>
+    </div>
+
+    <div class="card ph-group">
+      <h3>Shopping — Namdaemun &amp; the markets</h3>
+      <div class="ph-row"><div class="ph-en">How much is it?</div><div class="ph-ko"><span class="ph-kr">얼마예요?</span><span class="ph-rom">eol-ma-ye-yo?</span></div><button class="spk" type="button" data-say="얼마예요?" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Too expensive!</div><div class="ph-ko"><span class="ph-kr">너무 비싸요</span><span class="ph-rom">neo-mu bi-ssa-yo</span></div><button class="spk" type="button" data-say="너무 비싸요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Discount, please <small>markets only — say it with a smile</small></div><div class="ph-ko"><span class="ph-kr">깎아 주세요</span><span class="ph-rom">kka-kka ju-se-yo</span></div><button class="spk" type="button" data-say="깎아 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Can I pay by card?</div><div class="ph-ko"><span class="ph-kr">카드 돼요?</span><span class="ph-rom">ka-deu dwae-yo?</span></div><button class="spk" type="button" data-say="카드 돼요?" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Just looking, thanks</div><div class="ph-ko"><span class="ph-kr">그냥 볼게요</span><span class="ph-rom">geu-nyang bol-ge-yo</span></div><button class="spk" type="button" data-say="그냥 볼게요" aria-label="Play">🔊</button></div>
+    </div>
+
+    <div class="card ph-group">
+      <h3>Getting around — taxis &amp; subway</h3>
+      <div class="ph-row"><div class="ph-en">Please go here <small>show the driver an address from this site</small></div><div class="ph-ko"><span class="ph-kr">여기로 가 주세요</span><span class="ph-rom">yeo-gi-ro ga ju-se-yo</span></div><button class="spk" type="button" data-say="여기로 가 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Stop here, please</div><div class="ph-ko"><span class="ph-kr">여기서 세워 주세요</span><span class="ph-rom">yeo-gi-seo se-wo ju-se-yo</span></div><button class="spk" type="button" data-say="여기서 세워 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Where is the toilet?</div><div class="ph-ko"><span class="ph-kr">화장실 어디예요?</span><span class="ph-rom">hwa-jang-sil eo-di-ye-yo?</span></div><button class="spk" type="button" data-say="화장실 어디예요?" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Where is the subway station?</div><div class="ph-ko"><span class="ph-kr">지하철역 어디예요?</span><span class="ph-rom">ji-ha-cheol-lyeok eo-di-ye-yo?</span></div><button class="spk" type="button" data-say="지하철역 어디예요?" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">How long does it take?</div><div class="ph-ko"><span class="ph-kr">얼마나 걸려요?</span><span class="ph-rom">eol-ma-na geol-lyeo-yo?</span></div><button class="spk" type="button" data-say="얼마나 걸려요?" aria-label="Play">🔊</button></div>
+    </div>
+
+    <div class="card ph-group">
+      <h3>Kids &amp; fun</h3>
+      <div class="ph-row"><div class="ph-en">So cute!</div><div class="ph-ko"><span class="ph-kr">귀여워요!</span><span class="ph-rom">gwi-yeo-wo-yo!</span></div><button class="spk" type="button" data-say="귀여워요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">One more, please</div><div class="ph-ko"><span class="ph-kr">하나 더 주세요</span><span class="ph-rom">ha-na deo ju-se-yo</span></div><button class="spk" type="button" data-say="하나 더 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Please take our photo</div><div class="ph-ko"><span class="ph-kr">사진 찍어 주세요</span><span class="ph-rom">sa-jin jji-geo ju-se-yo</span></div><button class="spk" type="button" data-say="사진 찍어 주세요" aria-label="Play">🔊</button></div>
+      <div class="ph-row"><div class="ph-en">Awesome! <small>the slang the teens will bring home</small></div><div class="ph-ko"><span class="ph-kr">대박!</span><span class="ph-rom">dae-bak!</span></div><button class="spk" type="button" data-say="대박" aria-label="Play">🔊</button></div>
+    </div>
+
+    <div class="card ph-group">
+      <h3>Numbers &amp; money — tap to hear</h3>
+      <p style="margin:4px 0 0;font-size:14px;color:#3A434E">Prices come in units of 만 (man) = ₩10,000. So 삼만 원 (sam-man won) = ₩30,000.</p>
+      <div class="num-grid">
+        <button class="numcell" type="button" data-say="일"><b>일</b><span>1 · il</span></button>
+        <button class="numcell" type="button" data-say="이"><b>이</b><span>2 · i</span></button>
+        <button class="numcell" type="button" data-say="삼"><b>삼</b><span>3 · sam</span></button>
+        <button class="numcell" type="button" data-say="사"><b>사</b><span>4 · sa</span></button>
+        <button class="numcell" type="button" data-say="오"><b>오</b><span>5 · o</span></button>
+        <button class="numcell" type="button" data-say="육"><b>육</b><span>6 · yuk</span></button>
+        <button class="numcell" type="button" data-say="칠"><b>칠</b><span>7 · chil</span></button>
+        <button class="numcell" type="button" data-say="팔"><b>팔</b><span>8 · pal</span></button>
+        <button class="numcell" type="button" data-say="구"><b>구</b><span>9 · gu</span></button>
+        <button class="numcell" type="button" data-say="십"><b>십</b><span>10 · sip</span></button>
+        <button class="numcell" type="button" data-say="백"><b>백</b><span>100 · baek</span></button>
+        <button class="numcell" type="button" data-say="천"><b>천</b><span>1,000 · cheon</span></button>
+        <button class="numcell" type="button" data-say="만 원"><b>만 원</b><span>₩10,000 · man won</span></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="kind k2">Emergency</span><h3>Numbers to know</h3></div>
+      <ul>
+        <li><b>112</b> — police</li>
+        <li><b>119</b> — fire / ambulance</li>
+        <li><b>1330</b> — Korea Travel Hotline: 24/7, English-speaking, can interpret for you on the spot. The most useful number for tourists.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
 <!-- ================= TO-DO ================= -->
 <section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
   <div class="dayhead">
@@ -1608,6 +1745,98 @@
     wrap.appendChild(b);
     host.appendChild(wrap);
   });
+
+  // ---- phrases: speech synthesis (device Korean voice) ----
+  var koVoice = null;
+  function pickVoice(){
+    if (!window.speechSynthesis) return;
+    var vs = speechSynthesis.getVoices().filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf('ko') === 0; });
+    if (vs.length){
+      koVoice = vs[0];
+      var vn = document.getElementById('voicenote');
+      if (vn) vn.textContent = 'No sound? Check the phone’s silent switch.';
+    }
+  }
+  if (window.speechSynthesis){
+    pickVoice();
+    speechSynthesis.onvoiceschanged = pickVoice;
+  }
+  function speak(text, btn){
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR';
+    u.rate = 0.85;
+    if (koVoice) u.voice = koVoice;
+    if (btn){
+      btn.classList.add('playing');
+      u.onend = u.onerror = function(){ btn.classList.remove('playing'); };
+    }
+    speechSynthesis.speak(u);
+  }
+  document.querySelectorAll('[data-say]').forEach(function(b){
+    b.addEventListener('click', function(){ speak(b.dataset.say, b); });
+  });
+
+  // ---- quick translate ----
+  var trDir = 'en2ko';
+  var trIn = document.getElementById('trin');
+  var trBtn = document.getElementById('trgo');
+  var trDirBtn = document.getElementById('trdir');
+  var trOut = document.getElementById('trout');
+  var trErr = document.getElementById('trerr');
+  var trRes = document.getElementById('trres');
+  var trRom = document.getElementById('trrom');
+  var trSpk = document.getElementById('trspk');
+  var lastKorean = '';
+
+  trDirBtn.addEventListener('click', function(){
+    trDir = trDir === 'en2ko' ? 'ko2en' : 'en2ko';
+    trDirBtn.textContent = trDir === 'en2ko' ? 'EN → 한국어' : '한국어 → EN';
+    trIn.placeholder = trDir === 'en2ko' ? 'Type it in English…' : '한국어를 입력하세요… (paste Korean here)';
+    trOut.hidden = true; trErr.hidden = true;
+  });
+
+  function extLinks(q){
+    var enc = encodeURIComponent(q);
+    var sk = trDir === 'en2ko' ? 'en' : 'ko', tk = trDir === 'en2ko' ? 'ko' : 'en';
+    document.getElementById('lnk-papago').href = 'https://papago.naver.com/?sk=' + sk + '&tk=' + tk + '&st=' + enc;
+    document.getElementById('lnk-gtrans').href = 'https://translate.google.com/?sl=' + sk + '&tl=' + tk + '&text=' + enc + '&op=translate';
+  }
+
+  function doTranslate(){
+    var q = trIn.value.trim();
+    if (!q) return;
+    extLinks(q);
+    trErr.hidden = true;
+    trBtn.textContent = '…';
+    var sl = trDir === 'en2ko' ? 'en' : 'ko', tl = trDir === 'en2ko' ? 'ko' : 'en';
+    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + sl + '&tl=' + tl + '&dt=t&dt=rm&q=' + encodeURIComponent(q);
+    fetch(url).then(function(r){
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(function(j){
+      var segs = (j && j[0]) || [];
+      var text = '', rom = '';
+      segs.forEach(function(s){
+        if (s && s[0]) text += s[0];
+        if (s && !s[0] && (s[2] || s[3])) rom = s[2] || s[3];
+      });
+      if (!text) throw new Error('empty');
+      trRes.textContent = text;
+      trRom.textContent = rom || '';
+      lastKorean = trDir === 'en2ko' ? text : q;
+      trOut.hidden = false;
+      trBtn.textContent = 'Translate';
+    }).catch(function(){
+      trOut.hidden = true;
+      trErr.hidden = false;
+      trBtn.textContent = 'Translate';
+    });
+  }
+  trBtn.addEventListener('click', doTranslate);
+  trIn.addEventListener('keydown', function(e){ if (e.key === 'Enter') doTranslate(); });
+  trSpk.addEventListener('click', function(){ if (lastKorean) speak(lastKorean, trSpk); });
 
   // open the initial section only now, once every section's data + functions exist
   show(start < 0 ? 0 : start);
