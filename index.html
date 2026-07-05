@@ -185,6 +185,15 @@
   .card.added-item{border-color:#9FDCD4;background:#F3FBFA}
   .added-remove{font-family:var(--mono);font-size:11px;color:#B3452F;background:none;border:0;cursor:pointer;text-decoration:underline;padding:0;margin-top:8px}
 
+  /* crew contacts */
+  .crew-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+  .crew-id b{font-size:15px;display:block}
+  .crew-id span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .crew-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .crew-x{color:#B3452F}
+  .crew-ta{width:100%;min-height:72px;font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);margin-top:10px;resize:vertical}
+  @media (max-width:560px){.crew-row{grid-template-columns:1fr}.crew-acts{justify-content:flex-start}}
+
   /* ---------- Eva mode, mascot & stamp rally ---------- */
   .evabtn{position:absolute;top:14px;right:14px;z-index:3;font:inherit;font-size:13px;font-weight:700;border:1px solid rgba(237,234,225,.35);background:rgba(237,234,225,.12);color:#EDEAE1;border-radius:999px;padding:7px 13px;cursor:pointer}
   .gyuri-row{display:flex;align-items:center;gap:12px;margin:0 0 22px;flex-wrap:wrap}
@@ -1583,6 +1592,48 @@
   </div>
 </section>
 
+<!-- ================= CREW ================= -->
+<section class="day s-util" id="dcrew" data-chip="Crew|call · message|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Stay connected · up to 12 travellers</p>
+      <h2>Call &amp; Message the Crew</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">우리</div>
+  </div>
+  <p class="dh-note">Tap to ring or text anyone in the group. The list lives on this phone — one person fills it in, taps <b>Copy list</b>, drops it in the family chat, and everyone else pastes it into <b>Import</b>.</p>
+  <div class="ph-stack">
+
+    <div class="card">
+      <div class="card-head"><span class="kind">Crew</span><h3>Group contacts</h3></div>
+      <div id="crewlist"></div>
+      <div class="tr-row">
+        <input id="crewname" type="text" placeholder="Name (e.g. Cheryl)" aria-label="Name">
+        <input id="crewphone" type="tel" placeholder="+61 4xx xxx xxx" aria-label="Phone number with country code">
+        <button id="crewadd" class="tr-btn" type="button">Add</button>
+      </div>
+      <p class="voicenote" style="margin:10px 0 0">Include the country code (+61 Australia, +65 Singapore). If anyone switches to a Korean SIM on Day 1, their number changes — update it here (+82…).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="kind k2">Share</span><h3>Share the list between phones</h3></div>
+      <div class="tr-row"><button id="crewcopy" class="tr-btn alt" type="button">Copy list</button><button id="crewimportbtn" class="tr-btn" type="button">Import</button></div>
+      <textarea id="crewimport" class="crew-ta" placeholder="Paste a shared list here — one person per line, like:&#10;Cheryl, +65 9xxx xxxx&#10;Tata, +61 4xx xxx xxx" aria-label="Paste contact list to import"></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="kind k2">Tips</span><h3>Keeping 12 people findable</h3></div>
+      <ul>
+        <li><b>Set up the family group chat before flying</b> — WhatsApp or KakaoTalk (Korea runs on Kakao). Over wifi it's all free, even with no SIM credit.</li>
+        <li><b>Data-only eSIMs keep your Australian number</b> for calls and SMS — worth considering over a Korean SIM if you want these buttons to keep working unchanged.</li>
+        <li><b>Wifi is everywhere</b> (subway, cafés, hotels), so WhatsApp calls almost always get through.</li>
+        <li><b>If someone's lost:</b> ring them, then the day's meeting point is the accommodation (address cards on Days 1, 2, 5 and 8). Kids can show any adult the hotel address from this site, or call <b>1330</b> for an interpreter.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
 <!-- ================= TO-DO ================= -->
 <section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
   <div class="dayhead">
@@ -2367,6 +2418,79 @@
   });
   renderAddedIdeas();
   syncIdeaCards();
+
+  // ---- crew contacts: call / message the group ----
+  var crew = [];
+  try{ crew = JSON.parse(localStorage.getItem('ksth-crew') || '[]'); }catch(e){}
+  function saveCrew(){ try{ localStorage.setItem('ksth-crew', JSON.stringify(crew)); }catch(e){} }
+  function phoneDigits(p){ return p.replace(/[^0-9+]/g, ''); }
+  function renderCrew(){
+    var box = document.getElementById('crewlist');
+    box.innerHTML = '';
+    if (!crew.length){
+      var e = document.createElement('p');
+      e.className = 'voicenote';
+      e.textContent = 'No one here yet — add the family below.';
+      box.appendChild(e);
+      return;
+    }
+    crew.forEach(function(c, i){
+      var row = document.createElement('div');
+      row.className = 'crew-row';
+      var id = document.createElement('div');
+      id.className = 'crew-id';
+      var b = document.createElement('b'); b.textContent = c.n;
+      var s = document.createElement('span'); s.textContent = c.p;
+      id.appendChild(b); id.appendChild(s);
+      var acts = document.createElement('div');
+      acts.className = 'crew-acts';
+      var tel = phoneDigits(c.p);
+      [['📞 Call', 'tel:' + tel], ['💬 SMS', 'sms:' + tel], ['🟢 WhatsApp', 'https://wa.me/' + tel.replace(/^\+/, '')]].forEach(function(a){
+        var l = document.createElement('a');
+        l.className = 'lnk';
+        l.textContent = a[0];
+        l.href = a[1];
+        if (a[1].indexOf('http') === 0){ l.target = '_blank'; l.rel = 'noopener'; }
+        acts.appendChild(l);
+      });
+      var x = document.createElement('button');
+      x.type = 'button'; x.className = 'lnk crew-x'; x.textContent = '✕';
+      x.setAttribute('aria-label', 'Remove ' + c.n);
+      x.addEventListener('click', function(){ crew.splice(i, 1); saveCrew(); renderCrew(); });
+      acts.appendChild(x);
+      row.appendChild(id); row.appendChild(acts);
+      box.appendChild(row);
+    });
+  }
+  document.getElementById('crewadd').addEventListener('click', function(){
+    var n = document.getElementById('crewname'), p = document.getElementById('crewphone');
+    if (!n.value.trim() || !phoneDigits(p.value)) return;
+    crew.push({n: n.value.trim(), p: p.value.trim()});
+    n.value = ''; p.value = '';
+    saveCrew(); renderCrew();
+  });
+  document.getElementById('crewcopy').addEventListener('click', function(){
+    var btn = this;
+    var txt = crew.map(function(c){ return c.n + ', ' + c.p; }).join('\n');
+    function done(ok){ btn.textContent = ok ? 'Copied!' : 'Copy failed'; setTimeout(function(){ btn.textContent = 'Copy list'; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ done(true); }, function(){ done(false); });
+    else done(false);
+  });
+  document.getElementById('crewimportbtn').addEventListener('click', function(){
+    var btn = this, ta = document.getElementById('crewimport'), added = 0;
+    ta.value.split('\n').forEach(function(line){
+      var m = /^(.+?)[,:]\s*([+0-9 ()\-]+)\s*$/.exec(line.trim());
+      if (!m || !phoneDigits(m[2])) return;
+      var dup = crew.some(function(c){ return phoneDigits(c.p) === phoneDigits(m[2]); });
+      if (dup) return;
+      crew.push({n: m[1].trim(), p: m[2].trim()});
+      added++;
+    });
+    if (added){ saveCrew(); renderCrew(); ta.value = ''; }
+    btn.textContent = added ? ('Imported ' + added + '!') : 'Nothing new found';
+    setTimeout(function(){ btn.textContent = 'Import'; }, 2000);
+  });
+  renderCrew();
 
   // open the initial section only now, once every section's data + functions exist
   show(start < 0 ? 0 : start);
