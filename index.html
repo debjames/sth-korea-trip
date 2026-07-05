@@ -2913,9 +2913,18 @@
     });
   })();
 
-  // offline support: service worker (no-op where unsupported or on other hosts)
+  // offline support: service worker (no-op where unsupported or on other hosts).
+  // When an updated worker takes over, reload once so the fresh version shows immediately.
   if ('serviceWorker' in navigator){
-    try{ navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e){}
+    try{
+      var swReloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function(){
+        if (swReloaded || !navigator.serviceWorker.controller) return;
+        swReloaded = true;
+        window.location.reload();
+      });
+      navigator.serviceWorker.register('./sw.js').catch(function(){});
+    }catch(e){}
   }
 
   // open the initial section only now, once every section's data + functions exist

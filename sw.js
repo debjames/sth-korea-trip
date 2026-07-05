@@ -3,7 +3,7 @@
 // - Static libraries (Leaflet, Firebase SDK): cache-first — they're versioned URLs.
 // - Live data (map tiles, Firestore, exchange rates, chat): network only; the page
 //   already has its own offline fallbacks for those.
-var CACHE = 'ksth-v2';
+var CACHE = 'ksth-v3';
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
@@ -24,10 +24,12 @@ self.addEventListener('fetch', function (e) {
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
 
-  // navigations + same-origin: network-first with cache fallback
+  // navigations + same-origin: network-first with cache fallback.
+  // 'no-cache' forces revalidation with the server, skipping the CDN's 10-min
+  // HTTP cache — so new deploys reach every device on the next open.
   if (req.mode === 'navigate' || url.origin === self.location.origin) {
     e.respondWith(
-      fetch(req).then(function (res) {
+      fetch(req, req.mode === 'navigate' ? { cache: 'no-cache' } : undefined).then(function (res) {
         if (res && res.ok) {
           var copy = res.clone();
           caches.open(CACHE).then(function (c) { c.put(req, copy); });
