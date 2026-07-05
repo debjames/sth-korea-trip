@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Eva's Korean Adventure — family itinerary for Seoul, Jeju and Busan, 28 Sep to 12 Oct 2026.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇰🇷</text></svg>">
+</head>
+<body>
+<title>Eva's Korean Adventure — 28 Sep–12 Oct 2026</title>
+<style>
+  :root{
+    --paper:#F5F4EF; --card:#FFFFFF; --ink:#1D242E; --muted:#68727D;
+    --line:#E3E1D7; --deep:#141C27;
+    --seoul:#BE3A34; --jeju:#DD7B2A; --busan:#2F6F8F;
+    --gold:#D9A73E; --home:#55606C;
+    --accent:var(--seoul);
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --disp:"Avenir Next Condensed","Arial Narrow","Helvetica Neue",system-ui,sans-serif;
+    --kr:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+  a{color:inherit;text-decoration-color:rgba(29,36,46,.35);text-underline-offset:2px}
+  a:hover{text-decoration-color:currentColor}
+  a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--deep);color:#EDEAE1;position:relative;overflow:hidden;padding:44px 22px 30px}
+  .hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
+  .hangul-bg{position:absolute;right:-24px;top:-40px;font-family:var(--kr);font-weight:800;font-size:min(38vw,300px);line-height:1;color:rgba(237,234,225,.05);user-select:none;pointer-events:none;letter-spacing:-.04em}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+  .hero h1{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.01em;font-size:clamp(38px,7vw,68px);line-height:.98;margin:0 0 10px;text-wrap:balance}
+  .hero h1 .kr{font-family:var(--kr);font-weight:800;color:var(--gold);font-size:.55em;vertical-align:.25em;letter-spacing:0;margin-left:.35em}
+  .hero-sub{font-size:16px;color:rgba(237,234,225,.75);margin:0 0 22px;max-width:56ch}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+  .stat{border:1px solid rgba(237,234,225,.22);border-radius:8px;padding:8px 14px;font-family:var(--mono);font-size:13px}
+  .stat b{display:block;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+  .stat.count b{color:var(--gold)}
+  /* route board */
+  .route{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+  .leg{background:rgba(237,234,225,.06);border:1px solid rgba(237,234,225,.16);border-left:4px solid var(--lc,#888);border-radius:6px;padding:8px 12px;min-width:118px}
+  .leg .lc-city{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:.04em}
+  .leg .lc-city .kr{font-family:var(--kr);font-weight:700;color:rgba(237,234,225,.55);font-size:12px;margin-left:6px}
+  .leg .lc-dates{font-family:var(--mono);font-size:11px;color:rgba(237,234,225,.6);margin-top:2px}
+  .leg-seoul{--lc:var(--seoul)} .leg-jeju{--lc:var(--jeju)} .leg-busan{--lc:var(--busan)} .leg-home{--lc:var(--home)}
+
+  /* ---------- day nav ---------- */
+  .daynav{position:sticky;top:0;z-index:20;background:rgba(245,244,239,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .daynav-inner{max-width:960px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:thin}
+  .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px 5px;cursor:pointer;font:inherit;text-align:left;color:var(--ink)}
+  .chip .c1{display:block;font-family:var(--disp);font-weight:800;font-size:14px;line-height:1.05;text-transform:uppercase;letter-spacing:.03em}
+  .chip .c2{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.3}
+  .chip{border-bottom:3px solid var(--cc,var(--line))}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink) var(--ink) var(--cc,var(--line))}
+  .chip.on .c2{color:rgba(255,255,255,.65)}
+  .c-seoul{--cc:var(--seoul)} .c-jeju{--cc:var(--jeju)} .c-busan{--cc:var(--busan)} .c-home{--cc:var(--home)} .c-util{--cc:var(--gold)}
+
+  /* ---------- day sections ---------- */
+  main{max-width:960px;margin:0 auto;padding:26px 16px 60px}
+  .day{display:none}
+  .day.show{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.day.show{animation:none}}
+
+  .dayhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:3px solid var(--accent);padding-bottom:14px;margin-bottom:22px}
+  .dh-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+  .dayhead h2{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(26px,4.5vw,38px);line-height:1.02;margin:0;text-wrap:balance}
+  .dh-kr{font-family:var(--kr);font-weight:800;font-size:clamp(34px,6vw,54px);line-height:1;color:var(--accent);opacity:.9;flex:0 0 auto}
+  .dh-note{color:var(--muted);margin:8px 0 0;max-width:64ch}
+
+  .s-seoul{--accent:var(--seoul)} .s-jeju{--accent:var(--jeju)} .s-busan{--accent:var(--busan)} .s-home{--accent:var(--home)} .s-util{--accent:#B08420}
+
+  /* timeline */
+  .tl{display:flex;flex-direction:column;gap:12px}
+  .item{display:grid;grid-template-columns:60px 1fr;gap:14px}
+  .time{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink);padding-top:15px;text-align:right;white-space:pre-line;line-height:1.5}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+  .card-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+  .card h3{font-size:17px;font-weight:700;margin:0;letter-spacing:-.01em}
+  .kind{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:4px;padding:2px 7px;position:relative;top:-1px}
+  .kind.k2{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .flag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8A4B08;background:#F6E7C6;border:1px solid #E6CE96;border-radius:4px;padding:2px 7px}
+  .card p{margin:6px 0 0;color:#3A434E}
+  .card ul{margin:6px 0 0;padding-left:20px;color:#3A434E}
+  .card li{margin:3px 0}
+  .card .addr{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:block;margin-top:6px}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .lnk{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:6px;padding:4px 10px;text-decoration:none;color:var(--ink);background:var(--paper)}
+  .lnk:hover{border-color:var(--accent);color:var(--accent)}
+  details{margin-top:10px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+  details summary{cursor:pointer;padding:9px 12px;font-weight:600;font-size:14px;list-style:none;display:flex;align-items:center;gap:8px}
+  details summary::before{content:"+";font-family:var(--mono);font-weight:400;color:var(--accent);width:14px;display:inline-block;text-align:center}
+  details[open] summary::before{content:"–"}
+  details .dbody{padding:0 14px 12px;font-size:14.5px}
+  details .dbody ul{margin:4px 0 8px;padding-left:18px}
+  .rate{font-family:var(--mono);font-size:12px;color:#8A6D1D}
+  .opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:10px}
+  .opt{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--paper)}
+  .opt b{display:block;font-size:14px}
+  .opt span{font-size:13px;color:var(--muted)}
+
+  /* prev / next */
+  .pager{display:flex;justify-content:space-between;gap:10px;margin-top:28px}
+  .pgbtn{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:10px 16px;cursor:pointer;color:var(--ink)}
+  .pgbtn:hover{border-color:var(--accent);color:var(--accent)}
+  .pgbtn[disabled]{opacity:.35;cursor:default}
+  .pgbtn small{display:block;font-family:var(--mono);font-size:10px;font-weight:400;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+  /* checklist */
+  .todo{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .todo label{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
+  .todo input{width:18px;height:18px;margin-top:2px;accent-color:#B08420;flex:0 0 auto}
+  .todo b{font-size:15px}
+  .todo span{display:block;font-size:13.5px;color:var(--muted)}
+  .todo label:has(input:checked){opacity:.55}
+  .todo label:has(input:checked) b{text-decoration:line-through}
+
+  footer{border-top:1px solid var(--line);color:var(--muted);font-family:var(--mono);font-size:12px;text-align:center;padding:18px;background:var(--paper)}
+
+  @media (max-width:560px){
+    .item{grid-template-columns:48px 1fr;gap:10px}
+    .time{font-size:11.5px}
+    .dayhead{flex-direction:column;align-items:flex-start;gap:4px}
+    .dh-kr{order:-1;font-size:30px}
+  }
+  @media print{
+    .daynav,.pager{display:none}
+    .day{display:block!important;break-inside:avoid;margin-bottom:30px}
+    .hero{background:#fff;color:#000}
+  }
+</style>
+
+<header class="hero">
+  <div class="hangul-bg" aria-hidden="true">한국</div>
+  <div class="hero-inner">
+    <p class="eyebrow">Family itinerary · Work in progress</p>
+    <h1>Eva's Korean<br>Adventure<span class="kr">한국 여행</span></h1>
+    <p class="hero-sub">Ten travellers, three cities, fifteen days. Adelaide → Seoul → Jeju → Busan → Seoul → home. Mon 28 September – Mon 12 October 2026.</p>
+    <div class="hero-stats">
+      <div class="stat count"><b id="countdown">—</b>days to go</div>
+      <div class="stat"><b>10</b>travellers</div>
+      <div class="stat"><b>15</b>days</div>
+      <div class="stat"><b>4</b>flights + 1 KTX</div>
+    </div>
+    <div class="route" role="list" aria-label="Trip legs">
+      <div class="leg leg-seoul" role="listitem"><div class="lc-city">Gimpo<span class="kr">서울</span></div><div class="lc-dates">28 Sep · night 1</div></div>
+      <div class="leg leg-jeju" role="listitem"><div class="lc-city">Jeju<span class="kr">제주</span></div><div class="lc-dates">29 Sep – 2 Oct</div></div>
+      <div class="leg leg-busan" role="listitem"><div class="lc-city">Busan<span class="kr">부산</span></div><div class="lc-dates">2 – 5 Oct</div></div>
+      <div class="leg leg-seoul" role="listitem"><div class="lc-city">Seoul<span class="kr">서울</span></div><div class="lc-dates">5 – 11 Oct</div></div>
+      <div class="leg leg-home" role="listitem"><div class="lc-city">Home<span class="kr">집</span></div><div class="lc-dates">11 – 12 Oct via SIN</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="daynav" aria-label="Days">
+  <div class="daynav-inner" id="navchips"></div>
+</nav>
+
+<main id="days">
+
+<!-- ================= DAY 1 ================= -->
+<section class="day s-seoul" id="d1" data-chip="D1|Mon 28 Sep|c-seoul" data-date="2026-09-28">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 1 — Monday 28 September</p>
+      <h2>Arrival · Gimpo Layover · Lotte Mall &amp; Magok Cafés</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">15:30</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Land at Incheon Airport (ICN)</h3></div>
+      <p>Allow 60–90 minutes for immigration, baggage, and regrouping with a big family. At the airport:</p>
+      <ul><li>Buy Korean SIMs and T-money subway cards (convenience stores)</li><li>Change money</li></ul>
+    </div></div>
+    <div class="item"><div class="time">~16:45</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Transfer ICN → Gimpo Airport (GMP)</h3><span class="flag">Not finalised</span></div>
+      <p>For 10 people with luggage, the smoothest option is private van(s) or multiple taxis (≈35 min) — a bit boujee, no? The AREX All-Stop Train also works (≈38 min) but is less convenient for a big group — surely not that hard…</p>
+    </div></div>
+    <div class="item"><div class="time">17:00</div><div class="card">
+      <div class="card-head"><span class="kind">Stay</span><h3>Check in: Lotte City Hotel Gimpo Airport</h3></div>
+      <p>3 × Superior Family Twin (Airport View). Connected directly to Lotte Mall Gimpo.</p>
+      <span class="addr">38 Haneul-gil, Gangseo-gu, Seoul · +82 2-6116-1000</span>
+      <div class="links">
+        <a class="lnk" href="https://www.booking.com/hotel/kr/lotte-city-gimpo-airport.en-gb.html" target="_blank" rel="noopener">Booking.com ↗</a>
+        <a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=Lotte+City+Hotel+Gimpo+Airport" target="_blank" rel="noopener">Map ↗</a>
+        <a class="lnk" href="https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=84338" target="_blank" rel="noopener">Lotte Mall Gimpo ↗</a>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">17:30
+20:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Magok Cafés (short taxi ride)</h3></div>
+      <p>Magok is a modern district 10 minutes from Gimpo, known for stylish cafés and its proximity to Seoul Botanic Park.</p>
+      <div class="opt-grid">
+        <div class="opt"><b>WAMILL 와밀 <span class="rate">★4.8</span></b><span>Trendy, modern, great for teens. Magokdong-ro 10-gil 23, Gangseo-gu</span></div>
+        <div class="opt"><b>VINYARD15 <span class="rate">★4.9</span></b><span>Upscale, 15th floor of Courtyard Marriott with beautiful views. Magokjungang 12-ro 10</span></div>
+        <div class="opt"><b>Mureir</b><span>Inside Seoul Botanic Park — great if you want a short garden walk before heading back.</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">20:00
+21:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lotte Mall Gimpo — shopping &amp; dinner</h3></div>
+      <p>The hotel is physically connected to the mall, so this is the easiest, most relaxing first evening.</p>
+      <ul><li>Explore shops — Uniqlo, ABC Mart, Olive Young, kids' stores</li><li>Dinner at the mall — Korean BBQ, casual dining, or food court</li><li>Quick grocery/snack stop at Lotte Mart for the morning</li></ul>
+    </div></div>
+    <div class="item"><div class="time">21:15</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Lotte City Hotel</h3></div>
+      <p>Showers and an early night — perfectly positioned for tomorrow morning's flight.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 2 ================= -->
+<section class="day s-jeju" id="d2" data-chip="D2|Tue 29 Sep|c-jeju" data-date="2026-09-29">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 2 — Tuesday 29 September</p>
+      <h2>Gimpo → Jeju · Hire Car · Aewol Coast · Pool Villa</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">제주</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">08:55
+10:10</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Flight GMP → Jeju (CJU)</h3></div>
+      <p>Land 10:10. With a large group, expect 30–45 minutes for luggage and regrouping.</p>
+    </div></div>
+    <div class="item"><div class="time">10:45
+11:15</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Pick up hire cars</h3><span class="flag">Yet to be organised!!</span></div>
+      <p>You'll need 2 cars or a 12-seater van for 10 people. Best rental desks at Jeju Airport — all at the Rental Car House, 5 minutes from the terminal via shuttle:</p>
+      <ul><li>LOTTE Rent-A-Car</li><li>AJ Rent-A-Car</li><li>Jeju Rent-A-Car</li></ul>
+    </div></div>
+    <div class="item"><div class="time">11:15
+12:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Drive to Aewol Coast</h3></div>
+      <p>Your accommodation is in Aewol-eup, one of Jeju's most beautiful coastal regions.</p>
+    </div></div>
+    <div class="item"><div class="time">12:00
+13:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Aewol coastal walk + café street</h3></div>
+      <p>Aewol is famous for oceanfront cafés and breezy walking paths — perfect for a relaxed first day. Park near Aewol Café Street, walk the ocean path, grab drinks, take photos — this area is gorgeous.</p>
+      <div class="opt-grid">
+        <div class="opt"><b>Aewol Monsant Café</b><span>Formerly owned by G-Dragon; stunning ocean views</span></div>
+        <div class="opt"><b>Bomnal Café</b><span>Bright, colourful, great for kids</span></div>
+        <div class="opt"><b>Gwakji Beach</b><span>2.8 km from the villa — calm, clean, great for a quick paddle</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">13:00
+14:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch in Aewol</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>Aewol The Sunset</b><span>Seafood, Korean dishes, ocean views</span></div>
+        <div class="opt"><b>Don Sa Don 돈사돈</b><span>Jeju black pork BBQ — extremely popular, delicious, kid-friendly</span></div>
+        <div class="opt"><b>Gwakji Sikdang</b><span>Casual Korean meals near Gwakji Beach</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">14:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Gwakji Beach or Handam Coastal Trail</h3></div>
+      <p>Both are very close to the villa.</p>
+      <div class="opt-grid">
+        <div class="opt"><b>A — Gwakji Beach</b><span>Shallow water · clean sand · showers + changing rooms</span></div>
+        <div class="opt"><b>B — Handam Coastal Trail</b><span>Flat, easy walk · lava-rock coastline · beautiful photo spots · cafés along the trail</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">16:00</div><div class="card">
+      <div class="card-head"><span class="kind">Stay</span><h3>Check in: Gobajinin Private Pool Villa</h3></div>
+      <p>Only 5–10 minutes from Aewol's main coastal strip. Private pool, large family rooms, and a BBQ area — perfect for a relaxing first evening.</p>
+      <span class="addr">238 Cheondeok-ro, Aewol-eup, Jeju · check-in 16:00</span>
+      <div class="links">
+        <a class="lnk" href="https://www.booking.com/hotel/kr/gobajinin-private-pool-villa.en-gb.html" target="_blank" rel="noopener">Booking.com ↗</a>
+        <a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=238+Cheondeok-ro+Aewol-eup+Jeju" target="_blank" rel="noopener">Map ↗</a>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">Evening</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Optional evening plan</h3></div>
+      <details><summary>Dinner options nearby</summary><div class="dbody">
+        <ul><li>Aewol Port seafood restaurants</li><li>Hayan Hwanggeum — Korean comfort food</li><li>Pizza Alvolo Aewol — easy for kids</li><li>Aewol The Sunset — Korean dishes + ocean views</li></ul>
+      </div></details>
+      <details><summary>Groceries</summary><div class="dbody">
+        <ul><li>Hanaro Mart Aewol</li><li>CU / GS25 convenience stores</li></ul>
+      </div></details>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 3 ================= -->
+<section class="day s-jeju" id="d3" data-chip="D3|Wed 30 Sep|c-jeju" data-date="2026-09-30">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 3 — Wednesday 30 September</p>
+      <h2>West Jeju: Beaches · Hallim Park · Osulloc Tea · Yongmeori Cliffs</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">제주</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">08:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast at the villa</h3></div>
+      <p>Relaxed start — kids can swim while adults prep for the day.</p>
+    </div></div>
+    <div class="item"><div class="time">09:30
+11:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Hyeopjae &amp; Geumneung Beaches</h3></div>
+      <p>15–20 min from the villa. Two of Jeju's most beautiful beaches, side by side: shallow water for kids, white sand + turquoise water, easy parking. A gentle start to the day.</p>
+    </div></div>
+    <div class="item"><div class="time">11:00
+12:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Hallim Park — Jeju's best botanical park</h3></div>
+      <p>3 min from Hyeopjae. A huge, family-friendly garden park: lava caves, palm gardens, bonsai gardens, bird enclosures, and a traditional folk-village zone. Kids love the caves and animals; adults love the gardens.</p>
+    </div></div>
+    <div class="item"><div class="time">12:30
+13:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch, Hallim area</h3></div>
+      <p>All 3–5 minutes from the beach.</p>
+      <div class="opt-grid">
+        <div class="opt"><b>Don Sa Don Hallim 돈사돈</b><span>Jeju black pork BBQ — extremely popular</span></div>
+        <div class="opt"><b>Hyeopjae Haenyeo House</b><span>Fresh seafood run by Jeju women divers</span></div>
+        <div class="opt"><b>Badang Janchi</b><span>Casual Korean meals, ocean views</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">13:30
+15:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Osulloc Tea Museum, Tea House &amp; green tea fields</h3></div>
+      <p>20 min from Hallim. Whether you spend 30 minutes or two hours, the tea fields and museum are a refreshing, scenic pause — a place to breathe, wander, taste, and enjoy the quieter side of Jeju.</p>
+    </div></div>
+    <div class="item"><div class="time">15:00
+19:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Yongmeori Coast + seafood dinner at Moseulpo</h3></div>
+      <p>15 minutes from Osulloc. More nature, more dramatic scenery.</p>
+      <ul>
+        <li><b>Yongmeori Coast 용머리해안</b> — cliff walk with dramatic rock formations. Flat, easy, beautiful.</li>
+        <li><b>Dinner at Moseulpo Harbour 모슬포항</b> — Koreans come here for seafood: Haenyeo House 해녀의집 (abalone, seafood hotpot, grilled fish) or the Moseulpo Fish Market restaurants (fresh sashimi, seafood stews).</li>
+      </ul>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to the villa</h3></div>
+      <p>30 min drive. Pool, rest, early night.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 4 ================= -->
+<section class="day s-jeju" id="d4" data-chip="D4|Thu 1 Oct|c-jeju" data-date="2026-10-01">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 4 — Thursday 1 October</p>
+      <h2>East Jeju Nature Day: Forests, Craters &amp; Waterfalls</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">제주</div>
+  </div>
+  <p class="dh-note">More driving today (35–45 min each way), but the sights are absolutely worth it — the most iconic Jeju scenery.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast at the villa</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00
+10:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Bijarim Forest</h3></div>
+      <p>40 min drive. A peaceful forest of 500–800-year-old nutmeg trees — a top Jeju nature spot.</p>
+    </div></div>
+    <div class="item"><div class="time">10:30
+12:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Seongsan Ilchulbong (Sunrise Peak)</h3></div>
+      <p>20 min drive. UNESCO volcanic crater with panoramic views. You can walk only partway if needed — great photos at the base too.</p>
+    </div></div>
+    <div class="item"><div class="time">12:00
+13:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch, Seongsan area</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>Matna Sikdang</b><span>Abalone hotpot, seafood</span></div>
+        <div class="opt"><b>Seongsan Haemul Jjim</b><span>Seafood stew</span></div>
+        <div class="opt"><b>Burger 39</b><span>Good for kids needing a break from Korean food</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">13:30
+14:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Seopjikoji</h3></div>
+      <p>10 minutes from Seongsan. Koreans LOVE this coastal walk — one of Jeju's most beautiful coastlines: dramatic cliffs, a lighthouse, the Tadao Ando Glass House, gentle paths, and ocean views everywhere.</p>
+    </div></div>
+    <div class="item"><div class="time">15:30
+16:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Jeongbang &amp; Cheonjiyeon Waterfalls</h3></div>
+      <p>60 min from Seongsan. Both are excellent:</p>
+      <ul>
+        <li><b>Jeongbang</b> — dramatic waterfall straight into the ocean (slightly rockier path)</li>
+        <li><b>Cheonjiyeon</b> — easy paved path, shaded, very family-friendly</li>
+      </ul>
+    </div></div>
+    <div class="item"><div class="time">08:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Full-day alternative: hike Hallasan</h3></div>
+      <p>Hallasan National Park — Seongpanak or Eorimok Trail. 6–9 hours, hard; best for fit adults and teens who enjoy hiking. It replaces this entire day.</p>
+      <details><summary>Why it's worth it + what to know</summary><div class="dbody">
+        <ul><li>Highest peak in South Korea; stunning volcanic landscapes; bucket-list experience Koreans rate extremely highly</li></ul>
+        <ul><li>Must start early (08:00 latest)</li><li>Weather changes quickly</li><li>Bring water, snacks, proper shoes</li></ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">17:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner in Seogwipo</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>Hwanguem Sikdang</b><span>Korean comfort food</span></div>
+        <div class="opt"><b>Seogwipo Maeil Olle Market</b><span>Street food + snacks</span></div>
+        <div class="opt"><b>Yongchim Restaurant</b><span>Black pork BBQ</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">18:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Return to villa</h3></div>
+      <p>Relaxed evening.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 5 ================= -->
+<section class="day s-busan" id="d5" data-chip="D5|Fri 2 Oct|c-busan" data-date="2026-10-02">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 5 — Friday 2 October</p>
+      <h2>Jeju → Busan · Nampo Arrival · Markets · Coastal Views</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">부산</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast + pack up at the villa</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Drive to Jeju Airport</h3></div>
+      <p>Return the hire cars, head to departures.</p>
+    </div></div>
+    <div class="item"><div class="time">10:45
+11:45</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Flight Jeju → Busan (Gimhae)</h3></div>
+    </div></div>
+    <div class="item"><div class="time">12:00
+12:30</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Transfer to the Airbnb (Jung-gu / Nampo)</h3><span class="flag">Not finalised</span></div>
+      <details open><summary>Best — Jumbo taxi / van (highly recommended)</summary><div class="dbody">
+        <ul><li>Fits the whole group in one vehicle; fastest and easiest with luggage; very reliable at Gimhae — drivers are used to tourists going to Nampo/Jung-gu</li><li>25–30 min · usually ₩60,000–80,000 total (not per person)</li><li>Follow signs to the taxi stand outside arrivals → look for <b>Jumbo Taxi / Van Taxi</b> (they queue separately). Two jumbos if needed.</li></ul>
+      </div></details>
+      <details><summary>Second best — Airport Limousine Bus 1 (cheap, easy)</summary><div class="dbody">
+        <ul><li>Gimhae → Nampo direct, no transfers, luggage storage underneath</li><li>35–40 min · about ₩6,000 per person</li><li>Nearest stop: Nampo Station / Lotte Department Store — 5–7 min walk to the Airbnb</li></ul>
+      </div></details>
+      <details><summary>Backup — two regular taxis</summary><div class="dbody">
+        <ul><li>25–30 min · ₩18,000–25,000 per taxi</li></ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">12:30</div><div class="card">
+      <div class="card-head"><span class="kind">Stay</span><h3>Check in at the Airbnb</h3></div>
+      <p>Settle in, freshen up, decompress. The location is excellent: 5–10 min walk to BIFF Square, 10 min to Gukje Market, 12 min to Jagalchi Market, 15 min to Yongdusan Park &amp; Busan Tower — surrounded by cafés, street food, and shops.</p>
+      <span class="addr">16-12 Jungang-daero 196beon-gil, Busan 48821</span>
+      <div class="links">
+        <a class="lnk" href="https://www.airbnb.com.au/rooms/1457528950582135704" target="_blank" rel="noopener">Airbnb listing ↗</a>
+        <a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=16-12+Jungang-daero+196beon-gil+Busan" target="_blank" rel="noopener">Map ↗</a>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">13:00
+14:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch — all walking distance</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>Halmae Kalguksu 할매칼국수</b><span>6 min · famous knife-cut noodles — light, comforting, great for kids</span></div>
+        <div class="opt"><b>Jagalchi Market restaurants</b><span>10 min · fresh seafood, grilled fish sets</span></div>
+        <div class="opt"><b>Sinchang Toast 신창토스트</b><span>4 min · Korean toast sandwiches</span></div>
+        <div class="opt"><b>Gukje Market street food</b><span>8 min · tteokbokki, mandu, hotteok</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">14:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Explore Nampo — a gentle loop, no transport needed</h3></div>
+      <ul>
+        <li><b>BIFF Square</b> — K-culture street, handprint plaques, street snacks, fun atmosphere</li>
+        <li><b>Gukje Market</b> — one of Korea's biggest traditional markets; clothes, toys, souvenirs — kids love browsing</li>
+        <li><b>Jagalchi Market</b> — Korea's most famous seafood market; colourful, lively, great photos</li>
+      </ul>
+    </div></div>
+    <div class="item"><div class="time">16:00
+17:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to the Airbnb</h3></div>
+      <p>Showers, downtime, snacks.</p>
+    </div></div>
+    <div class="item"><div class="time">17:00
+18:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Yongdusan Park + Busan Tower</h3></div>
+      <p>A perfect sunset activity, 10–12 min walk. Easy uphill path, lovely views over the port; kids enjoy the tower plaza. Optional: go up the tower for panoramic views.</p>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner near the Airbnb — around BIFF Square</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>Yongchim Restaurant 용침식당</b><span>10 min · black pork BBQ, very popular</span></div>
+        <div class="opt"><b>Seomjingang Restaurant 섬진강식당</b><span>8 min · Korean comfort food</span></div>
+        <div class="opt"><b>The Party Nampo</b><span>Large buffet, great for kids</span></div>
+        <div class="opt"><b>Street-food dinner</b><span>Hotteok, tteokbokki, fried chicken skewers, corn dogs</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">20:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to the Airbnb</h3></div>
+      <p>Relax — early night before the big Busan days.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 6 ================= -->
+<section class="day s-busan" id="d6" data-chip="D6|Sat 3 Oct|c-busan" data-date="2026-10-03">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 6 — Saturday 3 October</p>
+      <h2>Rock Festival Day + Nampo Sightseeing</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">부산</div>
+  </div>
+  <p class="dh-note"><b>Cheryl arrives from Singapore at 07:45.</b> The group splits after the morning — festival crew to Samnak, everyone else picks a Busan classic.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast near the Airbnb</h3></div>
+      <p>All 3–6 min walk: Sinchang Toast (Korean toast), Angelinus Coffee, Paris Baguette (pastries + coffee).</p>
+    </div></div>
+    <div class="item"><div class="time">09:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Morning together — pick one</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>A — Songdo Cloud Walk ⭐ top pick</b><span>10 min taxi · 1.5–2 hrs. Easy boardwalk over the ocean, beautiful views. Cloud Walk only, or add the cable car for a bit more fun.</span></div>
+        <div class="opt"><b>B — BIFF Square + Gukje Market</b><span>Walking distance (or subway 5 min: Jungang → Nampo Line 1, Exit 7). Street food, shops, K-culture — easy to pace, no travel stress.</span></div>
+        <div class="opt"><b>C — Yongdusan Park + Busan Tower</b><span>Subway 5 min: Jungang → Nampo Line 1, Exit 1 → 10 min uphill. Nice views, quick and easy.</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">14:00
+22:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Festival group — Busan International Rock Festival</h3><span class="flag">2026 schedule TBC</span></div>
+      <p>Samnak Ecological Park, Sasang-gu · 25–35 min from the Airbnb. Most years gates open 14:00, music runs 15:00–22:00 — to be adjusted once the 2026 schedule is out. Dinner from the food trucks.</p>
+      <details><summary>Getting there</summary><div class="dbody">
+        <ul><li><b>Taxi (recommended)</b> — fastest, direct, 25–30 min, ₩15,000–20,000 per taxi. Get dropped at the Samnak Ecological Park main gate.</li>
+        <li><b>Metro</b> — walk to Nampo Station (7 min) → Line 1 to Sasang → transfer Line 2 to Deokpo → walk 10–12 min. Total 35–45 min.</li></ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">Afternoon</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Non-festival group — pick one</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>A — Gamcheon Culture Village ⭐ top pick</b><span>15 min taxi, or subway 10–12 min: Jungang → Toseong (Line 1), Exit 6 → 10 min uphill, or the village shuttle (₩1,000). Colourful hillside village with murals, shops, cafés — allow 2–3 hours.</span></div>
+        <div class="opt"><b>B — Taejongdae Resort Park</b><span>20–25 min taxi, or Busan City Tour Bus (Blue Line) from near Nampo Station, every 30–40 min. Optional Danubi Train (₩4,000) to the viewpoints. Cliff views, lighthouse, ocean breezes.</span></div>
+        <div class="opt"><b>C — Nampo shopping loop</b><span>Walkable: Gukje Market, BIFF Square, Jagalchi Market, Lotte Department Store, Underground Shopping Centre. Perfect for a relaxed day.</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner — split groups</h3></div>
+      <p><b>Festival group:</b> food trucks at Samnak. <b>Locals:</b> Yongchim (black pork BBQ), Halmae Kalguksu (noodles), The Party Nampo (buffet), Jagalchi Market restaurants, Gukje Market street food, or Millak Town for seafood.</p>
+    </div></div>
+    <div class="item"><div class="time">20:30
+22:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Everyone back at the Airbnb</h3></div>
+      <p>Relax, share stories, unwind.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 7 ================= -->
+<section class="day s-busan" id="d7" data-chip="D7|Sun 4 Oct|c-busan" data-date="2026-10-04">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 7 — Sunday 4 October</p>
+      <h2>Full Family Day — Coastal · Culture · Gwangalli by Night</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">부산</div>
+  </div>
+  <p class="dh-note">Designed to be easy, scenic, and close to home base.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast near the Airbnb</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00
+11:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Songdo Cloud Walk + cable car</h3></div>
+      <p>Ocean boardwalk over the water with glass sections (kids love it) and a cable car across the bay. Cloud Walk is free; do the walk only, cable car only, or both (recommended).</p>
+      <details><summary>Getting there</summary><div class="dbody">
+        <ul><li>10 min taxi, or</li><li>Subway: Jungang → Jagalchi (Line 1), Exit 2 → Bus 7, 26, or 71 for 10 min to Songdo Beach → 5 min walk to the Skywalk</li></ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">11:30
+13:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Huinnyeoul Culture Village + lunch</h3></div>
+      <p>A coastal cliffside village with cafés and murals — stunning ocean views, easy walking, great photos. 15 min taxi (bus ~40 min).</p>
+      <div class="opt-grid">
+        <div class="opt"><b>Cafe Yoon</b><span>Ocean views</span></div>
+        <div class="opt"><b>Huinnyeoul Jeonbok</b><span>Abalone dishes</span></div>
+        <div class="opt"><b>Local cafés</b><span>Sandwiches + coffee</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">13:00
+15:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Break at the Airbnb — or Nampo shopping</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>A — Lotte Department Store (Gwangbok)</b><span>Rooftop park, great city views, kids' section, good souvenirs</span></div>
+        <div class="opt"><b>B — Gukje Market</b><span>Clothes, toys, K-pop merch, homewares</span></div>
+        <div class="opt"><b>C — BIFF Square</b><span>Street food, K-culture, fun atmosphere</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">15:00
+20:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Gwangalli Beach — night lights + Gwangan Bridge</h3></div>
+      <p>Busan's best night beach: beautiful night scenery, teens love the vibe, very safe and lively. From Jungang ~30 min: Line 1 to Seomyeon → Line 2 to Geumnyeonsan → 10 min walk.</p>
+      <details><summary>Eating options (7)</summary><div class="dbody">
+        <ul>
+          <li><b>Millak Raw Fish Center 밀락회타운</b> <span class="rate">★4.5</span> — multi-level building of seafood stalls; choose your fish and they prepare it. Ocean views, very Korean experience.</li>
+          <li><b>Gwangalli Udong 광안리우동</b> <span class="rate">★4.4</span> — udon + tempura, popular with locals. Quick and easy.</li>
+          <li><b>Hwangso Gogi 황소고기</b> <span class="rate">★4.6</span> — high-quality Korean BBQ, spacious seating, good for groups.</li>
+          <li><b>The 8th Day 팔일식당</b> <span class="rate">★4.5</span> — trendy Korean fusion + seafood, beautiful plating. For teens + adults wanting something stylish.</li>
+          <li><b>Slice of Life Pizza</b> <span class="rate">★4.6</span> — New York-style pizza, easy for large groups.</li>
+          <li><b>Gwangalli Milmyeon 광안리밀면</b> <span class="rate">★4.4</span> — cold noodles, the famous Busan specialty. Light, refreshing, very affordable.</li>
+          <li><b>Rooftop café dining</b> <span class="rate">★4.3–4.6</span> — beachfront cafés with Gwangan Bridge views: pasta, brunch, desserts, sunsets.</li>
+        </ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">20:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to the Airbnb</h3></div>
+      <p>Relaxed evening.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 8 ================= -->
+<section class="day s-seoul" id="d8" data-chip="D8|Mon 5 Oct|c-seoul" data-date="2026-10-05">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 8 — Monday 5 October</p>
+      <h2>Busan → Seoul by KTX · Botanik Myeongdong · Light Exploring</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <p class="dh-note">Sweet-spot departure: a 10:00–11:00 KTX means no early rush, easy checkout, no commuter crowds, a ~12:45–13:45 Seoul arrival timed for hotel check-in, and a free afternoon.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast near the Airbnb</h3></div>
+      <p>Simple, close: Sinchang Toast, Paris Baguette, Angelinus Coffee.</p>
+    </div></div>
+    <div class="item"><div class="time">09:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Pack</span><h3>Pack up + final check of the Airbnb</h3></div>
+      <p>Morning traffic in Jung-gu is light.</p>
+    </div></div>
+    <div class="item"><div class="time">09:30</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Taxi to Busan Station</h3></div>
+      <p>10 minutes, ₩6,000–8,000 — very easy with luggage. (Metro Line 1 also works, but taxis are smoother for 10 people.)</p>
+    </div></div>
+    <div class="item"><div class="time">10:00
+11:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>KTX to Seoul Station</h3></div>
+      <p>Any train in this window. Travel time 2 h 40 m. Comfort tips: book seats in the same car, grab snacks from the station convenience stores, kids can watch shows or nap, free Wi-Fi onboard.</p>
+    </div></div>
+    <div class="item"><div class="time">12:45
+13:45</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Arrive Seoul Station → taxis to Botanik Hotel</h3></div>
+      <p>The hotel is in a busy, narrow, hilly pocket of Myeongdong — taxis are absolutely the best choice: 10–12 min, ₩6,000–8,000 per taxi, door-to-door. Take <b>3 taxis</b> (Korean taxis fit 4 passengers max). No stairs, no transfers, no dragging luggage through Myeongdong crowds.</p>
+    </div></div>
+    <div class="item"><div class="time">14:00</div><div class="card">
+      <div class="card-head"><span class="kind">Stay</span><h3>Check in: Botanik Hotel, Myeongdong</h3></div>
+      <p>Freshen up, unpack, decompress.</p>
+      <div class="links"><a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=Botanik+Hotel+Myeongdong+Seoul" target="_blank" rel="noopener">Map ↗</a></div>
+    </div></div>
+    <div class="item"><div class="time">14:30
+15:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch in Myeongdong</h3></div>
+      <p>Within 3–5 minutes: Myeongdong Kyoja (famous dumplings + noodles), Yoogane (spicy stir-fried chicken — teen favourite), or Myeongdong street food (corn dogs, tteokbokki, fried chicken).</p>
+    </div></div>
+    <div class="item"><div class="time">15:30
+17:30</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Gentle Myeongdong exploration</h3></div>
+      <p>Beauty shops, K-pop stores, fashion, street food, cute cafés — everything flat and walkable. A perfect first afternoon in Seoul.</p>
+    </div></div>
+    <div class="item"><div class="time">17:30
+18:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Namsan Cable Car (optional)</h3></div>
+      <p>5–10 min taxi from the hotel. Beautiful sunset views, easy ride, great photos — teens love it. Skip it if you'd rather a slower day.</p>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner in Myeongdong</h3></div>
+      <p>Myeongdong Kyoja (if not lunch), Jjukkumi Alley (spicy baby octopus), Korean BBQ, or a fun street-food dinner. Full guide in the <b>Eats</b> tab.</p>
+    </div></div>
+    <div class="item"><div class="time">20:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Botanik</h3></div>
+      <p>Relax, showers, early night.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= SPARE DAY ================= -->
+<section class="day s-util" id="dspare" data-chip="?|Tue 6 Oct|c-util" data-date="2026-10-06">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Tuesday 6 October — Gap in the plan</p>
+      <h2>Spare Seoul Day — Not Yet Planned</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">여유</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">All day</div><div class="card">
+      <div class="card-head"><span class="kind">Note</span><h3>The WIP document skips this date</h3><span class="flag">To plan</span></div>
+      <p>The itinerary jumps from Monday 5 October (Day 8) straight to "Day 9", whose weekday/date labels drift by one from there on. That leaves a whole free Seoul day here — a nice problem to have. Ideas that pair well with the surrounding days:</p>
+      <ul>
+        <li>Han River picnic + bike hire at Yeouido or Ttukseom</li>
+        <li>DDP (Dongdaemun Design Plaza) + Dongdaemun night market</li>
+        <li>Changdeokgung Palace + Secret Garden tour (books out — reserve ahead)</li>
+        <li>A slow recovery day: Myeongdong cafés, jjimjilbang (Korean spa), rooftop views</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 9 ================= -->
+<section class="day s-seoul" id="d9" data-chip="D9|Wed 7 Oct|c-seoul" data-date="2026-10-07">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 9 — Wednesday 7 October</p>
+      <h2>Gyeongbokgung · Bukchon · Insadong Souvenirs · Myeongdong</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast in Myeongdong</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00
+11:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Gyeongbokgung Palace</h3></div>
+      <p>Taxi 10–12 min, or subway Line 4 → Line 3 → Gyeongbokgung (Exit 5).</p>
+    </div></div>
+    <div class="item"><div class="time">11:00
+12:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Bukchon Hanok Village</h3></div>
+      <p>Walk 10 min from the palace.</p>
+    </div></div>
+    <div class="item"><div class="time">12:30
+13:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch in Insadong</h3></div>
+      <p>Walk 10 min.</p>
+    </div></div>
+    <div class="item"><div class="time">13:30
+15:00</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Insadong cute-souvenir shopping</h3></div>
+      <p>Insadong is <em>the</em> place for adorable, artsy, unique souvenirs. Everything is walkable and teen-friendly.</p>
+      <ul>
+        <li><b>Ssamziegil Mall</b> — multi-level, quirky, colourful</li>
+        <li><b>ARTBOX Insadong</b> — stationery, plushies, stickers</li>
+        <li><b>Dongbaek Crafts</b> — handmade Korean crafts</li>
+        <li><b>Hanji (Korean paper) shops</b> — journals, lamps, bookmarks</li>
+        <li><b>K-pop accessory stalls</b> — pins, keychains, photo cards</li>
+        <li><b>Traditional tea shops</b> — beautifully packaged teas</li>
+      </ul>
+    </div></div>
+    <div class="item"><div class="time">15:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Return to Myeongdong</h3></div>
+      <p>Taxi or subway.</p>
+    </div></div>
+    <div class="item"><div class="time">16:00
+18:00</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Myeongdong shopping</h3></div>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner</h3></div>
+      <p>See the <b>Eats</b> tab for the ten best options near Botanik.</p>
+    </div></div>
+    <div class="item"><div class="time">20:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Botanik</h3></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 10 ================= -->
+<section class="day s-seoul" id="d10" data-chip="D10|Thu 8 Oct|c-seoul" data-date="2026-10-08">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 10 — Thursday 8 October</p>
+      <h2>Hongdae · Yeonnam-dong · Premium Baskin Robbins · Namdaemun</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Subway to Hongdae</h3></div>
+      <p>Line 4 → Line 2.</p>
+    </div></div>
+    <div class="item"><div class="time">09:30
+12:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Hongdae youth culture</h3></div>
+      <p>K-pop shops, fashion, street buskers.</p>
+    </div></div>
+    <div class="item"><div class="time">12:00
+13:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch in Hongdae</h3></div>
+      <details><summary>Ten rated options</summary><div class="dbody">
+        <ul>
+          <li><b>Gyeongseong Mandu 경성만두</b> <span class="rate">★4.6</span> — steamed/fried mandu, mandu soup. Quick and delicious.</li>
+          <li><b>Bada Sikdang 바다식당</b> <span class="rate">★4.5</span> — home-style Korean: kimchi stew, spicy pork bulgogi, fried fish set.</li>
+          <li><b>Yoogane Hongdae 유가네</b> <span class="rate">★4.4</span> — cheese dakgalbi + fried rice add-on; fun, interactive cooking for teens.</li>
+          <li><b>Hongdae Jjukkumi 홍대쭈꾸미</b> <span class="rate">★4.4</span> — smoky spicy baby octopus (+ pork belly combo). For spice lovers.</li>
+          <li><b>Nolbu Budae Jjigae 놀부부대찌개</b> <span class="rate">★4.3</span> — Korea's most famous army-stew chain; hearty, fun, great for groups.</li>
+          <li><b>Hanam Pig House 하남돼지집</b> <span class="rate">★4.5</span> — high-quality pork BBQ; lunch sets.</li>
+          <li><b>Ichiryu Ramen 이치류</b> <span class="rate">★4.6</span> — rich tonkotsu broth; quick and satisfying.</li>
+          <li><b>Monster Pizza 몬스터피자</b> <span class="rate">★4.4</span> — giant New York-style slices.</li>
+          <li><b>Oreno Ramen 오레노라멘</b> <span class="rate">★4.7</span> — one of Seoul's top ramen shops; always a queue, worth it.</li>
+          <li><b>Baetteul 배틀</b> <span class="rate">★4.5</span> — Korean fusion bowls: bulgogi rice bowl, spicy chicken bowl.</li>
+        </ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">13:00
+13:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Baskin Robbins Premium Store — Hongdae flagship</h3></div>
+      <p>NOT a normal Baskin Robbins: Korea-exclusive flavours, premium toppings, seasonal collabs (BT21, Kakao Friends, Pokémon), and photo-worthy cups. Hongdae main street, 3–4 min from Exit 9.</p>
+    </div></div>
+    <div class="item"><div class="time">13:30
+15:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Yeonnam-dong — Gyeongui Line Forest Park</h3></div>
+      <p>"Yeontral Park" <span class="rate">★4.5</span> — a long linear park with tree-lined paths, picnic lawns, art installations, play zones, and weekend buskers. Walking route: Hongdae Station Exit 3 → north into Yeonnam → follow the park east → café stops → loop back. Flat, safe, family-perfect.</p>
+      <details><summary>Cafés, desserts &amp; shops locals love</summary><div class="dbody">
+        <ul>
+          <li><b>Cafés:</b> Café Layered (British cakes + scones), Café Tertre (minimalist, great pastries), Picky Papa (tiramisu + matcha), Anthracite Coffee Roasters (industrial roastery)</li>
+          <li><b>Desserts teens love:</b> Thanks, Oat (granola + fruit bowls), Sarr (croffles), Churro 101, Remicone (cloud-themed soft serve)</li>
+          <li><b>Indie shops:</b> handmade jewellery, stationery, art prints, ceramics, vintage clothing, K-pop accessories — quieter and more curated than Hongdae's main streets</li>
+          <li><b>Restaurants:</b> Yeonnam Seo Sikdang (modern comfort food), Yeonnam Jjukkumi, Yeonnam Bangagan (home-style), Yeonnam Makguksu (buckwheat noodles)</li>
+        </ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">15:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Return to Myeongdong</h3></div>
+    </div></div>
+    <div class="item"><div class="time">16:00
+18:00</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Namdaemun Market</h3></div>
+      <p>Walk 15–18 min from Myeongdong. Top 5 for a group of 10 — the most fun, most Korean, easiest to explore: <b>Kalguksu Alley, Sock Street, Kids' Clothing &amp; Toy Street, Street Food Stalls, Kitchenware Zone</b>.</p>
+      <details><summary>The full Namdaemun map (10 zones)</summary><div class="dbody">
+        <ul>
+          <li><b>Kalguksu Alley 칼국수 골목</b> — the iconic experience: knife-cut noodles, dumplings, spicy seafood soup, kimchi pancakes. Loud, chaotic, delicious. Must-try: kalguksu + mandu combo.</li>
+          <li><b>Grilled Fish Alley 생선구이 골목</b> — charcoal-grilled fish; smoky, fast, cheap, flavourful.</li>
+          <li><b>Kids' Clothing &amp; Toy Street</b> — cute, cheap, surprisingly good quality. Great for gifts.</li>
+          <li><b>Kitchenware &amp; Homeware Zone</b> — where locals buy authentic everyday Korean home goods.</li>
+          <li><b>Sock Street 양말 골목</b> — Koreans rate this HIGH; cute, durable socks at ₩1,000–2,000 a pair.</li>
+          <li><b>Bag &amp; Luggage Street</b> — excellent prices, lots of choice.</li>
+          <li><b>Street food stalls</b> — hotteok (Namdaemun's is famous), tteokbokki, mandu, tornado potato, egg bread, corn dogs.</li>
+          <li><b>Traditional snack shops</b> — yakgwa, hangwa, dried seaweed, walnut cookies, rice crackers. Perfect souvenirs.</li>
+          <li><b>Fabric &amp; Sewing Street</b> — huge and very local.</li>
+          <li><b>Sunglasses &amp; Accessories Street</b> — great deals, great for teens.</li>
+        </ul>
+      </div></details>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner</h3></div>
+      <p>See the <b>Eats</b> tab.</p>
+    </div></div>
+    <div class="item"><div class="time">20:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Botanik</h3></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 11 ================= -->
+<section class="day s-seoul" id="d11" data-chip="D11|Fri 9 Oct|c-seoul" data-date="2026-10-09">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 11 — Friday 9 October</p>
+      <h2>Lotte World · COEX Starfield Library · Gangnam</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <p class="dh-note">The perfect day to add COEX — it's only one subway stop from Lotte World.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Travel to Lotte World (Jamsil)</h3></div>
+      <p>Subway is best, 35–40 min total: Line 4 from Myeongdong → transfer at Dongdaemun History &amp; Culture Park → Line 2 to Jamsil → follow signs to Lotte World Adventure (connected underground).</p>
+    </div></div>
+    <div class="item"><div class="time">10:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Lotte World Adventure</h3></div>
+      <p>Indoor + outdoor theme park; food courts and cafés inside.</p>
+    </div></div>
+    <div class="item"><div class="time">16:00
+17:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>COEX Starfield Library (Gangnam)</h3></div>
+      <p>10 minutes: Line 2 from Jamsil → Samseong Station, exit into COEX Mall. One of Seoul's most iconic indoor spots: 13-metre bookshelves, stunning architecture, free entry, amazing photos, surrounded by cafés and shops.</p>
+    </div></div>
+    <div class="item"><div class="time">17:30
+18:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Baskin Robbins Premium Store — COEX/Gangnam</h3></div>
+      <p>Exclusive flavours, limited-edition collabs, premium sundaes, seasonal Korean specials. A perfect treat after COEX.</p>
+    </div></div>
+    <div class="item"><div class="time">18:00</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Return to Myeongdong</h3></div>
+      <p>Line 2 → Line 4.</p>
+    </div></div>
+    <div class="item"><div class="time">19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner</h3></div>
+      <p>BBQ, Kyoja, or Yoogane — see the <b>Eats</b> tab.</p>
+    </div></div>
+    <div class="item"><div class="time">20:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Botanik</h3></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 12 ================= -->
+<section class="day s-seoul" id="d12" data-chip="D12|Sat 10 Oct|c-seoul" data-date="2026-10-10">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 12 — Saturday 10 October</p>
+      <h2>Open Day — Nothing Booked Yet</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">All day</div><div class="card">
+      <div class="card-head"><span class="kind">Note</span><h3>Blank in the WIP document</h3><span class="flag">To plan</span></div>
+      <p>Day 12 is empty in the itinerary. With the last full day following it, this is a good slot for the one "big" thing that hasn't fit anywhere else — or a deliberately slow Saturday. Ideas:</p>
+      <ul>
+        <li>Day trip: Nami Island + Petite France, or the DMZ (books out early)</li>
+        <li>Everland or Seoul Grand Park if the teens want another big day</li>
+        <li>Han River cruise + Yeouido Hangang Park</li>
+        <li>Ihwa Mural Village + Naksan Park city-wall walk</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= DAY 13 ================= -->
+<section class="day s-seoul" id="d13" data-chip="D13|Sun 11 Oct|c-seoul" data-date="2026-10-11">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Day 13 — Sunday 11 October</p>
+      <h2>Final Seoul Day (Relaxed) + Departure Night</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">서울</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00
+12:00</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Final shopping</h3></div>
+      <p>Myeongdong, Namdaemun, or the Lotte Outlet at Seoul Station.</p>
+    </div></div>
+    <div class="item"><div class="time">12:00
+13:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch</h3></div>
+    </div></div>
+    <div class="item"><div class="time">13:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Light activities — choose gentle options</h3></div>
+      <ul><li>Cheonggyecheon Stream</li><li>Namsan Cable Car</li><li>Myeongdong Cathedral</li><li>Café hopping</li></ul>
+    </div></div>
+    <div class="item"><div class="time">16:00
+18:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Pack</span><h3>Return to hotel + pack</h3></div>
+    </div></div>
+    <div class="item"><div class="time">18:00
+19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Early dinner</h3></div>
+    </div></div>
+    <div class="item"><div class="time">19:00
+21:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Rest + showers</h3></div>
+    </div></div>
+    <div class="item"><div class="time">20:00
+20:30</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Taxis to Incheon Airport</h3></div>
+      <p>60–75 minutes. For 10 people: 2 jumbo vans or 3 regular taxis. Arrive ~21:30–21:45 — perfect for the 23:50 flight.</p>
+    </div></div>
+    <div class="item"><div class="time">23:50</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Flight Seoul → Singapore</h3></div>
+      <p>Arrive 05:00 on 12 October.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= HOME ================= -->
+<section class="day s-home" id="dhome" data-chip="Home|Mon 12 Oct|c-home" data-date="2026-10-12">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Monday 12 October</p>
+      <h2>Singapore Transit → Adelaide</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">집</div>
+  </div>
+  <div class="tl">
+    <div class="item"><div class="time">05:00
+08:20</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Singapore transit — 3 h 20 m</h3></div>
+      <p>Breakfast, stretch, relax.</p>
+    </div></div>
+    <div class="item"><div class="time">08:20</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Flight Singapore → Adelaide</h3></div>
+    </div></div>
+    <div class="item"><div class="time">17:20</div><div class="card">
+      <div class="card-head"><span class="kind k2">Home</span><h3>Arrive Adelaide</h3></div>
+      <p>수고했어요 — well done, team. 🇰🇷</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= TO-DO ================= -->
+<section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Open items</p>
+      <h2>Still to Sort</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">할 일</div>
+  </div>
+  <p class="dh-note">Everything the WIP document flags as unbooked or undecided. Ticks are saved in this browser.</p>
+  <div class="todo" id="todolist">
+    <label><input type="checkbox" data-k="icn-gmp"><span><b>Day 1 — ICN → Gimpo transfer</b><span>Decide: private van(s) / taxis (≈35 min) vs AREX All-Stop Train (≈38 min) for 10 people with luggage.</span></span></label>
+    <label><input type="checkbox" data-k="jeju-cars"><span><b>Day 2 — Jeju hire cars</b><span>Book 2 cars or a 12-seater van. Lotte / AJ / Jeju Rent-A-Car, all at the airport Rental Car House.</span></span></label>
+    <label><input type="checkbox" data-k="gimhae"><span><b>Day 5 — Gimhae → Nampo transfer</b><span>Jumbo taxi (recommended, ₩60–80k total) vs Limousine Bus 1 (₩6k pp) vs two taxis.</span></span></label>
+    <label><input type="checkbox" data-k="rockfest"><span><b>Day 6 — Rock Festival 2026 schedule + tickets</b><span>Confirm dates/times once the Busan International Rock Festival 2026 line-up is released; buy tickets.</span></span></label>
+    <label><input type="checkbox" data-k="ktx"><span><b>Day 8 — KTX seats Busan → Seoul</b><span>Book 10 seats in the same car, 10:00–11:00 departure window.</span></span></label>
+    <label><input type="checkbox" data-k="spare"><span><b>Tue 6 Oct — plan the spare Seoul day</b><span>The document skips this date entirely — a full free day to fill.</span></span></label>
+    <label><input type="checkbox" data-k="d12"><span><b>Day 12 (Sat 10 Oct) — plan the open day</b><span>Blank in the document. Day trip? Everland? Slow Saturday?</span></span></label>
+    <label><input type="checkbox" data-k="dep-taxi"><span><b>Day 13 — departure-night airport transfer</b><span>Pre-arrange 2 jumbo vans or 3 taxis to ICN for the 23:50 flight.</span></span></label>
+    <label><input type="checkbox" data-k="dates"><span><b>Fix the date drift in the source doc</b><span>Days 9–13 weekday labels are off by one after the missing 6 Oct; this site uses corrected weekday/date pairs.</span></span></label>
+  </div>
+</section>
+
+<!-- ================= EATS ================= -->
+<section class="day s-seoul" id="deats" data-chip="Eats|near Botanik|c-util">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Myeongdong food guide</p>
+      <h2>Eating Near Botanik</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">맛집</div>
+  </div>
+  <p class="dh-note">Everything below is a 5–8 minute walk from the hotel. <b>Top picks for a group of 10</b> (easiest seating + best local experience): Wangbijib BBQ · Myeongdong Kyoja · Hadongkwan · Sinseon Seolleongtang.</p>
+  <div class="tl">
+    <div class="item"><div class="time">4–5 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Myeongdong Kyoja 명동교자</h3><span class="rate">★4.4+ Naver</span></div>
+      <p>A Seoul institution since 1966 — handmade knife-cut noodles and legendary mandu. Simple, fast, consistent. Best: kalguksu, mandu, bibimguksu.</p>
+      <span class="addr">29 Myeongdong 10-gil, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">5–6 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Wangbijib BBQ 왕비집</h3><span class="rate">★4.3+</span></div>
+      <p>High-quality beef and pork over charcoal; great for groups, very reliable service. Best: marinated galbi, samgyeopsal, beef brisket.</p>
+      <span class="addr">21 Myeongdong 8-gil, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">6–7 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Hadongkwan 하동관</h3><span class="rate">★4.5+</span></div>
+      <p>Traditional beef soup (gukbap) — clean, simple old-Seoul comfort food locals adore. Best: gomtang, suyuk.</p>
+      <span class="addr">12 Myeongdong 11-gil, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">5 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Baekmidang 백미당</h3><span class="rate">★4.4+</span></div>
+      <p>Organic-milk soft serve and Korean dessert café — beautiful presentation; teens LOVE it. Best: milk soft serve, matcha soft serve, milk tea.</p>
+      <span class="addr">66-5 Myeongdong-gil, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">4–5 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Yoogane 유가네</h3><span class="rate">★4.2+</span></div>
+      <p>Spicy stir-fried chicken (dakgalbi) with fun, interactive table cooking — popular with teens and uni students. Best: cheese dakgalbi + fried rice add-on.</p>
+      <span class="addr">47 Myeongdong 8-gil, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">7–8 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dakhanmari Alley 닭한마리 골목</h3><span class="rate">★4.3+</span></div>
+      <p>A cluster of whole-chicken hotpot restaurants in one alley — simple, comforting, very Korean, great for sharing. Add knife-cut noodles to the broth.</p>
+      <span class="addr">Around 32-3 Myeongdong 2-ga, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">6–7 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Jjukkumi Alley 쭈꾸미 골목</h3><span class="rate">★4.3+</span></div>
+      <p>Spicy baby octopus — smoky, addictive, very local. Best: spicy jjukkumi, jjukkumi + pork belly combo.</p>
+      <span class="addr">Myeongdong 2-gil area, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">2–3 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Myeongdong Street Food 명동 먹거리</h3><span class="rate">★4.4+</span></div>
+      <p>Corn dogs, tteokbokki, grilled lobster, egg bread, chicken skewers. Genuinely popular with locals, not just tourists — teens go wild for it.</p>
+    </div></div>
+    <div class="item"><div class="time">6 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Jeonju Sikdang 전주식당</h3><span class="rate">★4.4+</span></div>
+      <p>Home-style Korean — bibimbap, stews, simple meals. Very affordable, very local. Best: kimchi jjigae, bibimbap, doenjang jjigae.</p>
+      <span class="addr">22 Myeongdong 9-gil, Jung-gu</span>
+    </div></div>
+    <div class="item"><div class="time">5 min</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Sinseon Seolleongtang 신선설농탕</h3><span class="rate">★4.4+</span></div>
+      <p>Milky beef-bone soup — comfort food, open late, consistent quality, great for picky eaters. Best: seolleongtang, mandu seolleongtang.</p>
+      <span class="addr">2 Myeongdong 8-gil, Jung-gu</span>
+    </div></div>
+  </div>
+</section>
+
+</main>
+
+<div style="max-width:960px;margin:0 auto;padding:0 16px 40px">
+  <div class="pager">
+    <button class="pgbtn" id="prevbtn" type="button"><small>Previous</small><span id="prevlbl">—</span></button>
+    <button class="pgbtn" id="nextbtn" type="button" style="text-align:right"><small>Next</small><span id="nextlbl">—</span></button>
+  </div>
+</div>
+
+<footer>EVA'S KOREAN ADVENTURE · 28 SEP – 12 OCT 2026 · BUILT FROM THE WIP ITINERARY · 좋은 여행 되세요</footer>
+
+<script>
+(function(){
+  var days = Array.prototype.slice.call(document.querySelectorAll('.day'));
+  var nav = document.getElementById('navchips');
+  var chips = [];
+  days.forEach(function(sec, i){
+    var meta = (sec.dataset.chip||'|| ').split('|');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip ' + (meta[2]||'');
+    b.innerHTML = '<span class="c1"></span><span class="c2"></span>';
+    b.querySelector('.c1').textContent = meta[0];
+    b.querySelector('.c2').textContent = meta[1];
+    b.addEventListener('click', function(){ show(i); });
+    nav.appendChild(b); chips.push(b);
+  });
+
+  var cur = 0;
+  function show(i){
+    cur = Math.max(0, Math.min(days.length-1, i));
+    days.forEach(function(s,j){ s.classList.toggle('show', j===cur); });
+    chips.forEach(function(c,j){ c.classList.toggle('on', j===cur); c.setAttribute('aria-current', j===cur ? 'true':'false'); });
+    var pv = document.getElementById('prevbtn'), nx = document.getElementById('nextbtn');
+    pv.disabled = cur===0; nx.disabled = cur===days.length-1;
+    document.getElementById('prevlbl').textContent = cur>0 ? chipTitle(cur-1) : '—';
+    document.getElementById('nextlbl').textContent = cur<days.length-1 ? chipTitle(cur+1) : '—';
+    chips[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+    try{ localStorage.setItem('ksth-day', String(cur)); }catch(e){}
+    window.scrollTo({top:0, behavior:'auto'});
+  }
+  function chipTitle(i){
+    var m = (days[i].dataset.chip||'').split('|');
+    return m[0] + ' · ' + m[1];
+  }
+  document.getElementById('prevbtn').addEventListener('click', function(){ show(cur-1); });
+  document.getElementById('nextbtn').addEventListener('click', function(){ show(cur+1); });
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 'ArrowLeft') show(cur-1);
+    if (e.key === 'ArrowRight') show(cur+1);
+  });
+
+  // initial day: today's date if mid-trip, else saved, else day 1
+  var today = new Date();
+  var iso = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  var start = -1;
+  days.forEach(function(s,i){ if (s.dataset.date === iso) start = i; });
+  if (start < 0){
+    try{
+      var saved = parseInt(localStorage.getItem('ksth-day'), 10);
+      if (!isNaN(saved) && saved >= 0 && saved < days.length) start = saved;
+    }catch(e){}
+  }
+  show(start < 0 ? 0 : start);
+
+  // countdown
+  var dep = new Date(2026, 8, 28); // 28 Sep 2026 local
+  var diff = Math.ceil((dep - today) / 86400000);
+  var el = document.getElementById('countdown');
+  var back = new Date(2026, 9, 12);
+  if (diff > 0) el.textContent = diff;
+  else if (today <= back){ el.textContent = '지금'; el.parentNode.lastChild.textContent = "we're there!"; }
+  else { el.textContent = '끝'; el.parentNode.lastChild.textContent = 'trip complete'; }
+
+  // checklist persistence
+  var KEY = 'ksth-todo';
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){}
+  document.querySelectorAll('#todolist input[type=checkbox]').forEach(function(cb){
+    cb.checked = !!state[cb.dataset.k];
+    cb.addEventListener('change', function(){
+      state[cb.dataset.k] = cb.checked;
+      try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
