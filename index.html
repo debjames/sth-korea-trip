@@ -2664,6 +2664,14 @@
     if (on) document.getElementById('chatwrap').hidden = true;
   }
   function chatSeenKey(){ return 'ksth-chat-seen-' + chatRoom; }
+  function setBadge(n){
+    // home-screen icon badge (installed PWAs: iOS 16.4+, desktop Chromium)
+    try{
+      if (!('setAppBadge' in navigator)) return;
+      if (n > 0) navigator.setAppBadge(n).catch(function(){});
+      else navigator.clearAppBadge().catch(function(){});
+    }catch(e){}
+  }
   function updateChatDot(){
     var dot = document.getElementById('chatdot');
     var banner = document.getElementById('chatalert');
@@ -2674,6 +2682,7 @@
       dot.hidden = true;
       banner.classList.remove('show');
       document.title = chatBaseTitle;
+      setBadge(0);
       return;
     }
     var seen = 0;
@@ -2683,6 +2692,7 @@
       dot.hidden = true;
       banner.classList.remove('show');
       document.title = chatBaseTitle;
+      setBadge(0);
       return;
     }
     dot.hidden = false;
@@ -2692,6 +2702,7 @@
     document.getElementById('ca-text').textContent = last.t;
     banner.classList.add('show');
     document.title = '(' + unread.length + ') ' + chatBaseTitle;
+    setBadge(unread.length);
   }
   function maybeNotify(){
     // local device alert for messages that arrived while the app isn't front-and-centre
