@@ -1,9 +1,14 @@
 // Offline support: the itinerary keeps working in subway tunnels and on the plane.
 // - Pages: network-first (updates arrive immediately), cached copy as offline fallback.
 // - Static libraries (Leaflet, Firebase SDK): cache-first — they're versioned URLs.
-// - Live data (map tiles, Firestore, exchange rates, chat): network only; the page
+// - Map tiles (OpenStreetMap): network-first, and every tile viewed is kept in its own
+//   capped cache so map areas you've looked at still show offline.
+// - Live data (Firestore, exchange rates, chat): network only; the page
 //   already has its own offline fallbacks for those.
-var CACHE = 'ksth-v5';
+var CACHE = 'ksth-v6';
+var TILES = 'ksth-tiles';
+var TILE_MAX = 1500; // ~25 KB each, so ~35 MB at most
+var tilePuts = 0;
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
@@ -14,7 +19,7 @@ self.addEventListener('install', function (e) {
 self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
-      return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+      return Promise.all(keys.filter(function (k) { return k !== CACHE && k !== TILES; }).map(function (k) { return caches.delete(k); }));
     }).then(function () { return self.clients.claim(); })
   );
 });
@@ -56,8 +61,37 @@ self.addEventListener('fetch', function (e) {
       })
     );
   }
-  // everything else (tiles, Firestore, rate APIs): straight to network
+  // map tiles: network first (fresh when online), saved copy when offline
+  if (url.hostname === 'tile.openstreetmap.org') {
+    e.respondWith(
+      fetch(req).then(function (res) {
+        if (res && res.ok) {
+          var copy = res.clone();
+          caches.open(TILES).then(function (c) {
+            return c.put(req, copy).then(function () {
+              if (++tilePuts % 50 === 0) trimTiles(c);
+            });
+          });
+        }
+        return res;
+      }).catch(function () {
+        return caches.open(TILES).then(function (c) { return c.match(req); }).then(function (hit) {
+          return hit || Response.error();
+        });
+      })
+    );
+    return;
+  }
+
+  // everything else (Firestore, rate APIs): straight to network
 });
+
+function trimTiles(c) {
+  // keys come back oldest-first: drop the oldest beyond the cap
+  return c.keys().then(function (keys) {
+    return Promise.all(keys.slice(0, Math.max(0, keys.length - TILE_MAX)).map(function (k) { return c.delete(k); }));
+  });
+}
 
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();

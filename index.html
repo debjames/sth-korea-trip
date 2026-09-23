@@ -84,6 +84,40 @@
   .ib-card .ib-install{padding:7px 14px;font-size:13px;background:#2FA8A0}
   .ib-detail{margin-top:8px}
 
+  /* hero: compact strip while travelling (tap to expand) */
+  .hero-toggle{display:none;font:inherit;font-size:12px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid rgba(237,234,225,.3);color:rgba(237,234,225,.8);border-radius:999px;padding:5px 12px;cursor:pointer;margin-top:4px}
+  body.trip-live .hero-toggle{display:inline-block}
+  body.trip-live:not(.hero-open) .hero{padding-top:18px;padding-bottom:16px}
+  body.trip-live:not(.hero-open) .hero h1{font-size:clamp(24px,5vw,34px);margin-bottom:10px;padding-right:130px}
+  body.trip-live:not(.hero-open) .hero h1 .kr{display:none}
+  body.trip-live:not(.hero-open) .hero-inner{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+  body.trip-live:not(.hero-open) .hero h1{flex-basis:100%}
+  body.trip-live:not(.hero-open) .hero-stats{order:-1;margin:0}
+  body.trip-live:not(.hero-open) .hero h1{order:-2}
+  body.trip-live:not(.hero-open) .hero h1 br{display:none}
+  body.trip-live:not(.hero-open) .hero :is(.eyebrow,.hero-sub,.sticker,.gyuri-row,.route,.hangul-bg,.spark),
+  body.trip-live:not(.hero-open) .hero .stat:not(.count){display:none!important}
+  body.trip-live:not(.hero-open) .hero-stats{margin-bottom:6px}
+  body.trip-live:not(.hero-open) .evabtn{top:12px}
+
+  /* phone tab bar: Today · Map · Chat · More (replaces the tools row on small screens) */
+  .tabbar{display:none}
+  .moresheet{position:fixed;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:31;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:12px 12px 14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .moresheet[hidden]{display:none}
+  .moresheet button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:12px 6px;cursor:pointer;min-height:48px}
+  .moresheet button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip-today{--cc:var(--gold)}
+  @media (max-width:700px){
+    .daynav-row2{display:none}
+    .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:32;background:rgba(255,255,255,.97);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+    .tabbar button{position:relative;font:inherit;font-size:11px;font-weight:600;color:var(--muted);background:none;border:0;border-radius:10px;padding:6px 2px 5px;min-height:52px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+    .tabbar .tb-i{font-size:20px;line-height:1}
+    .tabbar button.on{color:var(--ink);background:var(--paper)}
+    .tabbar .chipdot{top:2px;right:calc(50% - 22px)}
+    body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+    body.eva .tabbar{background:rgba(255,255,255,.97)}
+  }
+
   /* ---------- day sections ---------- */
   main{max-width:960px;margin:0 auto;padding:26px 16px 60px}
   .day{display:none}
@@ -134,15 +168,6 @@
   .pgbtn:hover{border-color:var(--accent);color:var(--accent)}
   .pgbtn[disabled]{opacity:.35;cursor:default}
   .pgbtn small{display:block;font-family:var(--mono);font-size:10px;font-weight:400;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
-
-  /* checklist */
-  .todo{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-  .todo label{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
-  .todo input{width:18px;height:18px;margin-top:2px;accent-color:#B08420;flex:0 0 auto}
-  .todo b{font-size:15px}
-  .todo span{display:block;font-size:13.5px;color:var(--muted)}
-  .todo label:has(input:checked){opacity:.55}
-  .todo label:has(input:checked) b{text-decoration:line-through}
 
   /* up-next banner (live during the trip) */
   .upnext{max-width:960px;margin:16px auto 0;padding:0 16px;display:none}
@@ -307,6 +332,8 @@
   .mapfilters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
   .mchip{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);border-bottom:3px solid var(--fc,var(--line));background:var(--card);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--ink)}
   .mchip.on{background:var(--ink);color:#fff;border-color:var(--ink) var(--ink) var(--fc,var(--line))}
+  .mapday{font:inherit;font-size:16px;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 8px;max-width:190px}
+  .mchip,.mapday{min-height:36px}
   .mapwrap{height:64vh;min-height:420px;border:1px solid var(--line);border-radius:12px;z-index:1}
   .mkr{width:24px;height:24px;border-radius:50%;color:#fff;font:700 12px/21px var(--mono);text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
   .mkr.done{opacity:.45}
@@ -360,9 +387,10 @@
   <span class="spark" style="right:14%;top:55%;--d:1.8s" aria-hidden="true">🐮</span>
   <div class="hero-inner">
     <p class="eyebrow">Family itinerary · Work in progress</p>
-    <h1>Eva's Korean<br>Adventure<span class="kr">한국 여행</span></h1>
+    <h1>Eva's Korean <br>Adventure<span class="kr">한국 여행</span></h1>
     <p class="hero-sub">Ten travellers out of Adelaide — four days with family in Singapore first, then Korea, where it's twelve once Cheryl joins in Busan (3 Oct) and Tata in Seoul (5 Oct). Adelaide → Singapore → Seoul → Jeju → Busan → Seoul → home. Thu 24 September – Mon 12 October 2026.</p>
     <div class="sticker" aria-hidden="true">화이팅 에바! 🐾</div>
+    <button class="hero-toggle" id="herotoggle" type="button" aria-expanded="false">Trip overview ▾</button>
     <div class="hero-stats">
       <div class="stat count"><b id="countdown">—</b><span id="cdlabel">days to go</span></div>
       <div class="stat"><b>10→12</b>travellers</div>
@@ -410,6 +438,14 @@
   <div class="daynav-inner" id="navchips"></div>
   <div class="daynav-inner daynav-row2" id="navchips2"></div>
 </nav>
+
+<nav class="tabbar" id="tabbar" aria-label="Quick tabs">
+  <button type="button" data-go="today"><span class="tb-i" aria-hidden="true">📅</span><span>Today</span></button>
+  <button type="button" data-go="dmap"><span class="tb-i" aria-hidden="true">🗺️</span><span>Map</span></button>
+  <button type="button" data-go="dchat"><span class="tb-i" aria-hidden="true">💬</span><span>Chat</span><span class="chipdot" id="chatdot2" hidden></span></button>
+  <button type="button" data-go="more" aria-expanded="false" aria-controls="moresheet"><span class="tb-i" aria-hidden="true">☰</span><span>More</span></button>
+</nav>
+<div class="moresheet" id="moresheet" hidden></div>
 
 <div class="upnext" id="upnext" aria-live="polite">
   <div class="un-card">
@@ -1583,8 +1619,9 @@
     </div>
     <div class="dh-kr" aria-hidden="true">지도</div>
   </div>
-  <p class="dh-note">Pick a day to see that day's route in order, with transport and timings between stops. Tap any pin for details and one-tap directions — <b>Kakao Map</b> gives proper walking/transit/driving directions inside Korea; Google Maps is the backup (and the one to use in Singapore). During the trip, visited pins fade and the next stop gets a gold ring.</p>
+  <p class="dh-note">Pick a day to see that day's route in order, with transport and timings between stops. Tap any pin for details and one-tap directions — <b>Kakao Map</b> gives proper walking/transit/driving directions inside Korea; Google Maps is the backup (and the one to use in Singapore). During the trip, visited pins fade and the next stop gets a gold ring. <b>Tip:</b> the map background needs a connection, but any area you've viewed online is saved for offline use, so flick through each day's map on hotel wifi.</p>
   <div class="mapfilters" id="mapfilters"></div>
+  <p class="tr-err" id="mapoffline" hidden>📶 No connection, so the map background can't load. Pins, stop details and times still work. Areas you've already looked at while online are saved on this phone and will still show. Directions links open Kakao or Google Maps, which need data, so get the Korean SIMs sorted on Day 1.</p>
   <div id="map" class="mapwrap"></div>
   <div id="mapfallback" hidden class="card" style="margin-top:10px">The embedded map can't load in this viewer — open the full site at <a href="https://debjames.github.io/sth-korea-trip/">debjames.github.io/sth-korea-trip</a> for the interactive map.</div>
   <p class="maplegend"><span class="dot" style="background:#1F8A70"></span>Singapore <span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
@@ -2031,45 +2068,6 @@
   </div>
 </section>
 
-<!-- ================= TO-DO ================= -->
-<section class="day s-util" id="dtodo" data-chip="To-Do|open items|c-util">
-  <div class="dayhead">
-    <div>
-      <p class="dh-eyebrow">Open items</p>
-      <h2>Still to Sort</h2>
-    </div>
-    <div class="dh-kr" aria-hidden="true">할 일</div>
-  </div>
-  <p class="dh-note">Everything still unbooked or undecided, including the actions from the 15 Sep planning call. Ticks are saved in this browser.</p>
-  <div class="todo" id="todolist">
-    <label><input type="checkbox" data-k="sg-flights"><span><b>Add Singapore flight times</b><span>Adelaide → Singapore (Thu 24 Sep) and Singapore → Incheon (Mon 28 Sep). Tap ✎ on the flight cards to fill them in.</span></span></label>
-    <label><input type="checkbox" data-k="sg-hotel"><span><b>Add the Singapore hotel details (Tiong Bahru)</b><span>Name, address, check-in time on SG1.</span></span></label>
-    <label><input type="checkbox" data-k="money-sg"><span><b>Cash plan — exchange AUD for won now, or in Singapore</b><span>Rough rule for prices: ₩1,000 ≈ A$1 (a little over). The $ tab has a live converter.</span></span></label>
-    <label><input type="checkbox" data-k="crew-numbers"><span><b>Get Tien's and Fu's numbers into the Crew tab</b><span>Message them round, then add them under Crew.</span></span></label>
-    <label><input type="checkbox" data-k="probiotics"><span><b>Pack probiotics — and take them daily</b><span>Easy to forget once you feel better. Some brands need refrigerating, so check yours.</span></span></label>
-    <label><input type="checkbox" data-k="bookingscam"><span><b>Heads-up: Booking.com scam messages</b><span>Scammers with real booking details are asking for "verification" payments over WhatsApp. Never pay these. Prices shown in the app can drift with the exchange rate, but you were charged at booking, so decline any unexpected charge.</span></span></label>
-    <label><input type="checkbox" data-k="icn-gmp"><span><b>Day 1 — ICN → Gimpo transfer</b><span>Decide: private van(s) / taxis (≈35 min) vs AREX All-Stop Train (≈38 min) for 10 people with luggage.</span></span></label>
-    <label><input type="checkbox" data-k="jeju-cars"><span><b>Day 2 — Jeju hire cars</b><span>Book 2 cars or a 12-seater van. Lotte / AJ / Jeju Rent-A-Car, all at the airport Rental Car House.</span></span></label>
-    <label><input type="checkbox" data-k="gimhae"><span><b>Day 5 — Gimhae → Nampo transfer</b><span>Jumbo taxi (recommended, ₩60–80k total) vs Limousine Bus 1 (₩6k pp) vs two taxis.</span></span></label>
-    <label><input type="checkbox" data-k="bluelinepark"><span><b>Day 7 — book the Blue Line Park Sky Capsule (Sun 4 Oct)</b><span>Sunday slots sell out. 3 capsules (max 4 each) for 11 people, ~13:30–14:00 from Mipo.</span></span></label>
-    <label><input type="checkbox" data-k="ktx845"><span><b>Day 8 — KTX 08:45 Busan → Seoul (Mon 5 Oct)</b><span>It's 08:45, not 10:00. Taxis at 07:40, at the station by ~08:15.</span></span></label>
-    <label><input type="checkbox" data-k="baseball"><span><b>KBO baseball — Mon 5 to Wed 7 Oct only</b><span>Last regular-season games. Check Seoul home games (Jamsil / Gocheok) and buy tickets directly.</span></span></label>
-    <label><input type="checkbox" data-k="nanta"><span><b>Nanta show — pick the night + ask the kids</b><span>Myeongdong theatre, walking distance from Botanik. Pencilled in for Wed 7 Oct at 20:00.</span></span></label>
-    <label><input type="checkbox" data-k="milo"><span><b>Ask Milo what he wants for his birthday (Thu 8 Oct)</b><span>Current plan: Baskin Robbins flagship + custom gear in Hongdae. Everland is the other idea.</span></span></label>
-    <label><input type="checkbox" data-k="adidas"><span><b>Find the Adidas customisation flagship</b><span>Myeongdong or Hongdae? Update the Day 11 card once known.</span></span></label>
-    <label><input type="checkbox" data-k="seouldrone"><span><b>Seoul Drone Light Show — confirm venue + time (Fri 9 Oct)</b><span>October's special monthly show. Update the Day 12 card once known.</span></span></label>
-    <label><input type="checkbox" data-k="d12"><span><b>Sat 10 Oct — DMZ vs spa day vs Everland</b><span>Interest is divided, so split the morning and regroup at Yeouido for ramyeon. The DMZ needs booking early.</span></span></label>
-    <label><input type="checkbox" data-k="dep-taxi"><span><b>Day 14 — departure-night airport transfer</b><span>Pre-arrange 2 jumbo vans or 3 taxis to ICN for the 23:50 flight.</span></span></label>
-    <label><input type="checkbox" data-k="holidayswap"><span><b>Confirm the skin clinic’s Hangeul Day hours (Fri 9 Oct)</b><span>The swap is done — Lotte World is now Tue 6 Oct and Royal Seoul is Fri 9 Oct. Only loose end: the adults’ clinic session falls on the public holiday — check hours when booking, or move it to Wed/Thu.</span></span></label>
-    <label><input type="checkbox" data-k="secretgarden"><span><b>Book the Changdeokgung Secret Garden tour — Fri 9 Oct</b><span>Now on Day 12 — which is Hangeul Day, so demand will be higher than normal. Reserve online early and flex the morning around the slot.</span></span></label>
-    <label><input type="checkbox" data-k="dmz"><span><b>Book the DMZ tour if that's the Day 13 pick</b><span>Requires passport details and sells out early; Suwon Hwaseong is the no-booking fallback.</span></span></label>
-    <label><input type="checkbox" data-k="yongchim"><span><b>Double-check “Yongchim Restaurant”</b><span>The doc lists it for both Seogwipo (Day 4) and Nampo, Busan (Days 5–6) dinners — verify the right one on Naver before setting off.</span></span></label>
-    <label><input type="checkbox" data-k="tata-flight"><span><b>Confirm Tata's flight into Seoul (Mon 5 Oct)</b><span>Airport (Incheon or Gimpo) and arrival time TBC. Update Day 8 once booked (tap ✎ on his card).</span></span></label>
-    <label><input type="checkbox" data-k="joiner-beds"><span><b>Sort beds for Cheryl (Busan, from 3 Oct) and Tata (Seoul, from 5 Oct)</b><span>Current bookings are for 10 — check the Nampo Airbnb capacity and add a room/bed at Botanik if needed.</span></span></label>
-    <label><input type="checkbox" data-k="dates"><span><b>Fix the date drift in the source doc</b><span>The doc skips Tue 6 Oct and its weekday labels drift; this site fixes the dates and renumbers the days — Tue 6 Oct is Day 9 here, so the doc’s Day 9–13 are Days 10–14.</span></span></label>
-  </div>
-</section>
-
 </main>
 
 <div style="max-width:960px;margin:0 auto;padding:0 16px 40px">
@@ -2098,6 +2096,86 @@
     b.addEventListener('click', function(){ show(i); });
     (sec.dataset.date ? nav : nav2).appendChild(b); chips.push(b);
   });
+  // clock: ?at=2026-10-05T09:00+09:00 previews the app as if it were that moment (testing aid)
+  var NOW_SHIFT = 0;
+  try{
+    var atQ = /[?&]at=([^&]+)/.exec(window.location.search);
+    if (atQ){ var atT = Date.parse(decodeURIComponent(atQ[1])); if (!isNaN(atT)) NOW_SHIFT = atT - Date.now(); }
+  }catch(e){}
+  function nowMs(){ return Date.now() + NOW_SHIFT; }
+  // today's itinerary day, in that day's own time zone (-1 when not travelling)
+  function todayHit(){
+    var d = new Date(nowMs());
+    var isoK = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(d);
+    var isoS = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Singapore'}).format(d);
+    var hit = -1;
+    days.forEach(function(sec, i){
+      if (sec.dataset.date && sec.dataset.date === (sec.dataset.tz === '8' ? isoS : isoK)) hit = i;
+    });
+    return hit;
+  }
+  // for the Today buttons: today, else the first day before the trip / the last day after it
+  function todayIdx(){
+    var hit = todayHit();
+    if (hit >= 0) return hit;
+    var dated = [];
+    days.forEach(function(sec, i){ if (sec.dataset.date) dated.push(i); });
+    var isoK = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date(nowMs()));
+    return isoK < days[dated[0]].dataset.date ? dated[0] : dated[dated.length - 1];
+  }
+
+  // desktop: a Today chip leads the tools row
+  (function(){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip c-util chip-today';
+    b.innerHTML = '<span class="c1">📅 Today</span><span class="c2"></span>';
+    b.addEventListener('click', function(){ show(todayIdx()); });
+    nav2.insertBefore(b, nav2.firstChild);
+  })();
+
+  // phone tab bar + More sheet
+  var tabbar = document.getElementById('tabbar');
+  var moreSheet = document.getElementById('moresheet');
+  var moreBtn = tabbar.querySelector('[data-go="more"]');
+  function setMore(open){
+    moreSheet.hidden = !open;
+    moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  days.forEach(function(sec, i){
+    if (sec.dataset.date || sec.id === 'dmap' || sec.id === 'dchat') return;
+    var m = (sec.dataset.chip || '').split('|');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.id = sec.id;
+    b.textContent = m[0];
+    b.addEventListener('click', function(){ setMore(false); show(i); });
+    moreSheet.appendChild(b);
+  });
+  tabbar.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var go = b.dataset.go;
+      if (go === 'more'){ setMore(moreSheet.hidden); return; }
+      setMore(false);
+      if (go === 'today'){ show(todayIdx()); return; }
+      days.forEach(function(s, i){ if (s.id === go) show(i); });
+    });
+  });
+  document.addEventListener('click', function(e){
+    if (!moreSheet.hidden && !moreSheet.contains(e.target) && !moreBtn.contains(e.target)) setMore(false);
+  });
+  function syncTabbar(){
+    var id = days[cur].id, t = todayIdx();
+    tabbar.querySelectorAll('button').forEach(function(b){
+      var go = b.dataset.go, on;
+      if (go === 'today') on = cur === t;
+      else if (go === 'more') on = !days[cur].dataset.date && id !== 'dmap' && id !== 'dchat';
+      else on = go === id;
+      b.classList.toggle('on', on);
+    });
+    moreSheet.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.id === id); });
+  }
+
   var chatIdx = -1;
   days.forEach(function(sec, i){
     if (sec.id !== 'dchat') return;
@@ -2119,13 +2197,17 @@
     pv.disabled = cur===0; nx.disabled = cur===days.length-1;
     document.getElementById('prevlbl').textContent = cur>0 ? chipTitle(cur-1) : '—';
     document.getElementById('nextlbl').textContent = cur<days.length-1 ? chipTitle(cur+1) : '—';
-    chips[cur].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+    // centre the active chip in its own row, without scrolling the page
+    var row = chips[cur].parentNode;
+    var cr = chips[cur].getBoundingClientRect(), rr = row.getBoundingClientRect();
+    row.scrollTo({left: row.scrollLeft + cr.left - rr.left - (rr.width - cr.width) / 2, behavior: row.scrollLeft ? 'smooth' : 'auto'});
     try{ localStorage.setItem('ksth-day', days[cur].id); }catch(e){}
     var navTop = document.querySelector('.daynav').offsetTop;
     if (window.scrollY > navTop) window.scrollTo({top:navTop, behavior:'auto'});
     if (days[cur].id === 'dmap') openMap();
     if (days[cur].id === 'dchat') openChat();
     if (typeof updateChatDot === 'function') updateChatDot();
+    syncTabbar();
   }
   function chipTitle(i){
     var m = (days[i].dataset.chip||'').split('|');
@@ -2144,7 +2226,7 @@
   // initial day: today's date (Korea time) if mid-trip, else saved, else day 1.
   // The show() call itself happens at the very end of this script — sections like
   // the map can only open once all of their data and functions are defined.
-  var iso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
+  var iso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date(nowMs()));
   var start = -1;
   if (/[#&]room=/.test(window.location.hash || '')){
     days.forEach(function(s, i){ if (s.id === 'dchat') start = i; });
@@ -2153,7 +2235,7 @@
   if ((window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true){
     days.forEach(function(s, i){ if (s.id === 'dchat') start = i; });
   }
-  days.forEach(function(s,i){ if (s.dataset.date === iso) start = i; });
+  if (todayHit() >= 0) start = todayHit();
   if (start < 0){
     try{
       var saved = localStorage.getItem('ksth-day');
@@ -2216,7 +2298,8 @@
   }
 
   function tick(){
-    var now = Date.now();
+    var now = nowMs();
+    if (now < TRIP_START || now > TRIP_END) document.body.classList.remove('trip-live');
     if (now < TRIP_START){
       var rem = TRIP_START - now;
       var d  = Math.floor(rem / 86400000);
@@ -2232,7 +2315,8 @@
       banner.classList.remove('show');
       return;
     }
-    // travelling: show trip day + now/next
+    // travelling: compact hero, trip day + now/next
+    document.body.classList.add('trip-live');
     var dayN = Math.min(TRIP_DAYS, Math.floor((now - TRIP_START) / 86400000) + 1);
     cdNum.textContent = dayN;
     cdLab.textContent = 'day of ' + TRIP_DAYS + ' — 화이팅!';
@@ -2262,20 +2346,14 @@
     }
     banner.classList.add('show');
   }
+  var heroToggle = document.getElementById('herotoggle');
+  heroToggle.addEventListener('click', function(){
+    var open = document.body.classList.toggle('hero-open');
+    heroToggle.textContent = open ? 'Hide overview ▴' : 'Trip overview ▾';
+    heroToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
   tick();
   setInterval(tick, 1000);
-
-  // checklist persistence
-  var KEY = 'ksth-todo';
-  var state = {};
-  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){}
-  document.querySelectorAll('#todolist input[type=checkbox]').forEach(function(cb){
-    cb.checked = !!state[cb.dataset.k];
-    cb.addEventListener('change', function(){
-      state[cb.dataset.k] = cb.checked;
-      try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
-    });
-  });
 
   // ---- trip map ----
   var LEGC = { sing:'#1F8A70', seoul:'#BE3A34', jeju:'#DD7B2A', busan:'#2F6F8F', home:'#55606C' };
@@ -2418,11 +2496,11 @@
     var pts = md.stops.map(function(s){ return s.c; });
     L.polyline(pts, {color:color, weight:small?2:(eva?4:3), opacity:small?0.35:0.7, dashArray:eva?'0 10':'6 6', lineCap:eva?'round':'butt'}).addTo(fg);
     // live pin states: only for today's (KST) plan
-    var todayIso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
-    var live = md.date === todayIso && Date.now() >= TRIP_START && Date.now() <= TRIP_END;
+    var todayIso = new Intl.DateTimeFormat('en-CA', {timeZone: md.tz === 8 ? 'Asia/Singapore' : 'Asia/Seoul'}).format(new Date(nowMs()));
+    var live = md.date === todayIso && nowMs() >= TRIP_START && nowMs() <= TRIP_END;
     var nextIdx = -1;
     if (live){
-      var p = md.date.split('-').map(Number), now = Date.now();
+      var p = md.date.split('-').map(Number), now = nowMs();
       for (var i = 0; i < md.stops.length; i++){
         var tm = md.stops[i].t && /(\d{1,2}):(\d{2})/.exec(md.stops[i].t);
         if (tm && LT(p[0], p[1], p[2], +tm[1], +tm[2], md.tz || 9) > now){ nextIdx = i; break; }
@@ -2445,25 +2523,38 @@
       L.marker(s.c, {icon:ic}).addTo(fg).bindPopup(popupHtml(md, s, i));
     });
   }
+  // filters: 'all' = every Korea day, 'leg-<leg>' = one leg, or a single day id (from the day picker)
+  var LEGNAMES = [['all', 'All Korea'], ['leg-sing', 'Singapore', 'sing'], ['leg-jeju', 'Jeju', 'jeju'], ['leg-busan', 'Busan', 'busan'], ['leg-seoul', 'Seoul', 'seoul']];
   function setFilter(id){
     curFilter = id;
     fg.clearLayers();
     document.querySelectorAll('#mapfilters .mchip[data-f]').forEach(function(b){
       b.classList.toggle('on', b.dataset.f === id);
     });
-    if (id === 'sgall'){
-      MAPDAYS.forEach(function(md){ if (md.leg === 'sing') drawDay(md, true); });
-    } else if (id === 'all'){
+    var sel = document.getElementById('mapday');
+    if (sel) sel.value = /^(all|leg-)/.test(id) ? '' : id;
+    if (id === 'all'){
       MAPDAYS.forEach(function(md){ if (md.leg !== 'sing') drawDay(md, true); });
       TRANSFERS.forEach(function(tr){
         L.polyline([tr.a, tr.b], {color:'#D9A73E', weight:2, opacity:0.8, dashArray:'2 8'}).addTo(fg).bindPopup('<b>' + tr.n + '</b>');
       });
+    } else if (id.indexOf('leg-') === 0){
+      var leg = id.slice(4);
+      MAPDAYS.forEach(function(md){ if (md.leg === leg) drawDay(md, false); });
     } else {
       MAPDAYS.forEach(function(md){ if (md.id === id) drawDay(md, false); });
     }
     var b = fg.getBounds();
     if (b.isValid()) map.fitBounds(b.pad(0.18));
   }
+  // offline: the map background needs a connection; say so instead of showing grey squares
+  var tileErrs = 0;
+  function mapOffline(on){
+    var n = document.getElementById('mapoffline');
+    if (n) n.hidden = !on;
+  }
+  window.addEventListener('offline', function(){ mapOffline(true); });
+  window.addEventListener('online', function(){ tileErrs = 0; mapOffline(false); });
   function locate(){
     var btn = document.getElementById('locbtn');
     if (!navigator.geolocation){ btn.textContent = 'No location on this device'; return; }
@@ -2493,37 +2584,41 @@
   function buildMap(){
     if (!map){
       map = L.map('map');
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, crossOrigin:true, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'})
+        .on('tileerror', function(){ if (++tileErrs >= 3 || !navigator.onLine) mapOffline(true); })
+        .on('tileload', function(){ if (navigator.onLine){ tileErrs = 0; mapOffline(false); } })
+        .addTo(map);
       fg = L.featureGroup().addTo(map);
       var wrap = document.getElementById('mapfilters');
-      var all = document.createElement('button');
-      all.type = 'button'; all.className = 'mchip'; all.dataset.f = 'all'; all.textContent = 'All Korea';
-      all.addEventListener('click', function(){ setFilter('all'); });
-      wrap.appendChild(all);
-      var sgAll = document.createElement('button');
-      sgAll.type = 'button'; sgAll.className = 'mchip'; sgAll.dataset.f = 'sgall'; sgAll.textContent = 'All Singapore';
-      sgAll.style.setProperty('--fc', LEGC.sing);
-      sgAll.addEventListener('click', function(){ setFilter('sgall'); });
-      wrap.appendChild(sgAll);
-      MAPDAYS.forEach(function(md){
+      LEGNAMES.forEach(function(l){
         var b = document.createElement('button');
-        b.type = 'button'; b.className = 'mchip'; b.dataset.f = md.id;
-        b.style.setProperty('--fc', LEGC[md.leg]);
-        b.textContent = md.label;
-        b.addEventListener('click', function(){ setFilter(md.id); });
+        b.type = 'button'; b.className = 'mchip'; b.dataset.f = l[0]; b.textContent = l[1];
+        if (l[2]) b.style.setProperty('--fc', LEGC[l[2]]);
+        b.addEventListener('click', function(){ setFilter(l[0]); });
         wrap.appendChild(b);
       });
+      var sel = document.createElement('select');
+      sel.id = 'mapday'; sel.className = 'mapday';
+      sel.setAttribute('aria-label', 'Show one day on the map');
+      var o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'One day…';
+      sel.appendChild(o0);
+      MAPDAYS.forEach(function(md){
+        var o = document.createElement('option');
+        o.value = md.id;
+        o.textContent = dayLabel(md.id);
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', function(){ if (sel.value) setFilter(sel.value); });
+      wrap.appendChild(sel);
       var loc = document.createElement('button');
       loc.type = 'button'; loc.className = 'mchip'; loc.id = 'locbtn'; loc.textContent = '📍 Where am I';
       loc.addEventListener('click', locate);
       wrap.appendChild(loc);
-      // default view: today's day mid-trip, else the whole trip
-      var def = 'all';
-      if (Date.now() >= TRIP_START && Date.now() <= TRIP_END){
-        var todayIso = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Seoul'}).format(new Date());
-        MAPDAYS.forEach(function(md){ if (md.date === todayIso) def = md.id; });
-      }
+      // default view: today's day mid-trip, else the whole of Korea
+      var def = 'all', t = todayHit();
+      if (t >= 0) MAPDAYS.forEach(function(md){ if (md.id === days[t].id) def = md.id; });
       setFilter(def);
+      if (!navigator.onLine) mapOffline(true);
     }
     setTimeout(function(){ map.invalidateSize(); }, 60);
   }
@@ -2970,6 +3065,12 @@
     }catch(e){}
   }
   function updateChatDot(){
+    updateChatDot0();
+    // mirror the unread count onto the phone tab bar
+    var d1 = document.getElementById('chatdot'), d2 = document.getElementById('chatdot2');
+    if (d1 && d2){ d2.hidden = d1.hidden; d2.textContent = d1.textContent; }
+  }
+  function updateChatDot0(){
     var dot = document.getElementById('chatdot');
     var banner = document.getElementById('chatalert');
     if (!dot) return;
