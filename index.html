@@ -237,7 +237,10 @@
   .added-remove{font-family:var(--mono);font-size:11px;color:#B3452F;background:none;border:0;cursor:pointer;text-decoration:underline;padding:0;margin-top:8px}
 
   /* shared editing: anyone in the family room can add / edit / remove */
-  .ed-btn{margin-left:auto;font:inherit;font-size:13px;line-height:1;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:6px;padding:4px 8px;cursor:pointer;align-self:center}
+  /* pinned to the card's top-right corner so it never wraps onto its own line */
+  .card{position:relative}
+  .card-head.has-ed{padding-right:40px}
+  .ed-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:inherit;font-size:14px;line-height:1;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:8px;padding:0;cursor:pointer}
   .ed-btn:hover{border-color:var(--accent);color:var(--accent)}
   .ed-note{background:#FFF7DF;border-left:3px solid var(--gold);border-radius:4px;padding:6px 10px;white-space:pre-wrap}
   .card p.ed-note{color:var(--ink)}
@@ -3312,7 +3315,9 @@
       if (seen[k]) k += '-' + (++seen[k]); else seen[k] = 1;
       it.dataset.key = k;
       baseItems[k] = { el: it, day: sec.id, time: it.querySelector('.time').textContent, title: h.textContent };
-      it.querySelector('.card-head').appendChild(editButton(h.textContent, function(){ openEditor({key: k}); }));
+      var head = it.querySelector('.card-head');
+      head.classList.add('has-ed');
+      head.appendChild(editButton(h.textContent, function(){ openEditor({key: k}); }));
     });
     var bar = document.createElement('div');
     bar.className = 'addbar';
@@ -3371,7 +3376,9 @@
     it.querySelector('.time').textContent = timeForCol(d.time) || '—';
     it.querySelector('h3').textContent = d.title;
     var card = it.querySelector('.card');
-    it.querySelector('.card-head').appendChild(editButton(d.title, function(){ openEditor({id: d.id}); }));
+    var head = it.querySelector('.card-head');
+    head.classList.add('has-ed');
+    head.appendChild(editButton(d.title, function(){ openEditor({id: d.id}); }));
     if (d.note){ var p = document.createElement('p'); p.textContent = d.note; card.appendChild(p); }
     var link = safeLink(d.link);
     if (link){

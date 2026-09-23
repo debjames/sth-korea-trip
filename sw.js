@@ -5,7 +5,7 @@
 //   capped cache so map areas you've looked at still show offline.
 // - Live data (Firestore, exchange rates, chat): network only; the page
 //   already has its own offline fallbacks for those.
-var CACHE = 'ksth-v6';
+var CACHE = 'ksth-v7';
 var TILES = 'ksth-tiles';
 var TILE_MAX = 1500; // ~25 KB each, so ~35 MB at most
 var tilePuts = 0;
