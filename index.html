@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Eva's Korean Adventure — family itinerary for Seoul, Jeju and Busan, 28 Sep to 12 Oct 2026.">
+<meta name="description" content="Eva's Korean Adventure — family itinerary for Singapore, Seoul, Jeju and Busan, 24 Sep to 12 Oct 2026.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇰🇷</text></svg>">
-<title>Eva's Korean Adventure — 28 Sep–12 Oct 2026</title>
+<title>Eva's Korean Adventure — 24 Sep–12 Oct 2026</title>
 <meta name="theme-color" content="#141C27">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -21,7 +21,7 @@
   :root{
     --paper:#F5F4EF; --card:#FFFFFF; --ink:#1D242E; --muted:#68727D;
     --line:#E3E1D7; --deep:#141C27;
-    --seoul:#BE3A34; --jeju:#DD7B2A; --busan:#2F6F8F;
+    --seoul:#BE3A34; --jeju:#DD7B2A; --busan:#2F6F8F; --sing:#1F8A70;
     --gold:#D9A73E; --home:#55606C;
     --accent:var(--seoul);
     --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
@@ -54,7 +54,7 @@
   .leg .lc-city{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:.04em}
   .leg .lc-city .kr{font-family:var(--kr);font-weight:700;color:rgba(237,234,225,.55);font-size:12px;margin-left:6px}
   .leg .lc-dates{font-family:var(--mono);font-size:11px;color:rgba(237,234,225,.6);margin-top:2px}
-  .leg-seoul{--lc:var(--seoul)} .leg-jeju{--lc:var(--jeju)} .leg-busan{--lc:var(--busan)} .leg-home{--lc:var(--home)}
+  .leg-sing{--lc:var(--sing)} .leg-seoul{--lc:var(--seoul)} .leg-jeju{--lc:var(--jeju)} .leg-busan{--lc:var(--busan)} .leg-home{--lc:var(--home)}
 
   /* ---------- day nav ---------- */
   .daynav{position:sticky;top:0;z-index:20;background:rgba(245,244,239,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
@@ -68,7 +68,7 @@
   .chip{border-bottom:3px solid var(--cc,var(--line))}
   .chip.on{background:var(--ink);color:#fff;border-color:var(--ink) var(--ink) var(--cc,var(--line))}
   .chip.on .c2{color:rgba(255,255,255,.65)}
-  .c-seoul{--cc:var(--seoul)} .c-jeju{--cc:var(--jeju)} .c-busan{--cc:var(--busan)} .c-home{--cc:var(--home)} .c-util{--cc:var(--gold)}
+  .c-sing{--cc:var(--sing)} .c-seoul{--cc:var(--seoul)} .c-jeju{--cc:var(--jeju)} .c-busan{--cc:var(--busan)} .c-home{--cc:var(--home)} .c-util{--cc:var(--gold)}
   .chip{position:relative}
   .chipdot{position:absolute;top:-6px;right:-6px;min-width:16px;height:16px;border-radius:999px;background:#E5484D;border:2px solid var(--paper);color:#fff;font:700 10px/12px var(--mono);text-align:center;padding:0 3px;box-sizing:border-box}
   .chip-chat{--cc:#E5484D}
@@ -97,7 +97,7 @@
   .dh-kr{font-family:var(--kr);font-weight:800;font-size:clamp(34px,6vw,54px);line-height:1;color:var(--accent);opacity:.9;flex:0 0 auto}
   .dh-note{color:var(--muted);margin:8px 0 0;max-width:64ch}
 
-  .s-seoul{--accent:var(--seoul)} .s-jeju{--accent:var(--jeju)} .s-busan{--accent:var(--busan)} .s-home{--accent:var(--home)} .s-util{--accent:#B08420}
+  .s-sing{--accent:var(--sing)} .s-seoul{--accent:var(--seoul)} .s-jeju{--accent:var(--jeju)} .s-busan{--accent:var(--busan)} .s-home{--accent:var(--home)} .s-util{--accent:#B08420}
 
   /* timeline */
   .tl{display:flex;flex-direction:column;gap:12px}
@@ -203,12 +203,40 @@
   .t-seoul{background:var(--seoul);border-color:var(--seoul);color:#fff}
   .t-jeju{background:var(--jeju);border-color:var(--jeju);color:#fff}
   .t-busan{background:var(--busan);border-color:var(--busan);color:#fff}
+  .t-sing{background:var(--sing);border-color:var(--sing);color:#fff}
   .idea-add{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
   .idea-add select{font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);max-width:200px}
   .idea-btn{padding:8px 14px;font-size:13px}
   .idea-state{font-family:var(--mono);font-size:11px;color:#1F7A70}
   .card.added-item{border-color:#9FDCD4;background:#F3FBFA}
   .added-remove{font-family:var(--mono);font-size:11px;color:#B3452F;background:none;border:0;cursor:pointer;text-decoration:underline;padding:0;margin-top:8px}
+
+  /* shared editing: anyone in the family room can add / edit / remove */
+  .ed-btn{margin-left:auto;font:inherit;font-size:13px;line-height:1;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:6px;padding:4px 8px;cursor:pointer;align-self:center}
+  .ed-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .ed-note{background:#FFF7DF;border-left:3px solid var(--gold);border-radius:4px;padding:6px 10px;white-space:pre-wrap}
+  .card p.ed-note{color:var(--ink)}
+  .ed-by{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:8px}
+  .item.shared .card{border-color:#9FDCD4;background:#F3FBFA}
+  .item.shared .card > p{white-space:pre-wrap}
+  .item.ed-hidden .card{opacity:.6;border-style:dashed}
+  .item.ed-hidden h3{text-decoration:line-through}
+  .item.ed-hidden .card > :not(.card-head):not(.ed-removed){display:none}
+  .ed-removed{font-size:13px;color:var(--muted);margin-top:6px}
+  .ed-removed button{font:inherit;font-size:13px;background:none;border:0;color:#1F7A70;text-decoration:underline;cursor:pointer;padding:0}
+  .addbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;padding-left:74px}
+  .addbar .addbtn{background:#2FA8A0}
+  .addhint{font-size:13px;color:var(--muted)}
+  @media (max-width:560px){.addbar{padding-left:0}}
+  .edlg{border:1px solid var(--line);border-radius:14px;padding:0;width:min(520px,calc(100vw - 32px));background:var(--card);color:var(--ink);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+  .edlg::backdrop{background:rgba(20,28,39,.45)}
+  .edlg form{padding:18px 18px 16px}
+  .edlg h3{margin:0 0 2px;font-size:18px}
+  .edf{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-top:12px}
+  .edf input,.edf select,.edf textarea{display:block;width:100%;margin-top:4px;font:inherit;font-size:16px;font-weight:400;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
+  .edf textarea{resize:vertical;min-height:84px}
+  .ed-acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}
+  .ed-acts .ed-danger{color:#B3452F;margin-left:auto}
 
   /* crew contacts */
   .crew-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
@@ -251,7 +279,7 @@
   .spark{display:none}
   .sticker{display:none}
 
-  body.eva{--paper:#F0F7F7;--card:#FFFFFF;--ink:#3B4450;--muted:#7C8795;--line:#D9E8E6;--seoul:#9C7BD8;--jeju:#3EC0B4;--busan:#64A8E6;--gold:#F7B84B;--deep:#5F6BB3;font-family:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+  body.eva{--paper:#F0F7F7;--card:#FFFFFF;--ink:#3B4450;--muted:#7C8795;--line:#D9E8E6;--seoul:#9C7BD8;--sing:#E07BA8;--jeju:#3EC0B4;--busan:#64A8E6;--gold:#F7B84B;--deep:#5F6BB3;font-family:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
   body.eva .hero{background:linear-gradient(135deg,#2FA8A0 0%,#7C6BD0 100%)}
   body.eva .hangul-bg{color:rgba(255,255,255,.08)}
   body.eva .eyebrow{color:#D8F3EF}
@@ -333,13 +361,13 @@
   <div class="hero-inner">
     <p class="eyebrow">Family itinerary · Work in progress</p>
     <h1>Eva's Korean<br>Adventure<span class="kr">한국 여행</span></h1>
-    <p class="hero-sub">Ten travellers out of Adelaide — twelve once Cheryl joins in Busan (3 Oct) and Tata in Seoul (5 Oct). Adelaide → Seoul → Jeju → Busan → Seoul → home. Mon 28 September – Mon 12 October 2026.</p>
+    <p class="hero-sub">Ten travellers out of Adelaide — four days with family in Singapore first, then Korea, where it's twelve once Cheryl joins in Busan (3 Oct) and Tata in Seoul (5 Oct). Adelaide → Singapore → Seoul → Jeju → Busan → Seoul → home. Thu 24 September – Mon 12 October 2026.</p>
     <div class="sticker" aria-hidden="true">화이팅 에바! 🐾</div>
     <div class="hero-stats">
       <div class="stat count"><b id="countdown">—</b><span id="cdlabel">days to go</span></div>
       <div class="stat"><b>10→12</b>travellers</div>
-      <div class="stat"><b>15</b>days</div>
-      <div class="stat"><b>4</b>flights + 1 KTX</div>
+      <div class="stat"><b>19</b>days</div>
+      <div class="stat"><b>6</b>flights + 1 KTX</div>
     </div>
     <div class="gyuri-row">
       <svg class="gyuri" viewBox="0 0 64 64" role="img" aria-label="Capy the capybara mascot">
@@ -368,6 +396,7 @@
       </div>
     </div>
     <div class="route" role="list" aria-label="Trip legs">
+      <div class="leg leg-sing" role="listitem"><div class="lc-city">Singapore<span class="kr">싱가포르</span></div><div class="lc-dates">24 – 28 Sep</div></div>
       <div class="leg leg-seoul" role="listitem"><div class="lc-city">Gimpo<span class="kr">서울</span></div><div class="lc-dates">28 Sep · night 1</div></div>
       <div class="leg leg-jeju" role="listitem"><div class="lc-city">Jeju<span class="kr">제주</span></div><div class="lc-dates">29 Sep – 2 Oct</div></div>
       <div class="leg leg-busan" role="listitem"><div class="lc-city">Busan<span class="kr">부산</span></div><div class="lc-dates">2 – 5 Oct</div></div>
@@ -410,18 +439,185 @@
   </div>
 </div>
 
+<dialog id="edlg" class="edlg" aria-labelledby="ed-head">
+  <form method="dialog" id="edform" autocomplete="off">
+    <div id="ed-join" hidden>
+      <h3>Join the family room to edit</h3>
+      <p class="voicenote">Edits are shared with everyone through the family room, the same one the Chat tab uses. Join once (room + your name) and you can add, change and remove plans on any day.</p>
+      <div class="ed-acts">
+        <button type="button" class="tr-btn" id="ed-gojoin">Go to Chat to join</button>
+        <button type="button" class="tr-btn alt" id="ed-joincancel">Not now</button>
+      </div>
+    </div>
+    <div id="ed-main">
+      <h3 id="ed-head">Edit</h3>
+      <p class="voicenote" id="ed-sub"></p>
+      <label class="edf" id="ed-dayrow">Day <select id="ed-day"></select></label>
+      <label class="edf">Time <input id="ed-time" maxlength="20" placeholder="e.g. 14:00, 14:00–16:00, Evening"></label>
+      <label class="edf">Title <input id="ed-name" maxlength="120"></label>
+      <label class="edf"><span id="ed-notelab">Details</span> <textarea id="ed-note" maxlength="1500" rows="4"></textarea></label>
+      <label class="edf" id="ed-linkrow">Link (optional) <input id="ed-link" type="url" maxlength="500" placeholder="https://…" autocapitalize="none"></label>
+      <p class="tr-err" id="ed-err" hidden></p>
+      <div class="ed-acts">
+        <button type="button" class="tr-btn" id="ed-save">Save for everyone</button>
+        <button type="button" class="tr-btn alt" id="ed-cancel">Cancel</button>
+        <button type="button" class="lnk" id="ed-reset" hidden>Undo all edits</button>
+        <button type="button" class="lnk ed-danger" id="ed-remove" hidden>Remove from plan</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
 <main id="days">
+
+<!-- ================= SINGAPORE 1 ================= -->
+<section class="day s-sing" id="sg1" data-chip="SG1|Thu 24 Sep|c-sing" data-date="2026-09-24" data-tz="8">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Singapore · Day 1 — Thursday 24 September</p>
+      <h2>Adelaide → Singapore · Settle In · Dinner with Aunty Violet</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">싱가포르</div>
+  </div>
+  <p class="dh-note">An easy arrival day: settle in near Tiong Bahru, then family time. <b>Nathan</b> sits his PSLE exams on Thu, Fri, Mon and Tue (these decide his secondary school), so he'll likely only make dinners. <b>Mimi</b> wants to join everything. Times in Singapore are SGT, one hour behind Korea.</p>
+  <div class="tl">
+    <div class="item"><div class="time">TBC</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Flight Adelaide → Singapore (Changi)</h3><span class="flag">Flight time TBC</span></div>
+      <p>Changi to Tiong Bahru is about 25 minutes by road. For 10 people with luggage, book two 6-seater cars (Grab has 6-seater options) or use the taxi queue's large-cab lane.</p>
+    </div></div>
+    <div class="item"><div class="time">Afternoon</div><div class="card">
+      <div class="card-head"><span class="kind">Stay</span><h3>Check in near Tiong Bahru</h3><span class="flag">Add hotel details</span></div>
+      <p>Walking distance to Tiong Bahru Market, the hawker centre, so breakfast is sorted every morning. Kids and partners settle in at the hotel while the hospital visit happens.</p>
+      <div class="links"><a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=Tiong+Bahru+Market+Singapore" target="_blank" rel="noopener">Tiong Bahru Market map ↗</a></div>
+    </div></div>
+    <div class="item"><div class="time">Afternoon</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Possible hospital visit</h3><span class="flag">To confirm</span></div>
+      <p>Depends on whether he's still in hospital. If so, it's two visitors at a time, so go in pairs. Everyone meets up again for dinner.</p>
+    </div></div>
+    <div class="item"><div class="time">Evening</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner with Aunty Violet</h3></div>
+      <p>First family dinner in Singapore.</p>
+    </div></div>
+    <div class="item"><div class="time">Late</div><div class="card">
+      <div class="card-head"><span class="kind k2">Drinks</span><h3>Late-night drinks with Cheryl</h3></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= SINGAPORE 2 ================= -->
+<section class="day s-sing" id="sg2" data-chip="SG2|Fri 25 Sep|c-sing" data-date="2026-09-25" data-tz="8">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Singapore · Day 2 — Friday 25 September</p>
+      <h2>Zoo or Sentosa · Dinner at Cheryl's</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">싱가포르</div>
+  </div>
+  <p class="dh-note">Pick the zoo or Sentosa today and do the other one on Sunday. <b>Tickets don't need to be bought in advance</b>, so buy them on the day. Nathan has an exam today.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast at Tiong Bahru Market</h3></div>
+      <p>The hawker centre is upstairs at the market. Local breakfasts to try: chwee kueh (steamed rice cakes with preserved radish), lor mee, kaya toast and kopi. Or grab croissants from the bakeries in Tiong Bahru's art-deco streets.</p>
+    </div></div>
+    <div class="item"><div class="time">09:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Day out — pick one (the other is Sunday)</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>A — Singapore Zoo + the Minecraft experience</b><span>About 30–35 min by taxi from Tiong Bahru (Mandai, in the north). Go early while it's cooler and the animals are active. The kids flagged the Minecraft experience at the zoo — check it's still running when you buy tickets.</span></div>
+        <div class="opt"><b>B — Sentosa + Harry Potter: Visions of Magic</b><span>About 15 min by taxi, or go to VivoCity and ride the Sentosa Express monorail across. Harry Potter: Visions of Magic is the walk-through immersive experience at Resorts World Sentosa. It has timed entry and has been running a while, so check it's still on. Beaches, the Skyline Luge and Universal Studios are all on the island too.</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">16:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Back to the hotel</h3></div>
+      <p>Showers and a swim before dinner.</p>
+    </div></div>
+    <div class="item"><div class="time">Evening</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner at Cheryl's place</h3></div>
+      <p>Doing the zoo or Sentosa on a home-dinner day keeps the evening low-key after a big day out.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= SINGAPORE 3 ================= -->
+<section class="day s-sing" id="sg3" data-chip="SG3|Sat 26 Sep|c-sing" data-date="2026-09-26" data-tz="8">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Singapore · Day 3 — Saturday 26 September</p>
+      <h2>Orchard Road · Michelin Food Court · Gardens by the Bay Lanterns</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">싱가포르</div>
+  </div>
+  <p class="dh-note">A walking and eating day with no serious shopping. Mid-Autumn Festival falls on Fri 25 Sep this year, so lantern displays should be up this weekend.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast in Tiong Bahru</h3></div>
+    </div></div>
+    <div class="item"><div class="time">10:00
+12:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Morning walk — Orchard Road</h3></div>
+      <p>Just walking around, not proper shopping. About 10 min by taxi or MRT from Tiong Bahru. Swap in Chinatown if the crew prefers: it's closer and has more street life.</p>
+    </div></div>
+    <div class="item"><div class="time">12:30
+13:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch — the Orchard Road food court with Michelin stalls</h3><span class="flag">Name TBC</span></div>
+      <p>A food court on Orchard Road that puts several Michelin-recognised hawker names in one place, so everyone can pick something different. Cheryl knows the one.</p>
+    </div></div>
+    <div class="item"><div class="time">14:30
+18:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Gardens by the Bay — water play + Supertrees</h3></div>
+      <p>About 15 min by taxi from Orchard. The kids' water play area is at the Children's Garden, so bring swimmers and a towel. The Supertree Grove and the outdoor gardens are free; the Flower Dome and Cloud Forest are paid, air-conditioned escapes from the heat.</p>
+    </div></div>
+    <div class="item"><div class="time">18:30
+21:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Evening lanterns + Garden Rhapsody light show</h3></div>
+      <p>Stay for the Mid-Autumn lanterns after dark, then lie back under the Supertrees for the free Garden Rhapsody light-and-sound show (usually 19:45 and 20:45, so check on the day). Satay by the Bay, inside the gardens, is an easy dinner stop.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= SINGAPORE 4 ================= -->
+<section class="day s-sing" id="sg4" data-chip="SG4|Sun 27 Sep|c-sing" data-date="2026-09-27" data-tz="8">
+  <div class="dayhead">
+    <div>
+      <p class="dh-eyebrow">Singapore · Day 4 — Sunday 27 September</p>
+      <h2>Zoo or Sentosa (the other one) · Dinner at Uncle Hian's</h2>
+    </div>
+    <div class="dh-kr" aria-hidden="true">싱가포르</div>
+  </div>
+  <p class="dh-note">Last full Singapore day. Pack tonight: it's a Monday-morning flight to Seoul.</p>
+  <div class="tl">
+    <div class="item"><div class="time">08:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast at Tiong Bahru Market</h3></div>
+    </div></div>
+    <div class="item"><div class="time">09:00
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Zoo or Sentosa — whichever wasn't Friday</h3></div>
+      <p>See Friday for the details on both. Sunday crowds are bigger, so arrive at opening.</p>
+    </div></div>
+    <div class="item"><div class="time">16:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Pack</span><h3>Back to the hotel + pack for Korea</h3></div>
+      <p>Early start tomorrow. Charge phones, set out passports, and exchange any AUD cash for won here if that's the plan.</p>
+    </div></div>
+    <div class="item"><div class="time">Evening</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Dinner at Uncle Hian's</h3></div>
+    </div></div>
+  </div>
+</section>
 
 <!-- ================= DAY 1 ================= -->
 <section class="day s-seoul" id="d1" data-chip="D1|Mon 28 Sep|c-seoul" data-date="2026-09-28">
   <div class="dayhead">
     <div>
       <p class="dh-eyebrow">Day 1 — Monday 28 September</p>
-      <h2>Arrival · Gimpo Layover · Lotte Mall &amp; Magok Cafés</h2>
+      <h2>Singapore → Seoul · Gimpo Layover · Lotte Mall &amp; Magok Cafés</h2>
     </div>
     <div class="dh-kr" aria-hidden="true">서울</div>
   </div>
   <div class="tl">
+    <div class="item"><div class="time">Morning</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Flight Singapore (SIN) → Seoul Incheon (ICN)</h3><span class="flag">Departure time TBC</span></div>
+      <p>Check out of the Tiong Bahru hotel early and take two 6-seaters to Changi (~25 min). Aim to be at the airport 2½–3 hours before departure with a group this size.</p>
+    </div></div>
     <div class="item"><div class="time">15:30</div><div class="card">
       <div class="card-head"><span class="kind">Fly</span><h3>Land at Incheon Airport (ICN)</h3></div>
       <p>Allow 60–90 minutes for immigration, baggage, and regrouping with a big family. At the airport:</p>
@@ -773,11 +969,11 @@
   <div class="dayhead">
     <div>
       <p class="dh-eyebrow">Day 6 — Saturday 3 October</p>
-      <h2>Rock Festival Day + Nampo Sightseeing</h2>
+      <h2>Cheryl Arrives · Gamcheon Culture Village · Gukje Market</h2>
     </div>
     <div class="dh-kr" aria-hidden="true">부산</div>
   </div>
-  <p class="dh-note"><b>Cheryl arrives from Singapore at 07:45.</b> The group splits after the morning — festival crew to Samnak, everyone else picks a Busan classic.</p>
+  <p class="dh-note"><b>Cheryl arrives from Singapore at 07:45.</b> Busan activities wait until she's here, then everyone does the day together. <b>The Rock Festival is off the plan because it's sold out.</b></p>
   <div class="tl">
     <div class="item"><div class="time">07:45</div><div class="card">
       <div class="card-head"><span class="kind">Fly</span><h3>Cheryl lands — Gimhae Airport (PUS)</h3></div>
@@ -787,47 +983,45 @@
       <div class="card-head"><span class="kind">Eat</span><h3>Breakfast near the Airbnb</h3></div>
       <p>All 3–6 min walk: Sinchang Toast (Korean toast), Angelinus Coffee, Paris Baguette (pastries + coffee). Save a seat for Cheryl — she should walk in around 09:00.</p>
     </div></div>
-    <div class="item"><div class="time">09:30</div><div class="card">
-      <div class="card-head"><span class="kind k2">Option</span><h3>Morning together — pick one</h3></div>
-      <div class="opt-grid">
-        <div class="opt"><b>A — Songdo Cloud Walk ⭐ top pick</b><span>10 min taxi · 1.5–2 hrs. Easy boardwalk over the ocean, beautiful views. Cloud Walk only, or add the cable car for a bit more fun. <b>Note:</b> also pencilled in for Sunday — do it once, and give Sunday the Blueline Sky Capsule instead.</span></div>
-        <div class="opt"><b>B — BIFF Square + Gukje Market</b><span>Walking distance (or subway 5 min: Jungang → Nampo Line 1, Exit 7). Street food, shops, K-culture — easy to pace. <b>Note:</b> you browsed these Friday afternoon; fine for a second lap, but A is fresher.</span></div>
-        <div class="opt"><b>C — Yongdusan Park + Busan Tower</b><span>Subway 5 min: Jungang → Nampo Line 1, Exit 1 → 10 min uphill. <b>Note:</b> done at sunset on Friday — pick A or B instead.</span></div>
-      </div>
-    </div></div>
-    <div class="item"><div class="time">14:00
-22:00</div><div class="card">
-      <div class="card-head"><span class="kind">See</span><h3>Festival group — Busan International Rock Festival</h3><span class="flag">2026 schedule TBC</span></div>
-      <p>Samnak Ecological Park, Sasang-gu · 25–35 min from the Airbnb. Most years gates open 14:00, music runs 15:00–22:00 — to be adjusted once the 2026 schedule is out. Dinner from the food trucks.</p>
+    <div class="item"><div class="time">10:00
+12:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Gamcheon Culture Village</h3></div>
+      <p>The colourful hillside village with murals, small shops and cafés. It's a public holiday, so getting there by ~10:00 beats the worst of the crowds. Allow 2–3 hours.</p>
       <details><summary>Getting there</summary><div class="dbody">
-        <ul><li><b>Taxi (recommended)</b> — fastest, direct, 25–30 min, ₩15,000–20,000 per taxi. Get dropped at the Samnak Ecological Park main gate.</li>
-        <li><b>Metro</b> — walk to Nampo Station (7 min) → Line 1 to Sasang → transfer Line 2 to Deokpo → walk 10–12 min. Total 35–45 min.</li></ul>
+        <ul><li><b>Taxi</b> — 15 min, the easy option for 11 people (3 taxis)</li><li><b>Subway</b> — Jungang → Toseong (Line 1), Exit 6, then 10 min uphill or the village shuttle (₩1,000)</li></ul>
       </div></details>
     </div></div>
-    <div class="item"><div class="time">Afternoon</div><div class="card">
-      <div class="card-head"><span class="kind k2">Option</span><h3>Non-festival group — pick one</h3></div>
-      <div class="opt-grid">
-        <div class="opt"><b>A — Gamcheon Culture Village ⭐ top pick</b><span>15 min taxi, or subway 10–12 min: Jungang → Toseong (Line 1), Exit 6 → 10 min uphill, or the village shuttle (₩1,000). Colourful hillside village with murals, shops, cafés — allow 2–3 hours.</span></div>
-        <div class="opt"><b>B — Taejongdae Resort Park</b><span>20–25 min taxi, or Busan City Tour Bus (Blue Line) from near Nampo Station, every 30–40 min. Optional Danubi Train (₩4,000) to the viewpoints. Cliff views, lighthouse, ocean breezes.</span></div>
-        <div class="opt"><b>C — Nampo shopping loop</b><span>Walkable: Gukje Market, BIFF Square, Jagalchi Market, Lotte Department Store, Underground Shopping Centre. Perfect for a relaxed day.</span></div>
-      </div>
+    <div class="item"><div class="time">12:30
+13:30</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Lunch back in Nampo</h3></div>
+      <p>Halmae Kalguksu (noodles), Jagalchi Market restaurants, or grazing on Gukje Market street food.</p>
     </div></div>
-    <div class="item"><div class="time">19:00</div><div class="card">
-      <div class="card-head"><span class="kind">Eat</span><h3>Dinner — split groups</h3></div>
-      <p><b>Festival group:</b> food trucks at Samnak. <b>Locals:</b> Yongchim (black pork BBQ), Halmae Kalguksu (noodles), The Party Nampo (buffet), Jagalchi Market restaurants, Gukje Market street food, or Millak Town for seafood.</p>
+    <div class="item"><div class="time">13:30
+16:00</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Gukje Market + BIFF Square</h3></div>
+      <p>Right by the Airbnb. This is one of Korea's biggest traditional markets, with clothes, toys, souvenirs and street food (ssiat hotteok at BIFF Square is the must-try). Cheryl missed Friday's first lap, so this is her turn.</p>
+    </div></div>
+    <div class="item"><div class="time">16:00
+17:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Rest</span><h3>Downtime at the Airbnb</h3></div>
+    </div></div>
+    <div class="item"><div class="time">18:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Evening — Gwangalli drone show, or a Nampo dinner</h3></div>
+      <div class="opt-grid">
+        <div class="opt"><b>A — Gwangalli M Drone Light Show</b><span>Saturday nights over Gwangan Bridge (19:00 &amp; 21:00 in October, ~12 min, free). Metro ~30 min. Dinner at Gwangalli beforehand. Weather can cancel it, so check on the day. Sunday night is at Gwangalli too, so pick one night for the beach.</span></div>
+        <div class="opt"><b>B — Stay local</b><span>Yongchim (black pork BBQ), The Party Nampo (buffet), Jagalchi Market restaurants, or Millak Town for seafood.</span></div>
+      </div>
     </div></div>
     <div class="item"><div class="time">Extra</div><div class="card rec">
       <div class="card-head"><span class="kind krec">Recs</span><h3>Worth knowing — Saturday in Busan</h3></div>
       <ul>
-        <li><b>⚠ Public holiday:</b> Sat 3 Oct is National Foundation Day, a long-weekend Saturday. Gamcheon and the festival will be busy — get to Gamcheon before ~10:30 for easier lanes and photos.</li>
-        <li><span class="lp">LP pick</span><b>Beomeosa Temple</b> — Lonely Planet rates this Busan's single best sight: a serene mountain temple "a world away from the urban jungle", ~40 min north. A calmer non-festival alternative to the villages.</li>
-        <li><span class="lp">LP pick</span>Reassurance: <b>Gamcheon</b> and <b>Jagalchi</b> are both LP top attractions — the existing plan already hits Busan's best.</li>
+        <li><b>⚠ Public holiday:</b> Sat 3 Oct is National Foundation Day, a long-weekend Saturday. Gamcheon will be busy, so the morning start matters.</li>
+        <li><b>Spa Land</b> (Shinsegae Centum City) came up as an option, but it's ages 13+ only, so it only works if the group splits.</li>
+        <li><span class="lp">LP pick</span><b>Beomeosa Temple</b> — Lonely Planet rates this Busan's single best sight: a serene mountain temple ~40 min north. A calm alternative if anyone wants a break from the crowds.</li>
       </ul>
     </div></div>
-    <div class="item"><div class="time">20:30
-22:00</div><div class="card">
+    <div class="item"><div class="time">21:30</div><div class="card">
       <div class="card-head"><span class="kind k2">Rest</span><h3>Everyone back at the Airbnb</h3></div>
-      <p>Relax, share stories, unwind.</p>
     </div></div>
   </div>
 </section>
@@ -837,7 +1031,7 @@
   <div class="dayhead">
     <div>
       <p class="dh-eyebrow">Day 7 — Sunday 4 October</p>
-      <h2>Full Family Day — Coastal · Culture · Gwangalli by Night</h2>
+      <h2>Cloud Walk · Blue Line Park Sky Capsule · Gwangalli by Night</h2>
     </div>
     <div class="dh-kr" aria-hidden="true">부산</div>
   </div>
@@ -849,7 +1043,7 @@
     <div class="item"><div class="time">09:00
 11:30</div><div class="card">
       <div class="card-head"><span class="kind">See</span><h3>Songdo Cloud Walk + cable car</h3></div>
-      <p>Ocean boardwalk over the water with glass sections (kids love it) and a cable car across the bay. Cloud Walk is free; do the walk only, cable car only, or both (recommended). <b>Note:</b> if the morning crew already did this on Saturday, swap in Haeundae + the Blueline Sky Capsule — see the picks below.</p>
+      <p>Ocean boardwalk over the water with glass sections (kids love it) and a cable car across the bay. Cloud Walk is free; do the walk only, cable car only, or both (recommended).</p>
       <details><summary>Getting there</summary><div class="dbody">
         <ul><li>10 min taxi, or</li><li>Subway: Jungang → Jagalchi (Line 1), Exit 2 → Bus 7, 26, or 71 for 10 min to Songdo Beach → 5 min walk to the Skywalk</li></ul>
       </div></details>
@@ -864,19 +1058,16 @@
         <div class="opt"><b>Local cafés</b><span>Sandwiches + coffee</span></div>
       </div>
     </div></div>
-    <div class="item"><div class="time">13:00
-15:00</div><div class="card">
-      <div class="card-head"><span class="kind k2">Option</span><h3>Break at the Airbnb — or Nampo shopping</h3></div>
-      <div class="opt-grid">
-        <div class="opt"><b>A — Lotte Department Store (Gwangbok)</b><span>Rooftop park, great city views, kids' section, good souvenirs</span></div>
-        <div class="opt"><b>B — Gukje Market</b><span>Clothes, toys, K-pop merch, homewares</span></div>
-        <div class="opt"><b>C — BIFF Square</b><span>Street food, K-culture, fun atmosphere</span></div>
-      </div>
+    <div class="item"><div class="time">13:30
+16:30</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Haeundae Blue Line Park — Sky Capsule</h3><span class="flag">Book ahead</span></div>
+      <p>The little pastel capsules that run along the coast rail from Mipo to Cheongsapo, high above the sea. The kids asked for this one. Taxi ~35–40 min from Huinnyeoul to Mipo. <b>Book online ahead</b> because Sunday slots sell out. Capsules take up to 4, so book 3 for 11 people. Walk back along the boardwalk, or ride the Beach Train one way.</p>
+      <div class="links"><a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=Haeundae+Blueline+Park+Mipo+Station" target="_blank" rel="noopener">Map ↗</a></div>
     </div></div>
-    <div class="item"><div class="time">15:00
+    <div class="item"><div class="time">17:00
 20:00</div><div class="card">
       <div class="card-head"><span class="kind">Eat</span><h3>Gwangalli Beach — night lights + Gwangan Bridge</h3></div>
-      <p>Busan's best night beach: beautiful night scenery, teens love the vibe, very safe and lively. From Jungang ~30 min: Line 1 to Seomyeon → Line 2 to Geumnyeonsan → 10 min walk.</p>
+      <p>Busan's best night beach: beautiful night scenery, teens love the vibe, very safe and lively. 15–20 min by taxi from Blue Line Park. Home to Nampo afterwards is ~30 min (Line 2 → Seomyeon → Line 1).</p>
       <details><summary>Eating options (7)</summary><div class="dbody">
         <ul>
           <li><b>Millak Raw Fish Center 밀락회타운</b> <span class="rate">★4.5</span> — multi-level building of seafood stalls; choose your fish and they prepare it. Ocean views, very Korean experience.</li>
@@ -893,8 +1084,8 @@
       <div class="card-head"><span class="kind krec">Recs</span><h3>Guidebook picks — Busan family day</h3></div>
       <ul>
         <li><span class="lp">LP pick</span><b>Gwangan at night</b> — LP says the beach "shines at night" under the bridge lights; your evening plan is exactly right. Keep it.</li>
-        <li><b>Haeundae Blueline Park Sky Capsule</b> — the pastel coastal capsule train from Mipo to Cheongsapo that teens queue for, above a boardwalk you can stroll back along. 15–20 min from Gwangalli, so it slots in perfectly before dinner. Book online ahead — Sunday sells out.</li>
-        <li><span class="lp">LP pick</span><b>Spa Land, Shinsegae Centum City</b> — LP-recommended jjimjilbang (hot/cold relaxation rooms); a brilliant wet-weather swap for the morning. Ages 13+ with adults, so best if the group splits.</li>
+        <li><b>Early night:</b> tomorrow's KTX leaves Busan Station at <b>08:45</b>, so pack before bed.</li>
+        <li><span class="lp">LP pick</span><b>Spa Land, Shinsegae Centum City</b> — LP-recommended jjimjilbang (hot/cold relaxation rooms), a good wet-weather swap. <b>Ages 13+ only</b>, so younger kids can't go.</li>
       </ul>
     </div></div>
     <div class="item"><div class="time">20:30</div><div class="card">
@@ -913,45 +1104,47 @@
     </div>
     <div class="dh-kr" aria-hidden="true">서울</div>
   </div>
-  <p class="dh-note">Sweet-spot departure: a 10:00–11:00 KTX means no early rush, easy checkout, no commuter crowds, a ~12:45–13:45 Seoul arrival timed for hotel check-in, and a free afternoon.</p>
+  <p class="dh-note"><b>The KTX leaves Busan Station at 08:45.</b> It's not 10:00 as first planned, so it's an early start. Be at the station well before departure: aim for ~08:15. Arriving in Seoul around 11:25 leaves a long first afternoon.</p>
   <div class="tl">
-    <div class="item"><div class="time">08:00</div><div class="card">
-      <div class="card-head"><span class="kind">Eat</span><h3>Breakfast near the Airbnb</h3></div>
-      <p>Simple, close: Sinchang Toast, Paris Baguette, Angelinus Coffee.</p>
+    <div class="item"><div class="time">07:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Quick breakfast + final pack</h3></div>
+      <p>Grab-and-go from Paris Baguette or Sinchang Toast, or buy snacks at the station. Bags packed the night before.</p>
     </div></div>
-    <div class="item"><div class="time">09:00</div><div class="card">
-      <div class="card-head"><span class="kind k2">Pack</span><h3>Pack up + final check of the Airbnb</h3></div>
-      <p>Morning traffic in Jung-gu is light.</p>
+    <div class="item"><div class="time">07:45</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>Taxis to Busan Station</h3></div>
+      <p>10 minutes, ₩6,000–8,000 per taxi. With 11 people and luggage that's 3 taxis, so line them up at 07:40.</p>
     </div></div>
-    <div class="item"><div class="time">09:30</div><div class="card">
-      <div class="card-head"><span class="kind">Move</span><h3>Taxi to Busan Station</h3></div>
-      <p>10 minutes, ₩6,000–8,000 — very easy with luggage. (Metro Line 1 also works, but taxis are smoother for 10 people.)</p>
+    <div class="item"><div class="time">08:15</div><div class="card">
+      <div class="card-head"><span class="kind k2">Station</span><h3>At Busan Station — find the platform</h3></div>
+      <p>Departure boards show the platform ~15 min before. Find your car number on the ticket, then check the luggage racks at the car ends. Get coffee and snacks now.</p>
     </div></div>
-    <div class="item"><div class="time">10:00
-11:00</div><div class="card">
-      <div class="card-head"><span class="kind">Move</span><h3>KTX to Seoul Station</h3></div>
-      <p>Any train in this window. Travel time 2 h 40 m. Comfort tips: book seats in the same car, grab snacks from the station convenience stores, kids can watch shows or nap, free Wi-Fi onboard.</p>
+    <div class="item"><div class="time">08:45</div><div class="card">
+      <div class="card-head"><span class="kind">Move</span><h3>KTX 08:45 Busan → Seoul Station</h3></div>
+      <p>About 2 h 40 m. Seats together in the same car, free Wi-Fi, and the kids can nap or watch shows.</p>
     </div></div>
-    <div class="item"><div class="time">12:45
-13:45</div><div class="card">
+    <div class="item"><div class="time">11:25</div><div class="card">
       <div class="card-head"><span class="kind">Move</span><h3>Arrive Seoul Station → taxis to Botanik Hotel</h3></div>
       <p>The hotel is in a busy, narrow, hilly pocket of Myeongdong — taxis are absolutely the best choice: 10–12 min, ₩6,000–8,000 per taxi, door-to-door. Take <b>3 taxis</b> (Korean taxis fit 4 passengers max). No stairs, no transfers, no dragging luggage through Myeongdong crowds.</p>
     </div></div>
-    <div class="item"><div class="time">TBC</div><div class="card">
-      <div class="card-head"><span class="kind">Fly</span><h3>Tata lands — Seoul</h3><span class="flag">Flight TBC</span></div>
-      <p>Tata joins the group in Seoul today — flight time and airport (Incheon or Gimpo) still to be confirmed. Once known: from Incheon, the AREX express or a taxi to Myeongdong (~60–75 min); from Gimpo, subway Line 5/9 or taxi (~40 min). Group hits full strength — 12! 🎉</p>
-    </div></div>
-    <div class="item"><div class="time">14:00</div><div class="card">
-      <div class="card-head"><span class="kind">Stay</span><h3>Check in: Botanik Hotel, Myeongdong</h3></div>
-      <p>Freshen up, unpack, decompress.</p>
+    <div class="item"><div class="time">12:00</div><div class="card">
+      <div class="card-head"><span class="kind">Stay</span><h3>Drop bags at Botanik Hotel, Myeongdong</h3></div>
+      <p>You'll be early for check-in, so leave the bags at the desk (ask about early check-in) and head out.</p>
       <div class="links"><a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=Botanik+Hotel+Myeongdong+Seoul" target="_blank" rel="noopener">Map ↗</a></div>
     </div></div>
-    <div class="item"><div class="time">14:30
-15:30</div><div class="card">
+    <div class="item"><div class="time">12:15
+13:30</div><div class="card">
       <div class="card-head"><span class="kind">Eat</span><h3>Lunch in Myeongdong</h3></div>
       <p>Within 3–5 minutes: Myeongdong Kyoja (famous dumplings + noodles), Yoogane (spicy stir-fried chicken — teen favourite), or Myeongdong street food (corn dogs, tteokbokki, fried chicken).</p>
     </div></div>
-    <div class="item"><div class="time">15:30
+    <div class="item"><div class="time">TBC</div><div class="card">
+      <div class="card-head"><span class="kind">Fly</span><h3>Tata lands — Seoul</h3><span class="flag">Flight TBC</span></div>
+      <p>Tata joins the group in Seoul today — flight time and airport (Incheon or Gimpo) still to be confirmed. Once known: from Incheon, the AREX express or a taxi to Myeongdong (~60–75 min); from Gimpo, subway Line 5/9 or taxi (~40 min). Group hits full strength — 12! 🎉 Tata's mobility may be limited, so plan taxis rather than long subway transfers when he's with the group.</p>
+    </div></div>
+    <div class="item"><div class="time">14:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Stay</span><h3>Check in at Botanik</h3></div>
+      <p>Freshen up, unpack, decompress.</p>
+    </div></div>
+    <div class="item"><div class="time">15:00
 17:30</div><div class="card">
       <div class="card-head"><span class="kind">Shop</span><h3>Gentle Myeongdong exploration</h3></div>
       <p>Beauty shops, K-pop stores, fashion, street food, cute cafés — everything flat and walkable. A perfect first afternoon in Seoul.</p>
@@ -960,6 +1153,10 @@
 18:30</div><div class="card">
       <div class="card-head"><span class="kind k2">Option</span><h3>Namsan Cable Car (optional)</h3></div>
       <p>5–10 min taxi from the hotel. Beautiful sunset views, easy ride, great photos — teens love it. Skip it if you'd rather a slower day.</p>
+    </div></div>
+    <div class="item"><div class="time">18:30</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>KBO baseball game?</h3><span class="flag">To confirm</span></div>
+      <p>Only Mon–Wed (5–7 Oct) games are left before the regular season ends, so tonight, Tuesday or Wednesday are the only chances. Weeknight games usually start at 18:30. Buy tickets yourselves online rather than through a tour. Seoul's home grounds are Jamsil Stadium (LG Twins, Doosan Bears) and Gocheok Sky Dome (Kiwoom Heroes). Check who's playing at home that night.</p>
     </div></div>
     <div class="item"><div class="time">19:00</div><div class="card">
       <div class="card-head"><span class="kind">Eat</span><h3>Dinner in Myeongdong</h3></div>
@@ -1031,18 +1228,19 @@
   <div class="dayhead">
     <div>
       <p class="dh-eyebrow">Day 10 — Wednesday 7 October</p>
-      <h2>Gyeongbokgung · Bukchon · Insadong Souvenirs · Myeongdong</h2>
+      <h2>Hanbok · Gyeongbokgung · Bukchon · Insadong Souvenirs</h2>
     </div>
     <div class="dh-kr" aria-hidden="true">서울</div>
   </div>
+  <p class="dh-note">Everyone's getting a hanbok: wearing one gets you into the palace free. The kids are desperate for Ssamziegil in Insadong.</p>
   <div class="tl">
     <div class="item"><div class="time">08:00</div><div class="card">
       <div class="card-head"><span class="kind">Eat</span><h3>Breakfast in Myeongdong</h3></div>
     </div></div>
     <div class="item"><div class="time">09:00
 11:00</div><div class="card">
-      <div class="card-head"><span class="kind">See</span><h3>Gyeongbokgung Palace</h3></div>
-      <p>Taxi 10–12 min, or subway Line 4 → Line 3 → Gyeongbokgung (Exit 5).</p>
+      <div class="card-head"><span class="kind">See</span><h3>Hanbok rental → Gyeongbokgung Palace</h3></div>
+      <p>Taxi 10–12 min, or subway Line 4 → Line 3 → Gyeongbokgung (Exit 5). Rent hanbok at one of the many shops by the palace (allow ~30 min to get 12 people dressed). Hanbok wearers get <b>free palace entry</b>, and it makes for great family photos.</p>
     </div></div>
     <div class="item"><div class="time">11:00
 12:30</div><div class="card">
@@ -1089,6 +1287,10 @@
       <div class="card-head"><span class="kind">Eat</span><h3>Dinner</h3></div>
       <p>See the <b>Eats</b> tab for the ten best options near Botanik.</p>
     </div></div>
+    <div class="item"><div class="time">20:00</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Nanta show?</h3><span class="flag">Day TBC</span></div>
+      <p>The long-running non-verbal comedy show: chefs drumming with knives and pans, no Korean needed, very kid-friendly. There's a Nanta theatre in Myeongdong, walking distance from Botanik. Wednesday night was floated but it's a big day, so pick whichever evening suits and <b>ask the kids if they want to come</b>. Check showtimes and book once decided.</p>
+    </div></div>
     <div class="item"><div class="time">20:30</div><div class="card">
       <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Botanik</h3></div>
     </div></div>
@@ -1099,11 +1301,12 @@
 <section class="day s-seoul" id="d10" data-chip="D11|Thu 8 Oct|c-seoul" data-date="2026-10-08">
   <div class="dayhead">
     <div>
-      <p class="dh-eyebrow">Day 11 — Thursday 8 October</p>
-      <h2>Hongdae · Yeonnam-dong · Premium Baskin Robbins · Namdaemun</h2>
+      <p class="dh-eyebrow">Day 11 — Thursday 8 October · Milo's birthday 🎂</p>
+      <h2>Milo's Birthday · Hongdae · Baskin Robbins · Custom Adidas</h2>
     </div>
     <div class="dh-kr" aria-hidden="true">서울</div>
   </div>
+  <p class="dh-note"><b>Happy birthday, Milo!</b> The plan so far is ice cream at the Baskin Robbins flagship, then shops where he can get his own custom gear (custom Adidas, t-shirt, cap). Ask him what he'd like to do; Everland was floated too.</p>
   <div class="tl">
     <div class="item"><div class="time">08:00</div><div class="card">
       <div class="card-head"><span class="kind">Eat</span><h3>Breakfast</h3></div>
@@ -1115,7 +1318,7 @@
     <div class="item"><div class="time">09:30
 12:00</div><div class="card">
       <div class="card-head"><span class="kind">See</span><h3>Hongdae youth culture</h3></div>
-      <p>K-pop shops, fashion, street buskers.</p>
+      <p>K-pop shops, fashion, street buskers, cafés.</p>
     </div></div>
     <div class="item"><div class="time">12:00
 13:00</div><div class="card">
@@ -1139,6 +1342,10 @@
 13:30</div><div class="card">
       <div class="card-head"><span class="kind">Eat</span><h3>Baskin Robbins Premium Store — Hongdae flagship</h3></div>
       <p>NOT a normal Baskin Robbins: Korea-exclusive flavours, premium toppings, seasonal collabs (BT21, Kakao Friends, Pokémon), and photo-worthy cups. Hongdae main street, 3–4 min from Exit 9.</p>
+    </div></div>
+    <div class="item"><div class="time">TBC</div><div class="card">
+      <div class="card-head"><span class="kind">Shop</span><h3>Birthday custom gear — Adidas customisation</h3><span class="flag">Store location TBC</span></div>
+      <p>The Adidas flagship with customisation (possibly in Myeongdong, possibly Hongdae — to confirm). Custom tee or cap for the birthday boy. On the grown-ups' list: Samba mules and the Mary Jane styles.</p>
     </div></div>
     <div class="item"><div class="time">13:30
 15:00</div><div class="card">
@@ -1236,13 +1443,17 @@
       </div>
     </div></div>
     <div class="item"><div class="time">18:00
-20:00</div><div class="card">
-      <div class="card-head"><span class="kind">Eat</span><h3>Han River evening — Banpo Hangang Park</h3></div>
-      <p>Taxi ~20 min (or Line 3 to Express Bus Terminal + 15-min walk). Do the classic: convenience-store ramyeon from the riverside CU’s DIY cookers, picnic on the grass, then the <b>Banpo Bridge Rainbow Fountain</b> — evening shows run April–October, typically between 19:30 and 21:00 (check times on the day). A holiday Friday night will be lively — stake out fountain-facing grass early. Wet-weather fallback: Myeongdong street-food dinner instead.</p>
+19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Early dinner</h3></div>
+      <p>Somewhere on the way to the drone show, or a quick Myeongdong street-food dinner.</p>
+    </div></div>
+    <div class="item"><div class="time">Evening</div><div class="card">
+      <div class="card-head"><span class="kind">See</span><h3>Seoul Drone Light Show — special monthly show</h3><span class="flag">Venue + time TBC</span></div>
+      <p>A special drone show held once a month in September, October and November, and tonight is the October one. It's usually over the Han River, but confirm the venue and start time closer to the date. It's a holiday evening, so get there early for a good spot on the grass. If it's near Banpo, the Rainbow Fountain (April–October evenings) is a bonus.</p>
     </div></div>
     <div class="item"><div class="time">20:30</div><div class="card">
       <div class="card-head"><span class="kind k2">Rest</span><h3>Back to Botanik</h3></div>
-      <p>One big day left tomorrow — then the flight home.</p>
+      <p>Two Seoul days left.</p>
     </div></div>
   </div>
 </section>
@@ -1252,27 +1463,36 @@
   <div class="dayhead">
     <div>
       <p class="dh-eyebrow">Day 13 — Saturday 10 October</p>
-      <h2>Open Day — Nothing Booked Yet</h2>
+      <h2>Free &amp; Easy Saturday · Yeouido Han River Ramyeon</h2>
     </div>
     <div class="dh-kr" aria-hidden="true">서울</div>
   </div>
+  <p class="dh-note">A split day. Interest in the DMZ is divided: some would rather have a facial or spa day. Do your own thing in the morning and meet at the river in the afternoon.</p>
   <div class="tl">
-    <div class="item"><div class="time">All day</div><div class="card">
-      <div class="card-head"><span class="kind">Note</span><h3>Blank in the WIP document</h3><span class="flag">To plan</span></div>
-      <p>This Saturday is blank in the WIP doc (its “Day 12”). With the last full day following it, this is a good slot for the one "big" thing that hasn't fit anywhere else — or a deliberately slow Saturday. Ideas:</p>
-      <ul>
-        <li>Day trip: Nami Island + Petite France, or the DMZ (books out early)</li>
-        <li>Everland or Seoul Grand Park if the teens want another big day</li>
-        <li>Han River cruise + Yeouido Hangang Park</li>
-        <li>Ihwa Mural Village + Naksan Park city-wall walk</li>
-      </ul>
+    <div class="item"><div class="time">Morning</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Split morning — pick your crew</h3><span class="flag">To decide</span></div>
+      <div class="opt-grid">
+        <div class="opt"><b>A — DMZ tour</b><span>Dora Observatory looking into North Korea and the Third Infiltration Tunnel. Guided bus only, passport details required, books out early. Morning tours are usually back in Seoul by mid-afternoon.</span></div>
+        <div class="opt"><b>B — Spa &amp; skin day</b><span>Scalp scrub, body scrub, facial: a Myeongdong clinic (see the Beauty tab), or a jjimjilbang like Dragon Hill Spa in Yongsan. Also: personal colour analysis, and Laneige's custom lip balm and foundation matching.</span></div>
+        <div class="opt"><b>C — Everland (kids)</b><span>Korea's biggest theme park, ~1 h south. On a Saturday it'll be at its busiest, so it's a full day on its own. Could be Milo's birthday pick instead.</span></div>
+      </div>
+    </div></div>
+    <div class="item"><div class="time">16:00
+19:00</div><div class="card">
+      <div class="card-head"><span class="kind">Eat</span><h3>Yeouido Hangang Park — convenience-store ramyeon by the river</h3></div>
+      <p>The classic: at the riverside convenience store, pick your instant noodles and toppings, then cook them yourself at the machines out the back. Eat on the grass by the Han. Salt bread and donut cafés are close by for dessert. Yeouinaru Station (Line 5) is right at the park; taxi ~20 min from Myeongdong.</p>
+      <div class="links"><a class="lnk" href="https://www.google.com/maps/search/?api=1&amp;query=Yeouido+Hangang+Park" target="_blank" rel="noopener">Map ↗</a></div>
+    </div></div>
+    <div class="item"><div class="time">Evening</div><div class="card">
+      <div class="card-head"><span class="kind k2">Option</span><h3>Karaoke night (noraebang)</h3></div>
+      <p>Coin noraebang booths or a big group room, all over Hongdae and Myeongdong. Last big night before tomorrow's flight.</p>
     </div></div>
     <div class="item"><div class="time">Extra</div><div class="card rec">
-      <div class="card-head"><span class="kind krec">Recs</span><h3>Guidebook picks for this Saturday</h3></div>
+      <div class="card-head"><span class="kind krec">Recs</span><h3>Other ideas for this Saturday</h3></div>
       <ul>
-        <li><span class="lp">LP pick</span><b>DMZ tour</b> — LP's signature Korea day trip: Dora Observatory looking into North Korea and the Third Infiltration Tunnel. Guided-bus only (passport details required) and it books out early — decide soon if this is the pick.</li>
         <li><span class="lp">LP pick</span><b>Suwon Hwaseong Fortress</b> — UNESCO walls, gates and watchtowers 45–60 min south; you can walk the ramparts and try traditional archery. Much easier to do spontaneously than the DMZ.</li>
-        <li><b>Weekend reality check</b> — it's a Saturday, so Everland and Nami Island will be at their most crowded; a booked tour (DMZ) or the fortress dodges the queue problem.</li>
+        <li><b>Namdaemun / Myeongdong Underground Shopping</b> — the underground arcade near the hotel does very cheap clothes. It's not fancy, but it's fun to rummage.</li>
+        <li><b>Weekend reality check</b> — Everland and Nami Island are at their most crowded on Saturdays; a booked tour or the fortress dodges the queues.</li>
       </ul>
     </div></div>
   </div>
@@ -1363,11 +1583,11 @@
     </div>
     <div class="dh-kr" aria-hidden="true">지도</div>
   </div>
-  <p class="dh-note">Pick a day to see that day's route in order, with transport and timings between stops. Tap any pin for details and one-tap directions — <b>Kakao Map</b> gives proper walking/transit/driving directions inside Korea; Google Maps is the backup. During the trip, visited pins fade and the next stop gets a gold ring.</p>
+  <p class="dh-note">Pick a day to see that day's route in order, with transport and timings between stops. Tap any pin for details and one-tap directions — <b>Kakao Map</b> gives proper walking/transit/driving directions inside Korea; Google Maps is the backup (and the one to use in Singapore). During the trip, visited pins fade and the next stop gets a gold ring.</p>
   <div class="mapfilters" id="mapfilters"></div>
   <div id="map" class="mapwrap"></div>
   <div id="mapfallback" hidden class="card" style="margin-top:10px">The embedded map can't load in this viewer — open the full site at <a href="https://debjames.github.io/sth-korea-trip/">debjames.github.io/sth-korea-trip</a> for the interactive map.</div>
-  <p class="maplegend"><span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
+  <p class="maplegend"><span class="dot" style="background:#1F8A70"></span>Singapore <span class="dot" style="background:#BE3A34"></span>Seoul <span class="dot" style="background:#DD7B2A"></span>Jeju <span class="dot" style="background:#2F6F8F"></span>Busan <span class="dot" style="background:#D9A73E"></span>flights &amp; KTX (dashed) · numbers = order within the day · villa/hotel pins are approximate — check the booking links for exact pins</p>
 </section>
 
 <!-- ================= CHAT ================= -->
@@ -1398,7 +1618,7 @@
 
   <div class="card" id="chatsetup">
     <div class="card-head"><span class="kind">Set up</span><h3>Pick the family room + your name</h3></div>
-    <p>The room name is the chat’s password: anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
+    <p>The room name is the chat’s password — and it also unlocks <b>shared itinerary editing</b> (the ✎ and “+ Add to this day” buttons on every day). Anyone who knows it can read and post (it’s deliberately never written into this site’s code). Easiest flow: one person hits <b>Random</b> and joins, then taps <b>Copy invite link</b> and drops it in the family group chat — everyone else opens that link and only has to type their name.</p>
     <p class="tr-err" id="chatrejoin" hidden>Your room <b id="chatrejoinroom"></b> is still saved — the chat just moved to our own private backend, so type your name below and tap <b>Join</b> to jump back in.</p>
     <div class="tr-row">
       <input id="chatroominput" type="text" placeholder="Room name — or paste an invite link" aria-label="Chat room name or invite link" autocapitalize="none" autocorrect="off">
@@ -1611,7 +1831,7 @@
     </div>
     <div class="dh-kr" aria-hidden="true">재미</div>
   </div>
-  <p class="dh-note">Researched picks the kids (and teens) will actually rate — a mix of properly traditional and properly Korean-cool, <b>listed in trip order</b> by the day each fits best: Jeju first, then Busan, then Seoul. Pick a day and hit <b>Add to day</b>: the idea drops into that day's timeline (remove it there any time). Choices are saved on this phone.</p>
+  <p class="dh-note">Researched picks the kids (and teens) will actually rate — a mix of properly traditional and properly Korean-cool, <b>listed in trip order</b> by the day each fits best: Jeju first, then Busan, then Seoul. Pick a day and hit <b>Add to day</b>: the idea drops into that day's timeline. Once you've joined the family room (Chat tab) it's shared with everyone and anyone can edit or remove it; before that, choices are saved on this phone only.</p>
   <div class="idea-stack">
     <div class="card idea" data-id="aquaplanet" data-def="d4">
       <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-jeju">Jeju</span><h3>Aqua Planet Jeju — mega aquarium at Seongsan</h3></div>
@@ -1627,7 +1847,7 @@
 
     <div class="card idea" data-id="droneshow" data-def="d6">
       <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-busan">Busan</span><h3>Gwangalli M Drone Light Show — Saturday nights</h3></div>
-      <p>Korea's permanent drone show: hundreds of drones over Gwangan Bridge, free from anywhere on Gwangalli Beach, every Saturday — 19:00 &amp; 21:00 in October, ~12 minutes. Your Busan Saturday (3 Oct) is the night: the non-festival group could do dinner at Gwangalli and catch the 19:00 show. (Weather can cancel it — check the official site that day.)</p>
+      <p>Korea's permanent drone show: hundreds of drones over Gwangan Bridge, free from anywhere on Gwangalli Beach, every Saturday — 19:00 &amp; 21:00 in October, ~12 minutes. Your Busan Saturday (3 Oct) is the night: it's now an evening option on Day 6, with dinner at Gwangalli before the 19:00 show. (Weather can cancel it — check the official site that day.)</p>
       <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
     </div>
 
@@ -1679,15 +1899,15 @@
       <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
     </div>
 
-    <div class="card idea" data-id="hanriver" data-def="d11">
+    <div class="card idea" data-id="hanriver" data-def="d12">
       <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-trad">Traditional</span><span class="tagchip t-seoul">Seoul</span><h3>Han River picnic + DIY ramyeon machines</h3></div>
-      <p>The classic Seoul afternoon: grass by the Han at Yeouido or Ttukseom, then cook your own ramyeon in the convenience-store machines by the river (kids are obsessed). Time it for evening and catch the Banpo Bridge Rainbow Fountain show (runs April–October). Already pencilled into the Day 12 (Fri 9 Oct) plan as the evening finale.</p>
+      <p>The classic Seoul afternoon: grass by the Han at Yeouido or Ttukseom, then cook your own ramyeon in the convenience-store machines by the river (kids are obsessed). Time it for evening and catch the Banpo Bridge Rainbow Fountain show (runs April–October). Now on Day 13 (Sat 10 Oct) at Yeouido Hangang Park.</p>
       <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
     </div>
 
     <div class="card idea" data-id="namizip" data-def="d12">
       <div class="card-head"><span class="tagchip t-cool">Cool</span><span class="tagchip t-seoul">Seoul day trip</span><h3>Nami Island Zip Wire — fly onto the island</h3></div>
-      <p>Skip the ferry: launch from an 80 m tower at Gapyeong wharf and ride a 940 m zip wire across the river, landing on Nami Island itself — about a minute of pure bragging rights. Ticket (~₩50,000–58,000) includes island admission and the return ferry. Weight/height limits apply and reports vary (some say ~50 kg minimum with shoes on) — check at the tower; smaller kids take the ferry and wave. Queues build on weekends, so zip first thing. Pairs with the Day 13 Nami + Petite France day-trip idea.</p>
+      <p>Skip the ferry: launch from an 80 m tower at Gapyeong wharf and ride a 940 m zip wire across the river, landing on Nami Island itself — about a minute of pure bragging rights. Ticket (~₩50,000–58,000) includes island admission and the return ferry. Weight/height limits apply and reports vary (some say ~50 kg minimum with shoes on) — check at the tower; smaller kids take the ferry and wave. Queues build on weekends, so zip first thing. Works as a Nami Island day trip on a free day.</p>
       <div class="idea-add"><select aria-label="Choose a day"></select><button class="tr-btn idea-btn" type="button">Add to day</button><span class="idea-state"></span></div>
     </div>
 
@@ -1820,20 +2040,31 @@
     </div>
     <div class="dh-kr" aria-hidden="true">할 일</div>
   </div>
-  <p class="dh-note">Everything the WIP document flags as unbooked or undecided. Ticks are saved in this browser.</p>
+  <p class="dh-note">Everything still unbooked or undecided, including the actions from the 15 Sep planning call. Ticks are saved in this browser.</p>
   <div class="todo" id="todolist">
+    <label><input type="checkbox" data-k="sg-flights"><span><b>Add Singapore flight times</b><span>Adelaide → Singapore (Thu 24 Sep) and Singapore → Incheon (Mon 28 Sep). Tap ✎ on the flight cards to fill them in.</span></span></label>
+    <label><input type="checkbox" data-k="sg-hotel"><span><b>Add the Singapore hotel details (Tiong Bahru)</b><span>Name, address, check-in time on SG1.</span></span></label>
+    <label><input type="checkbox" data-k="money-sg"><span><b>Cash plan — exchange AUD for won now, or in Singapore</b><span>Rough rule for prices: ₩1,000 ≈ A$1 (a little over). The $ tab has a live converter.</span></span></label>
+    <label><input type="checkbox" data-k="crew-numbers"><span><b>Get Tien's and Fu's numbers into the Crew tab</b><span>Message them round, then add them under Crew.</span></span></label>
+    <label><input type="checkbox" data-k="probiotics"><span><b>Pack probiotics — and take them daily</b><span>Easy to forget once you feel better. Some brands need refrigerating, so check yours.</span></span></label>
+    <label><input type="checkbox" data-k="bookingscam"><span><b>Heads-up: Booking.com scam messages</b><span>Scammers with real booking details are asking for "verification" payments over WhatsApp. Never pay these. Prices shown in the app can drift with the exchange rate, but you were charged at booking, so decline any unexpected charge.</span></span></label>
     <label><input type="checkbox" data-k="icn-gmp"><span><b>Day 1 — ICN → Gimpo transfer</b><span>Decide: private van(s) / taxis (≈35 min) vs AREX All-Stop Train (≈38 min) for 10 people with luggage.</span></span></label>
     <label><input type="checkbox" data-k="jeju-cars"><span><b>Day 2 — Jeju hire cars</b><span>Book 2 cars or a 12-seater van. Lotte / AJ / Jeju Rent-A-Car, all at the airport Rental Car House.</span></span></label>
     <label><input type="checkbox" data-k="gimhae"><span><b>Day 5 — Gimhae → Nampo transfer</b><span>Jumbo taxi (recommended, ₩60–80k total) vs Limousine Bus 1 (₩6k pp) vs two taxis.</span></span></label>
-    <label><input type="checkbox" data-k="rockfest"><span><b>Day 6 — Rock Festival 2026 schedule + tickets</b><span>Confirm dates/times once the Busan International Rock Festival 2026 line-up is released; buy tickets.</span></span></label>
-    <label><input type="checkbox" data-k="ktx"><span><b>Day 8 — KTX seats Busan → Seoul</b><span>Book 10 seats in the same car, 10:00–11:00 departure window.</span></span></label>
-    <label><input type="checkbox" data-k="d12"><span><b>Day 13 (Sat 10 Oct) — plan the open day</b><span>Blank in the document. Day trip? Everland? Slow Saturday?</span></span></label>
+    <label><input type="checkbox" data-k="bluelinepark"><span><b>Day 7 — book the Blue Line Park Sky Capsule (Sun 4 Oct)</b><span>Sunday slots sell out. 3 capsules (max 4 each) for 11 people, ~13:30–14:00 from Mipo.</span></span></label>
+    <label><input type="checkbox" data-k="ktx845"><span><b>Day 8 — KTX 08:45 Busan → Seoul (Mon 5 Oct)</b><span>It's 08:45, not 10:00. Taxis at 07:40, at the station by ~08:15.</span></span></label>
+    <label><input type="checkbox" data-k="baseball"><span><b>KBO baseball — Mon 5 to Wed 7 Oct only</b><span>Last regular-season games. Check Seoul home games (Jamsil / Gocheok) and buy tickets directly.</span></span></label>
+    <label><input type="checkbox" data-k="nanta"><span><b>Nanta show — pick the night + ask the kids</b><span>Myeongdong theatre, walking distance from Botanik. Pencilled in for Wed 7 Oct at 20:00.</span></span></label>
+    <label><input type="checkbox" data-k="milo"><span><b>Ask Milo what he wants for his birthday (Thu 8 Oct)</b><span>Current plan: Baskin Robbins flagship + custom gear in Hongdae. Everland is the other idea.</span></span></label>
+    <label><input type="checkbox" data-k="adidas"><span><b>Find the Adidas customisation flagship</b><span>Myeongdong or Hongdae? Update the Day 11 card once known.</span></span></label>
+    <label><input type="checkbox" data-k="seouldrone"><span><b>Seoul Drone Light Show — confirm venue + time (Fri 9 Oct)</b><span>October's special monthly show. Update the Day 12 card once known.</span></span></label>
+    <label><input type="checkbox" data-k="d12"><span><b>Sat 10 Oct — DMZ vs spa day vs Everland</b><span>Interest is divided, so split the morning and regroup at Yeouido for ramyeon. The DMZ needs booking early.</span></span></label>
     <label><input type="checkbox" data-k="dep-taxi"><span><b>Day 14 — departure-night airport transfer</b><span>Pre-arrange 2 jumbo vans or 3 taxis to ICN for the 23:50 flight.</span></span></label>
     <label><input type="checkbox" data-k="holidayswap"><span><b>Confirm the skin clinic’s Hangeul Day hours (Fri 9 Oct)</b><span>The swap is done — Lotte World is now Tue 6 Oct and Royal Seoul is Fri 9 Oct. Only loose end: the adults’ clinic session falls on the public holiday — check hours when booking, or move it to Wed/Thu.</span></span></label>
     <label><input type="checkbox" data-k="secretgarden"><span><b>Book the Changdeokgung Secret Garden tour — Fri 9 Oct</b><span>Now on Day 12 — which is Hangeul Day, so demand will be higher than normal. Reserve online early and flex the morning around the slot.</span></span></label>
     <label><input type="checkbox" data-k="dmz"><span><b>Book the DMZ tour if that's the Day 13 pick</b><span>Requires passport details and sells out early; Suwon Hwaseong is the no-booking fallback.</span></span></label>
     <label><input type="checkbox" data-k="yongchim"><span><b>Double-check “Yongchim Restaurant”</b><span>The doc lists it for both Seogwipo (Day 4) and Nampo, Busan (Days 5–6) dinners — verify the right one on Naver before setting off.</span></span></label>
-    <label><input type="checkbox" data-k="tata-flight"><span><b>Confirm Tata's flight into Seoul (Mon 5 Oct)</b><span>Airport (Incheon or Gimpo) and arrival time TBC — update Day 8 once booked.</span></span></label>
+    <label><input type="checkbox" data-k="tata-flight"><span><b>Confirm Tata's flight into Seoul (Mon 5 Oct)</b><span>Airport (Incheon or Gimpo) and arrival time TBC. Update Day 8 once booked (tap ✎ on his card).</span></span></label>
     <label><input type="checkbox" data-k="joiner-beds"><span><b>Sort beds for Cheryl (Busan, from 3 Oct) and Tata (Seoul, from 5 Oct)</b><span>Current bookings are for 10 — check the Nampo Airbnb capacity and add a room/bed at Botanik if needed.</span></span></label>
     <label><input type="checkbox" data-k="dates"><span><b>Fix the date drift in the source doc</b><span>The doc skips Tue 6 Oct and its weekday labels drift; this site fixes the dates and renumbers the days — Tue 6 Oct is Day 9 here, so the doc’s Day 9–13 are Days 10–14.</span></span></label>
   </div>
@@ -1848,7 +2079,7 @@
   </div>
 </div>
 
-<footer>EVA'S KOREAN ADVENTURE · 28 SEP – 12 OCT 2026 · BUILT FROM THE WIP ITINERARY · 좋은 여행 되세요</footer>
+<footer>EVA'S KOREAN ADVENTURE · 24 SEP – 12 OCT 2026 · BUILT FROM THE WIP ITINERARY · 좋은 여행 되세요</footer>
 
 <script>
 (function(){
@@ -1903,7 +2134,9 @@
   document.getElementById('prevbtn').addEventListener('click', function(){ show(cur-1); });
   document.getElementById('nextbtn').addEventListener('click', function(){ show(cur+1); });
   document.addEventListener('keydown', function(e){
-    if (e.target.tagName === 'INPUT') return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    var dlg = document.getElementById('edlg');
+    if (dlg && dlg.open) return;
     if (e.key === 'ArrowLeft') show(cur-1);
     if (e.key === 'ArrowRight') show(cur+1);
   });
@@ -1928,12 +2161,16 @@
     }catch(e){}
   }
 
-  // ---- Korea-time countdown + happening now / up next ----
-  // KST is fixed UTC+9 (no DST), so timestamps are easy to build exactly.
+  // ---- local-time countdown + happening now / up next ----
+  // KST is fixed UTC+9 and Singapore UTC+8 (neither has DST), so timestamps are exact.
+  // Singapore days carry data-tz="8"; everything else is Korea time.
   function KST(y, mo, d, h, mi){ return Date.UTC(y, mo-1, d, h-9, mi||0); }
-  var TOUCHDOWN  = KST(2026, 9, 28, 15, 30);  // wheels down at ICN
-  var TRIP_START = KST(2026, 9, 28, 0, 0);    // midnight KST, day 1
+  function LT(y, mo, d, h, mi, tz){ return Date.UTC(y, mo-1, d, h-(tz||9), mi||0); }
+  function tzOf(sec){ return +(sec && sec.dataset.tz) || 9; }
+  function tzLab(tz){ return tz === 8 ? 'SGT' : 'KST'; }
+  var TRIP_START = LT(2026, 9, 24, 0, 0, 8);  // midnight SGT, Thu 24 Sep — Singapore day 1
   var TRIP_END   = KST(2026, 10, 12, 17, 20); // touch down in Adelaide
+  var TRIP_DAYS  = 19;
   var cdNum  = document.getElementById('countdown');
   var cdLab  = document.getElementById('cdlabel');
   var banner = document.getElementById('upnext');
@@ -1941,44 +2178,51 @@
   var slotNext = document.getElementById('un-next');
   var goBtn  = document.getElementById('un-go');
 
-  // index every timed itinerary item (first HH:MM in its time column)
+  // index every timed itinerary item (first HH:MM in its time column).
+  // Rebuilt whenever shared edits change the plan.
   var events = [];
-  days.forEach(function(sec, di){
-    var date = sec.dataset.date;
-    if (!date) return;
-    var p = date.split('-').map(Number);
-    sec.querySelectorAll('.item').forEach(function(it){
-      var m = /(\d{1,2}):(\d{2})/.exec(it.querySelector('.time').textContent);
-      if (!m) return;
-      events.push({
-        di: di, el: it,
-        ts: KST(p[0], p[1], p[2], +m[1], +m[2]),
-        lab: m[1] + ':' + m[2],
-        title: it.querySelector('h3').textContent,
-        day: chipTitle(di)
+  function buildEvents(){
+    events = [];
+    days.forEach(function(sec, di){
+      var date = sec.dataset.date;
+      if (!date) return;
+      var p = date.split('-').map(Number), tz = tzOf(sec);
+      sec.querySelectorAll('.item').forEach(function(it){
+        if (it.classList.contains('ed-hidden')) return;
+        var m = /(\d{1,2}):(\d{2})/.exec(it.querySelector('.time').textContent);
+        if (!m) return;
+        events.push({
+          di: di, el: it,
+          ts: LT(p[0], p[1], p[2], +m[1], +m[2], tz),
+          lab: m[1] + ':' + m[2] + ' ' + tzLab(tz),
+          title: it.querySelector('h3').textContent,
+          day: chipTitle(di)
+        });
       });
     });
-  });
-  events.sort(function(a, b){ return a.ts - b.ts; });
+    events.sort(function(a, b){ return a.ts - b.ts; });
+    lastKey = '';
+  }
 
   var goTarget = 0, lastKey = '';
+  buildEvents();
   goBtn.addEventListener('click', function(){ show(goTarget); });
   function pad(n){ return String(n).padStart(2, '0'); }
   function setSlot(slot, ev){
     slot.hidden = !ev;
     if (!ev) return;
     slot.querySelector('.un-title').textContent = ev.title;
-    slot.querySelector('.un-time').textContent = ev.day + ' · ' + ev.lab + ' KST';
+    slot.querySelector('.un-time').textContent = ev.day + ' · ' + ev.lab;
   }
 
   function tick(){
     var now = Date.now();
     if (now < TRIP_START){
-      var rem = TOUCHDOWN - now;
+      var rem = TRIP_START - now;
       var d  = Math.floor(rem / 86400000);
       var r  = rem % 86400000;
       cdNum.textContent = d;
-      cdLab.textContent = 'days · ' + pad(Math.floor(r/3600000)) + ':' + pad(Math.floor(r%3600000/60000)) + ':' + pad(Math.floor(r%60000/1000)) + ' to touchdown';
+      cdLab.textContent = 'days · ' + pad(Math.floor(r/3600000)) + ':' + pad(Math.floor(r%3600000/60000)) + ':' + pad(Math.floor(r%60000/1000)) + ' to Singapore day 1';
       banner.classList.remove('show');
       return;
     }
@@ -1989,9 +2233,9 @@
       return;
     }
     // travelling: show trip day + now/next
-    var dayN = Math.min(15, Math.floor((now - TRIP_START) / 86400000) + 1);
+    var dayN = Math.min(TRIP_DAYS, Math.floor((now - TRIP_START) / 86400000) + 1);
     cdNum.textContent = dayN;
-    cdLab.textContent = 'day of 15 — 화이팅!';
+    cdLab.textContent = 'day of ' + TRIP_DAYS + ' — 화이팅!';
     var cur = null, nxt = null;
     for (var i = 0; i < events.length; i++){
       if (events[i].ts <= now) cur = events[i];
@@ -2034,10 +2278,28 @@
   });
 
   // ---- trip map ----
-  var LEGC = { seoul:'#BE3A34', jeju:'#DD7B2A', busan:'#2F6F8F', home:'#55606C' };
+  var LEGC = { sing:'#1F8A70', seoul:'#BE3A34', jeju:'#DD7B2A', busan:'#2F6F8F', home:'#55606C' };
   // Stops per day, in visit order. c = [lat,lng] (hotel/villa pins approximate),
   // via = transport from the previous stop, straight from the itinerary.
   var MAPDAYS = [
+    {id:'sg1', leg:'sing', tz:8, label:'SG1', date:'2026-09-24', stops:[
+      {n:'Changi Airport (SIN)', c:[1.3644,103.9915], d:'Flight from Adelaide · time TBC'},
+      {n:'Tiong Bahru — hotel (approx.)', c:[1.2851,103.8326], via:'Two 6-seaters ~25 min', d:'Walking distance to Tiong Bahru Market'}
+    ]},
+    {id:'sg2', leg:'sing', tz:8, label:'SG2', date:'2026-09-25', stops:[
+      {t:'08:00', n:'Tiong Bahru Market', c:[1.2851,103.8326], d:'Hawker breakfast upstairs'},
+      {t:'09:00', n:'Singapore Zoo (option A)', c:[1.4043,103.7930], via:'Taxi 30–35 min', d:'Minecraft experience · go early'},
+      {n:'Sentosa — Resorts World (option B)', c:[1.2540,103.8238], via:'Taxi ~15 min · or Sentosa Express from VivoCity', d:'Harry Potter: Visions of Magic'}
+    ]},
+    {id:'sg3', leg:'sing', tz:8, label:'SG3', date:'2026-09-26', stops:[
+      {t:'08:30', n:'Tiong Bahru — breakfast', c:[1.2851,103.8326], d:'Hawker centre or bakeries'},
+      {t:'10:00', n:'Orchard Road', c:[1.3040,103.8318], via:'Taxi / MRT ~10 min', d:'Walkabout · Michelin food court lunch'},
+      {t:'14:30', n:'Gardens by the Bay', c:[1.2816,103.8636], via:'Taxi ~15 min', d:'Children’s Garden water play · Supertrees · lanterns · Garden Rhapsody'}
+    ]},
+    {id:'sg4', leg:'sing', tz:8, label:'SG4', date:'2026-09-27', stops:[
+      {t:'08:00', n:'Tiong Bahru Market', c:[1.2851,103.8326], d:'Breakfast'},
+      {t:'09:00', n:'Zoo or Sentosa — the other one', c:[1.4043,103.7930], via:'See SG2', d:'Pack tonight — flight to Seoul Monday'}
+    ]},
     {id:'d1', leg:'seoul', label:'D1', date:'2026-09-28', stops:[
       {t:'15:30', n:'Incheon Airport (ICN)', c:[37.4602,126.4407], d:'Land · buy SIMs + T-money · change money'},
       {t:'16:45', n:'Lotte City Hotel Gimpo', c:[37.5629,126.8010], via:'Private van(s)/taxis ≈35 min · or AREX All-Stop ≈38 min', d:'Check-in — connected to Lotte Mall'},
@@ -2080,22 +2342,22 @@
     ]},
     {id:'d6', leg:'busan', label:'D6', date:'2026-10-03', stops:[
       {t:'07:45', n:'Cheryl lands — Gimhae (PUS)', c:[35.1795,128.9382], d:'From Singapore · Limo Bus 1 or taxi to Nampo, ~09:00 arrival'},
-      {t:'09:30', n:'Songdo Cloud Walk (morning pick)', c:[35.0764,129.0172], via:'Taxi 10 min', d:'Boardwalk over the ocean · optional cable car'},
-      {t:'14:00', n:'Rock Festival — Samnak Park', c:[35.1690,128.9748], via:'Taxi 25–30 min ₩15–20k · or Line 1→2 to Deokpo, 35–45 min', d:'Gates ~14:00 · music 15:00–22:00 (2026 TBC)'},
-      {n:'Gamcheon Culture Village (option)', c:[35.0975,129.0106], via:'Taxi 15 min · or Line 1 to Toseong + shuttle ₩1,000', d:'Non-festival top pick · murals, shops, cafés'},
-      {n:'Taejongdae Park (option)', c:[35.0530,129.0870], via:'Taxi 20–25 min · or City Tour Bus Blue Line', d:'Cliffs · lighthouse · Danubi Train ₩4,000'}
+      {t:'10:00', n:'Gamcheon Culture Village', c:[35.0975,129.0106], via:'Taxi 15 min · or Line 1 to Toseong + shuttle ₩1,000', d:'Murals, shops, cafés — go early on the holiday'},
+      {t:'13:30', n:'Gukje Market + BIFF Square', c:[35.1010,129.0270], via:'Taxi 15 min back to Nampo', d:'Market lap for Cheryl · ssiat hotteok'},
+      {t:'18:00', n:'Gwangalli — drone show (option)', c:[35.1532,129.1187], via:'Metro ~30 min', d:'Saturday shows 19:00 & 21:00'}
     ]},
     {id:'d7', leg:'busan', label:'D7', date:'2026-10-04', stops:[
       {t:'09:00', n:'Songdo Cloud Walk + cable car', c:[35.0764,129.0172], via:'Taxi 10 min · or Jagalchi Stn Exit 2 → bus 7/26/71', d:'Glass boardwalk + bay cable car'},
       {t:'11:30', n:'Huinnyeoul Culture Village', c:[35.0786,129.0453], via:'Taxi 15 min', d:'Cliffside murals · lunch: Cafe Yoon, Jeonbok'},
-      {t:'15:00', n:'Gwangalli Beach', c:[35.1532,129.1187], via:'Metro ~30 min: Line 1 → Seomyeon → Line 2 → Geumnyeonsan + 10 min walk', d:'Gwangan Bridge night lights'},
+      {t:'13:30', n:'Blue Line Park — Mipo (Sky Capsule)', c:[35.1591,129.1722], via:'Taxi 35–40 min', d:'Book ahead · capsules to Cheongsapo'},
+      {t:'17:00', n:'Gwangalli Beach', c:[35.1532,129.1187], via:'Taxi 15–20 min', d:'Gwangan Bridge night lights'},
       {t:'18:00', n:'Millak Raw Fish Center', c:[35.1571,129.1231], via:'Walk 10 min along the beach', d:'Pick your fish · or 6 other dinner options (see D7)'}
     ]},
     {id:'d8', leg:'seoul', label:'D8', date:'2026-10-05', stops:[
-      {t:'09:30', n:'Busan Station', c:[35.1151,129.0413], via:'Taxi 10 min ₩6–8k', d:'KTX 10:00–11:00 window · 2 h 40'},
-      {t:'12:45', n:'Seoul Station', c:[37.5547,126.9707], via:'KTX 2 h 40 · same-car seats', d:'3 taxis to the hotel, ₩6–8k each'},
-      {t:'14:00', n:'Botanik Hotel Myeongdong (approx.)', c:[37.5606,126.9866], via:'Taxi 10–12 min', d:'Check-in · lunch: Kyoja, Yoogane'},
-      {t:'15:30', n:'Myeongdong walkabout', c:[37.5636,126.9838], via:'Walk', d:'Beauty shops · K-pop · street food'},
+      {t:'07:45', n:'Busan Station', c:[35.1151,129.0413], via:'3 taxis, 10 min ₩6–8k', d:'KTX 08:45 · be there by 08:15'},
+      {t:'11:25', n:'Seoul Station', c:[37.5547,126.9707], via:'KTX 2 h 40 · same-car seats', d:'3 taxis to the hotel, ₩6–8k each'},
+      {t:'12:00', n:'Botanik Hotel Myeongdong (approx.)', c:[37.5606,126.9866], via:'Taxi 10–12 min', d:'Bag drop · lunch: Kyoja, Yoogane'},
+      {t:'15:00', n:'Myeongdong walkabout', c:[37.5636,126.9838], via:'Walk', d:'Beauty shops · K-pop · street food'},
       {t:'17:30', n:'Namsan Cable Car (optional)', c:[37.5567,126.9817], via:'Taxi 5–10 min', d:'Sunset views'}
     ]},
     {id:'dspare', leg:'seoul', label:'D9', date:'2026-10-06', stops:[
@@ -2118,7 +2380,10 @@
       {t:'12:45', n:'Gwangjang Market', c:[37.5700,126.9996], via:'Walk 15 min / taxi 5', d:'Bindaetteok · mayak gimbap · hotteok'},
       {t:'14:00', n:'Cheonggyecheon Stream', c:[37.5692,126.9880], via:'Enter beside the market, walk west', d:'Flat streamside stroll, stepping stones'},
       {t:'15:00', n:'Running Man Center (kids) · clinic (adults)', c:[37.5718,126.9860], via:'Walk 10 min into Insadong', d:'Timed missions ~90 min · clinic: check holiday hours'},
-      {t:'18:00', n:'Banpo Hangang Park — ramyeon + Rainbow Fountain', c:[37.5103,126.9956], via:'Taxi ~20 min · or Line 3 to Express Bus Terminal', d:'Fountain shows Apr–Oct evenings, ~19:30–21:00'}
+      {n:'Seoul Drone Light Show (venue TBC)', c:[37.5103,126.9956], d:'Special monthly show · confirm venue + time'}
+    ]},
+    {id:'d12', leg:'seoul', label:'D13', date:'2026-10-10', stops:[
+      {t:'16:00', n:'Yeouido Hangang Park — DIY ramyeon', c:[37.5284,126.9340], via:'Taxi ~20 min · or Line 5 to Yeouinaru', d:'Convenience-store ramyeon machines · picnic by the river'}
     ]},
     {id:'d13', leg:'seoul', label:'D14', date:'2026-10-11', stops:[
       {t:'13:00', n:'Cheonggyecheon Stream (gentle option)', c:[37.5696,126.9784], via:'Walk from Myeongdong', d:'Or Namsan · Cathedral · cafés'},
@@ -2126,6 +2391,7 @@
     ]}
   ];
   var TRANSFERS = [
+    {a:[37.4602,126.4407], b:[37.5629,126.8010], n:'ICN → Gimpo hotel · D1 (after the SIN → ICN flight)'},
     {a:[37.5586,126.7944], b:[33.5104,126.4914], n:'Flight GMP → CJU · D2 · 08:55–10:10'},
     {a:[33.5104,126.4914], b:[35.1795,128.9382], n:'Flight CJU → PUS · D5 · 10:45–11:45'},
     {a:[35.1151,129.0413], b:[37.5547,126.9707], n:'KTX Busan → Seoul · D8 · ~2 h 40'}
@@ -2139,10 +2405,11 @@
   function kakaoDir(s){ return 'https://map.kakao.com/link/to/' + encodeURIComponent(s.n) + ',' + s.c[0] + ',' + s.c[1]; }
   function googleDir(s){ return 'https://www.google.com/maps/dir/?api=1&destination=' + s.c[0] + ',' + s.c[1]; }
   function popupHtml(md, s, idx){
-    var h = '<b>' + s.n + '</b><span class="pp-meta">' + md.label + ' · stop ' + (idx+1) + (s.t ? ' · ' + s.t + ' KST' : ' · optional') + '</span>';
+    var h = '<b>' + s.n + '</b><span class="pp-meta">' + md.label + ' · stop ' + (idx+1) + (s.t ? ' · ' + s.t + ' ' + tzLab(md.tz || 9) : ' · optional') + '</span>';
     if (s.via) h += '<span class="pp-via">→ ' + s.via + '</span>';
     if (s.d) h += '<span class="pp-via">' + s.d + '</span>';
-    h += '<div class="pp-links"><a href="' + kakaoDir(s) + '" target="_blank" rel="noopener">Directions (Kakao)</a> · <a href="' + googleDir(s) + '" target="_blank" rel="noopener">Google</a></div>';
+    if (md.leg === 'sing') h += '<div class="pp-links"><a href="' + googleDir(s) + '" target="_blank" rel="noopener">Directions (Google)</a></div>';
+    else h += '<div class="pp-links"><a href="' + kakaoDir(s) + '" target="_blank" rel="noopener">Directions (Kakao)</a> · <a href="' + googleDir(s) + '" target="_blank" rel="noopener">Google</a></div>';
     return h;
   }
   function drawDay(md, small){
@@ -2158,7 +2425,7 @@
       var p = md.date.split('-').map(Number), now = Date.now();
       for (var i = 0; i < md.stops.length; i++){
         var tm = md.stops[i].t && /(\d{1,2}):(\d{2})/.exec(md.stops[i].t);
-        if (tm && KST(p[0], p[1], p[2], +tm[1], +tm[2]) > now){ nextIdx = i; break; }
+        if (tm && LT(p[0], p[1], p[2], +tm[1], +tm[2], md.tz || 9) > now){ nextIdx = i; break; }
       }
     }
     var em = (typeof STAMPS !== 'undefined') && STAMPS[md.id];
@@ -2184,8 +2451,10 @@
     document.querySelectorAll('#mapfilters .mchip[data-f]').forEach(function(b){
       b.classList.toggle('on', b.dataset.f === id);
     });
-    if (id === 'all'){
-      MAPDAYS.forEach(function(md){ drawDay(md, true); });
+    if (id === 'sgall'){
+      MAPDAYS.forEach(function(md){ if (md.leg === 'sing') drawDay(md, true); });
+    } else if (id === 'all'){
+      MAPDAYS.forEach(function(md){ if (md.leg !== 'sing') drawDay(md, true); });
       TRANSFERS.forEach(function(tr){
         L.polyline([tr.a, tr.b], {color:'#D9A73E', weight:2, opacity:0.8, dashArray:'2 8'}).addTo(fg).bindPopup('<b>' + tr.n + '</b>');
       });
@@ -2228,9 +2497,14 @@
       fg = L.featureGroup().addTo(map);
       var wrap = document.getElementById('mapfilters');
       var all = document.createElement('button');
-      all.type = 'button'; all.className = 'mchip'; all.dataset.f = 'all'; all.textContent = 'All';
+      all.type = 'button'; all.className = 'mchip'; all.dataset.f = 'all'; all.textContent = 'All Korea';
       all.addEventListener('click', function(){ setFilter('all'); });
       wrap.appendChild(all);
+      var sgAll = document.createElement('button');
+      sgAll.type = 'button'; sgAll.className = 'mchip'; sgAll.dataset.f = 'sgall'; sgAll.textContent = 'All Singapore';
+      sgAll.style.setProperty('--fc', LEGC.sing);
+      sgAll.addEventListener('click', function(){ setFilter('sgall'); });
+      wrap.appendChild(sgAll);
       MAPDAYS.forEach(function(md){
         var b = document.createElement('button');
         b.type = 'button'; b.className = 'mchip'; b.dataset.f = md.id;
@@ -2375,7 +2649,7 @@
   try{ if (localStorage.getItem('ksth-eva') === '1') setEva(true); }catch(e){}
 
   // ---- Eva's stamp rally ----
-  var STAMPS = {d1:'🐯', d2:'🐴', d3:'🐬', d4:'🦌', d5:'🐟', d6:'🦀', d7:'🐙', d8:'🐕', dspare:'🐰', d9:'🐿️', d10:'🦦', d11:'🦁', d12:'🐮', d13:'🦉', dhome:'🐨'};
+  var STAMPS = {sg1:'🦚', sg2:'🐒', sg3:'🌺', sg4:'🐘', d1:'🐯', d2:'🐴', d3:'🐬', d4:'🦌', d5:'🐟', d6:'🦀', d7:'🐙', d8:'🐕', dspare:'🐰', d9:'🐿️', d10:'🦦', d11:'🦁', d12:'🐮', d13:'🦉', dhome:'🐨'};
   var gotStamps = {};
   try{ gotStamps = JSON.parse(localStorage.getItem('ksth-stamps') || '{}'); }catch(e){}
   var stampMini = document.getElementById('stampmini');
@@ -2412,7 +2686,7 @@
   renderTrail();
 
   // ---- Eva pick badges on kid-favourite cards ----
-  [['d2','Gwakji Beach'], ['d3','Hallim Park'], ['d5','Explore Nampo'], ['d7','Songdo Cloud Walk + cable car'], ['d8','Namsan Cable Car'], ['d10','Baskin Robbins'], ['dspare','Lotte World Adventure']].forEach(function(p){
+  [['sg3','Gardens by the Bay'], ['d2','Gwakji Beach'], ['d3','Hallim Park'], ['d5','Explore Nampo'], ['d7','Songdo Cloud Walk + cable car'], ['d8','Namsan Cable Car'], ['d10','Baskin Robbins'], ['dspare','Lotte World Adventure']].forEach(function(p){
     var sec = document.getElementById(p[0]); if (!sec) return;
     sec.querySelectorAll('.card h3').forEach(function(h){
       if (h.textContent.indexOf(p[1]) < 0) return;
@@ -2520,13 +2794,18 @@
       tl.appendChild(it);
     });
   }
+  function sharedIdea(id){
+    if (typeof planDocs === 'undefined') return null;
+    return planDocs.filter(function(d){ return d.k === 'add' && d.src === id; })[0] || null;
+  }
   function syncIdeaCards(){
     document.querySelectorAll('.idea').forEach(function(card){
       var st = card.querySelector('.idea-state');
       var btn = card.querySelector('.idea-btn');
-      var dayId = addedIdeas[card.dataset.id];
+      var sh = sharedIdea(card.dataset.id);
+      var dayId = sh ? sh.day : addedIdeas[card.dataset.id];
       if (dayId){
-        st.textContent = '✓ on ' + dayLabel(dayId);
+        st.textContent = '✓ on ' + dayLabel(dayId) + (sh ? ' · shared by ' + sh.by : '');
         btn.textContent = 'Move';
       } else {
         st.textContent = '';
@@ -2548,6 +2827,19 @@
     });
     if (card.dataset.def) sel.value = card.dataset.def;
     card.querySelector('.idea-btn').addEventListener('click', function(){
+      if (planReady()){
+        // in the family room: the idea becomes a shared item everyone sees
+        var title = card.querySelector('h3').textContent;
+        var ex = sharedIdea(card.dataset.id);
+        var d = { k:'add', day: sel.value, time: ex ? ex.time : '', title: ex ? ex.title : title,
+                  note: ex ? ex.note : card.querySelector('p').textContent.slice(0, 1500), link: ex ? ex.link : '', src: card.dataset.id };
+        card.querySelector('.idea-state').textContent = 'saving…';
+        planWrite(ex ? ex.id : null, d, (ex ? 'moved “' : 'added “') + title + '” to ' + dayLabel(sel.value), function(ok){
+          if (!ok) card.querySelector('.idea-state').textContent = 'couldn’t save — offline?';
+        });
+        if (addedIdeas[card.dataset.id]){ delete addedIdeas[card.dataset.id]; saveIdeas(); renderAddedIdeas(); }
+        return;
+      }
       addedIdeas[card.dataset.id] = sel.value;
       saveIdeas(); renderAddedIdeas(); syncIdeaCards();
     });
@@ -2791,10 +3083,12 @@
       if (!ok){ chatErr(true); return; }
       try{
         if (!chatDb){
-          firebase.initializeApp(FBCFG);
+          if (!firebase.apps.length) firebase.initializeApp(FBCFG);
           chatDb = firebase.firestore();
         }
         subscribeChat();
+        if (planSubbed !== chatRoom){ loadPlanCache(); planSubscribe(); }
+        updatePlanHints();
       }catch(e){ chatErr(true); }
     });
   }
@@ -2846,7 +3140,7 @@
         if (!ok) return;
         try{
           if (!chatDb){
-            firebase.initializeApp(FBCFG);
+            if (!firebase.apps.length) firebase.initializeApp(FBCFG);
             chatDb = firebase.firestore();
           }
           subscribeChat();
@@ -2880,6 +3174,324 @@
   bellLabel();
   document.getElementById('chatsend').addEventListener('click', sendChat);
   document.getElementById('chatmsgin').addEventListener('keydown', function(e){ if (e.key === 'Enter') sendChat(); });
+
+  // ---- shared itinerary: everyone in the family room can add, edit and remove ----
+  // Lives next to the chat at rooms/{room}/plan in Firestore. Two kinds of doc:
+  //   k:'add'  — a new item on a day (day, time, title, note, link[, src = idea id])
+  //   k:'edit' — an override on a built-in item, doc id 'e-' + item key (time, title, note, hide)
+  // The last snapshot is cached per room so edits still show offline.
+  var planDocs = [], planUnsub = null, planSubbed = '';
+  var edlg = document.getElementById('edlg');
+  var edCtx = null;
+  function planReady(){ return !!(chatRoom && chatName); }
+  function planCacheKey(){ return 'ksth-plan-' + chatRoom; }
+  function slug(t){ return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60); }
+  function firstMin(t){ var m = /(\d{1,2}):(\d{2})/.exec(t || ''); return m ? (+m[1]) * 60 + (+m[2]) : -1; }
+  function timeForCol(t){ return (t || '').replace(/^(\d{1,2}:\d{2})\s*[–—-]\s*(\d{1,2}:\d{2})$/, '$1\n$2'); }
+  function timeForInput(t){ return (t || '').replace(/\n/, '–').trim(); }
+  function safeLink(u){ return /^https?:\/\/\S+$/i.test(u || '') ? u : ''; }
+  function editDocId(key){ return 'e-' + key.replace(/[^A-Za-z0-9_-]/g, '__'); }
+
+  // stable key for every built-in item: day id + slug of its original title
+  var baseItems = {};
+  function editButton(label, onClick){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'ed-btn'; b.textContent = '✎';
+    b.setAttribute('aria-label', 'Edit “' + label + '”');
+    b.title = 'Edit for everyone';
+    b.addEventListener('click', onClick);
+    return b;
+  }
+  days.forEach(function(sec){
+    if (!sec.dataset.date) return;
+    var seen = {};
+    sec.querySelectorAll('.tl > .item').forEach(function(it){
+      var h = it.querySelector('h3'); if (!h) return;
+      var k = sec.id + '/' + slug(h.textContent);
+      if (seen[k]) k += '-' + (++seen[k]); else seen[k] = 1;
+      it.dataset.key = k;
+      baseItems[k] = { el: it, day: sec.id, time: it.querySelector('.time').textContent, title: h.textContent };
+      it.querySelector('.card-head').appendChild(editButton(h.textContent, function(){ openEditor({key: k}); }));
+    });
+    var bar = document.createElement('div');
+    bar.className = 'addbar';
+    bar.innerHTML = '<button type="button" class="tr-btn addbtn">+ Add to this day</button><span class="addhint"></span>';
+    bar.querySelector('.addbtn').addEventListener('click', function(){ openEditor({day: sec.id}); });
+    sec.appendChild(bar);
+  });
+  function updatePlanHints(){
+    document.querySelectorAll('.addhint').forEach(function(h){
+      h.textContent = planReady()
+        ? 'Shared with everyone in room ' + chatRoom + ' · you’re ' + chatName
+        : 'Join the family room (Chat tab) to add and edit together';
+    });
+  }
+
+  function byLine(d, verb){
+    var s = verb + ' by ' + d.by;
+    if (d.ms) s += ' · ' + new Date(d.ms).toLocaleString([], {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+    return s;
+  }
+  function applyEdit(d){
+    var b = baseItems[d.key], it = b.el, card = it.querySelector('.card');
+    if (d.time) it.querySelector('.time').textContent = timeForCol(d.time);
+    if (d.title) it.querySelector('h3').textContent = d.title;
+    if (d.note){
+      var n = document.createElement('p');
+      n.className = 'ed-extra ed-note';
+      n.textContent = '📝 ' + d.note;
+      card.appendChild(n);
+    }
+    if (d.hide){
+      it.classList.add('ed-hidden');
+      var r = document.createElement('div');
+      r.className = 'ed-extra ed-removed';
+      r.appendChild(document.createTextNode('Removed from the plan by ' + d.by + ' · '));
+      var u = document.createElement('button');
+      u.type = 'button'; u.textContent = 'Put it back';
+      u.addEventListener('click', function(){
+        planWrite(editDocId(d.key), {k:'edit', key:d.key, time:d.time || '', title:d.title || '', note:d.note || '', hide:false}, '↩️ put back “' + b.title + '” on ' + dayLabel(b.day));
+      });
+      r.appendChild(u);
+      card.appendChild(r);
+    }
+    var by = document.createElement('span');
+    by.className = 'ed-extra ed-by';
+    by.textContent = byLine(d, 'Edited');
+    card.appendChild(by);
+  }
+  function insertAdded(d){
+    var sec = document.getElementById(d.day);
+    var tl = sec && sec.querySelector('.tl');
+    if (!tl) return;
+    var it = document.createElement('div');
+    it.className = 'item shared';
+    it.innerHTML = '<div class="time"></div><div class="card"><div class="card-head"><span class="kind k2">Added</span><h3></h3></div></div>';
+    it.querySelector('.time').textContent = timeForCol(d.time) || '—';
+    it.querySelector('h3').textContent = d.title;
+    var card = it.querySelector('.card');
+    it.querySelector('.card-head').appendChild(editButton(d.title, function(){ openEditor({id: d.id}); }));
+    if (d.note){ var p = document.createElement('p'); p.textContent = d.note; card.appendChild(p); }
+    var link = safeLink(d.link);
+    if (link){
+      var ls = document.createElement('div'); ls.className = 'links';
+      var a = document.createElement('a'); a.className = 'lnk'; a.href = link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.textContent = (link.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0]) + ' ↗';
+      ls.appendChild(a); card.appendChild(ls);
+    }
+    var by = document.createElement('span'); by.className = 'ed-by'; by.textContent = byLine(d, 'Added');
+    card.appendChild(by);
+    // slot it in by time; untimed additions go to the end of the day
+    var t = firstMin(d.time), before = null;
+    if (t >= 0){
+      tl.querySelectorAll(':scope > .item').forEach(function(x){
+        if (before) return;
+        var xt = firstMin(x.querySelector('.time').textContent);
+        if (xt > t) before = x;
+      });
+    }
+    tl.insertBefore(it, before);
+  }
+  function applyPlan(){
+    document.querySelectorAll('.item.shared').forEach(function(n){ n.remove(); });
+    Object.keys(baseItems).forEach(function(k){
+      var b = baseItems[k];
+      b.el.querySelector('.time').textContent = b.time;
+      b.el.querySelector('h3').textContent = b.title;
+      b.el.classList.remove('ed-hidden');
+      b.el.querySelectorAll('.ed-extra').forEach(function(n){ n.remove(); });
+    });
+    planDocs.forEach(function(d){ if (d.k === 'edit' && baseItems[d.key]) applyEdit(d); });
+    planDocs.filter(function(d){ return d.k === 'add'; })
+      .sort(function(a, b){ return (a.ms || 0) - (b.ms || 0); })
+      .forEach(insertAdded);
+    buildEvents();
+    syncIdeaCards();
+  }
+  function loadPlanCache(){
+    planDocs = [];
+    if (chatRoom){
+      try{ planDocs = JSON.parse(localStorage.getItem(planCacheKey()) || '[]'); }catch(e){}
+    }
+    applyPlan();
+  }
+  function ensureDb(cb){
+    loadFirebase(function(ok){
+      if (!ok){ cb(null); return; }
+      try{
+        if (!chatDb){
+          if (!firebase.apps.length) firebase.initializeApp(FBCFG);
+          chatDb = firebase.firestore();
+        }
+        cb(chatDb);
+      }catch(e){ cb(null); }
+    });
+  }
+  function planSubscribe(){
+    if (!chatRoom || planSubbed === chatRoom) return;
+    ensureDb(function(db){
+      if (!db || planSubbed === chatRoom) return;
+      if (planUnsub) planUnsub();
+      planSubbed = chatRoom;
+      var room = chatRoom;
+      planUnsub = db.collection('rooms').doc(room).collection('plan').onSnapshot(function(snap){
+        planDocs = snap.docs.map(function(doc){
+          var v = doc.data({serverTimestamps: 'estimate'});
+          return { id: doc.id, k: v.k, day: v.day || '', key: v.key || '', time: v.time || '', title: v.title || '',
+                   note: v.note || '', link: v.link || '', src: v.src || '', hide: !!v.hide, by: v.by || '?',
+                   ms: (v.ts && v.ts.toMillis) ? v.ts.toMillis() : 0 };
+        });
+        try{ localStorage.setItem('ksth-plan-' + room, JSON.stringify(planDocs)); }catch(e){}
+        applyPlan();
+      }, function(){ planSubbed = ''; });
+    });
+  }
+  function announce(text){
+    // drop a line in the family chat so everyone sees what changed
+    if (!chatDb || !chatRoom || !text) return;
+    chatDb.collection('rooms').doc(chatRoom).collection('messages').add({
+      n: chatName, t: ('✏️ ' + text).slice(0, 500), ts: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(){});
+  }
+  function planWrite(id, data, msg, done){
+    ensureDb(function(db){
+      if (!db){ if (done) done(false); return; }
+      var col = db.collection('rooms').doc(chatRoom).collection('plan');
+      data.by = chatName;
+      data.ts = firebase.firestore.FieldValue.serverTimestamp();
+      (id ? col.doc(id).set(data) : col.add(data)).then(function(){
+        announce(msg);
+        if (done) done(true);
+      }, function(){ if (done) done(false); });
+    });
+  }
+  function planDelete(id, msg, done){
+    ensureDb(function(db){
+      if (!db){ if (done) done(false); return; }
+      db.collection('rooms').doc(chatRoom).collection('plan').doc(id).delete().then(function(){
+        announce(msg);
+        if (done) done(true);
+      }, function(){ if (done) done(false); });
+    });
+  }
+
+  // ---- the editor dialog ----
+  var edDay = document.getElementById('ed-day');
+  days.forEach(function(sec, i){
+    if (!sec.dataset.date) return;
+    var o = document.createElement('option');
+    o.value = sec.id; o.textContent = chipTitle(i);
+    edDay.appendChild(o);
+  });
+  function $ed(id){ return document.getElementById(id); }
+  function openDialog(){
+    if (typeof edlg.showModal === 'function'){ if (!edlg.open) edlg.showModal(); }
+    else edlg.setAttribute('open', '');
+  }
+  function closeDialog(){
+    if (typeof edlg.close === 'function') edlg.close(); else edlg.removeAttribute('open');
+    edCtx = null;
+  }
+  function openEditor(ctx){
+    $ed('ed-join').hidden = planReady();
+    $ed('ed-main').hidden = !planReady();
+    if (!planReady()){ openDialog(); return; }
+    edCtx = ctx;
+    $ed('ed-err').hidden = true;
+    $ed('ed-save').disabled = false;
+    var existing = null;
+    if (ctx.key){
+      var b = baseItems[ctx.key];
+      existing = planDocs.filter(function(d){ return d.id === editDocId(ctx.key); })[0] || null;
+      $ed('ed-head').textContent = 'Edit “' + b.title + '”';
+      $ed('ed-sub').textContent = dayLabel(b.day) + ' · change the time or title, add a note, or take it off the plan. Everyone sees the change.';
+      $ed('ed-dayrow').hidden = true;
+      $ed('ed-linkrow').hidden = true;
+      $ed('ed-notelab').textContent = 'Add a note (shows under the original details)';
+      $ed('ed-time').value = timeForInput(existing && existing.time ? existing.time : b.time);
+      $ed('ed-name').value = existing && existing.title ? existing.title : b.title;
+      $ed('ed-note').value = existing ? existing.note : '';
+      $ed('ed-reset').hidden = !existing;
+      $ed('ed-remove').hidden = false;
+      $ed('ed-remove').textContent = existing && existing.hide ? 'Put back on the plan' : 'Remove from plan';
+    } else {
+      existing = ctx.id ? planDocs.filter(function(d){ return d.id === ctx.id; })[0] : null;
+      $ed('ed-head').textContent = existing ? 'Edit added item' : 'Add to the plan';
+      $ed('ed-sub').textContent = existing ? byLine(existing, 'Added') : 'Pops into that day’s timeline for everyone in the family room.';
+      $ed('ed-dayrow').hidden = false;
+      $ed('ed-linkrow').hidden = false;
+      $ed('ed-notelab').textContent = 'Details';
+      edDay.value = existing ? existing.day : (ctx.day || edDay.value);
+      $ed('ed-time').value = existing ? existing.time : '';
+      $ed('ed-name').value = existing ? existing.title : '';
+      $ed('ed-note').value = existing ? existing.note : '';
+      $ed('ed-link').value = existing ? existing.link : '';
+      $ed('ed-reset').hidden = true;
+      $ed('ed-remove').hidden = !existing;
+      $ed('ed-remove').textContent = 'Delete';
+    }
+    edCtx.existing = existing;
+    openDialog();
+    setTimeout(function(){ (ctx.key || existing ? $ed('ed-time') : $ed('ed-name')).focus(); }, 30);
+  }
+  function edFail(){
+    $ed('ed-err').textContent = 'Couldn’t save — check the connection and try again.';
+    $ed('ed-err').hidden = false;
+    $ed('ed-save').disabled = false;
+  }
+  function edDone(ok){ if (ok) closeDialog(); else edFail(); }
+  $ed('ed-save').addEventListener('click', function(){
+    if (!edCtx) return;
+    var time = $ed('ed-time').value.trim().slice(0, 20);
+    var title = $ed('ed-name').value.trim().slice(0, 120);
+    var note = $ed('ed-note').value.trim().slice(0, 1500);
+    if (!title){ $ed('ed-err').textContent = 'Give it a title.'; $ed('ed-err').hidden = false; return; }
+    $ed('ed-save').disabled = true;
+    if (edCtx.key){
+      var b = baseItems[edCtx.key];
+      var data = { k:'edit', key: edCtx.key,
+        time: time === timeForInput(b.time) ? '' : time,
+        title: title === b.title ? '' : title,
+        note: note, hide: !!(edCtx.existing && edCtx.existing.hide) };
+      if (!data.time && !data.title && !data.note && !data.hide){
+        if (edCtx.existing) planDelete(editDocId(edCtx.key), '', edDone); else closeDialog();
+        return;
+      }
+      planWrite(editDocId(edCtx.key), data, 'edited “' + b.title + '” on ' + dayLabel(b.day) + (note ? ': ' + note : ''), edDone);
+    } else {
+      var link = $ed('ed-link').value.trim();
+      if (link && !/^https?:\/\//i.test(link)) link = 'https://' + link;
+      var d = { k:'add', day: edDay.value, time: time, title: title, note: note, link: safeLink(link).slice(0, 500) };
+      if (edCtx.existing && edCtx.existing.src) d.src = edCtx.existing.src;
+      var verb = edCtx.existing ? 'updated' : 'added';
+      planWrite(edCtx.existing ? edCtx.existing.id : null, d, verb + ' “' + title + '” on ' + dayLabel(d.day) + (time ? ' at ' + time : ''), edDone);
+    }
+  });
+  $ed('ed-remove').addEventListener('click', function(){
+    if (!edCtx) return;
+    if (edCtx.key){
+      var b = baseItems[edCtx.key], ex = edCtx.existing;
+      var hide = !(ex && ex.hide);
+      planWrite(editDocId(edCtx.key), {k:'edit', key: edCtx.key, time: ex ? ex.time : '', title: ex ? ex.title : '', note: ex ? ex.note : '', hide: hide},
+        (hide ? 'removed “' : 'put back “') + b.title + '” ' + (hide ? 'from ' : 'on ') + dayLabel(b.day), edDone);
+    } else if (edCtx.existing){
+      if (!window.confirm('Delete “' + edCtx.existing.title + '” for everyone?')) return;
+      planDelete(edCtx.existing.id, 'deleted “' + edCtx.existing.title + '” from ' + dayLabel(edCtx.existing.day), edDone);
+    }
+  });
+  $ed('ed-reset').addEventListener('click', function(){
+    if (!edCtx || !edCtx.key) return;
+    var b = baseItems[edCtx.key];
+    planDelete(editDocId(edCtx.key), 'reset “' + b.title + '” on ' + dayLabel(b.day) + ' to the original', edDone);
+  });
+  $ed('ed-cancel').addEventListener('click', closeDialog);
+  $ed('ed-joincancel').addEventListener('click', closeDialog);
+  $ed('ed-gojoin').addEventListener('click', function(){ closeDialog(); openChatTab(); });
+  edlg.addEventListener('cancel', function(){ edCtx = null; });
+
+  updatePlanHints();
+  loadPlanCache();
+  if (planReady()) setTimeout(planSubscribe, 1500);
 
   // ---- install helper: nudge everyone to put the app on their home screen ----
   (function(){

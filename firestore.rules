@@ -13,5 +13,32 @@ service cloud.firestore {
         && request.resource.data.ts == request.time;
       allow update, delete: if false;
     }
+
+    // Shared itinerary edits for the same room: anyone who knows the room id can
+    // add, change or remove items (same trust model as the chat). Shape and sizes are enforced.
+    match /rooms/{room}/plan/{item} {
+      function optStr(d, f, max) {
+        return !(f in d) || (d[f] is string && d[f].size() <= max);
+      }
+      function validPlan(d) {
+        return d.keys().hasOnly(['k', 'day', 'key', 'time', 'title', 'note', 'link', 'src', 'hide', 'by', 'ts'])
+          && d.k in ['add', 'edit']
+          && d.by is string && d.by.size() >= 1 && d.by.size() <= 30
+          && d.ts == request.time
+          && optStr(d, 'day', 12)
+          && optStr(d, 'key', 120)
+          && optStr(d, 'time', 20)
+          && optStr(d, 'title', 120)
+          && optStr(d, 'note', 1500)
+          && optStr(d, 'link', 500)
+          && optStr(d, 'src', 40)
+          && (!('hide' in d) || d.hide is bool)
+          && (d.k != 'add' || (d.day is string && d.title is string && d.title.size() >= 1))
+          && (d.k != 'edit' || d.key is string);
+      }
+      allow read: if true;
+      allow create, update: if item.size() <= 150 && validPlan(request.resource.data);
+      allow delete: if true;
+    }
   }
 }
