@@ -3,7 +3,7 @@
 // - Static libraries (Leaflet, Firebase SDK): cache-first — they're versioned URLs.
 // - Live data (map tiles, Firestore, exchange rates, chat): network only; the page
 //   already has its own offline fallbacks for those.
-var CACHE = 'ksth-v4';
+var CACHE = 'ksth-v5';
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
